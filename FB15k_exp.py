@@ -311,12 +311,11 @@ def FB15kexp(state, channel):
             restrain = FilteredRankingScoreIdx(ranklfunc, rankrfunc, trainlidx, trainridx, trainoidx, true_triples)
             state.train = np.mean(restrain[0] + restrain[1])
             print >> sys.stderr, "\tMEAN RANK >> valid: %s, train: %s" % (state.valid, state.train)
-            print >> sys.stderr, "Evaluation time on training set and validation %s" % (round(time.time() - timeref, 3))
+            print >> sys.stderr, "Evaluation time on training set and validation is %s seconds" % (round(time.time() - timeref, 3))
             timeref = time.time()
             
             if state.bestvalid == -1 or state.valid < state.bestvalid:
-                restest = FilteredRankingScoreIdx(ranklfunc, rankrfunc,
-                        testlidx, testridx, testoidx, true_triples)
+                restest = FilteredRankingScoreIdx(ranklfunc, rankrfunc, testlidx, testridx, testoidx, true_triples)
                 state.bestvalid = state.valid
                 state.besttrain = state.train
                 state.besttest = np.mean(restest[0] + restest[1])

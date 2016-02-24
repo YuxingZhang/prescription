@@ -1688,10 +1688,10 @@ def RankingScoreIdx(sl, sr, idxl, idxr, idxo):
     errl = []
     errr = []
     for l, o, r in zip(idxl, idxo, idxr):
-        errl += [np.argsort(np.argsort((
-            sl(r, o)[0]).flatten())[::-1]).flatten()[l] + 1]
-        errr += [np.argsort(np.argsort((
-            sr(l, o)[0]).flatten())[::-1]).flatten()[r] + 1]
+        print 'printing sl(r, o)'
+        print sl(r, o)
+        errl += [np.argsort(np.argsort((sl(r, o)[0]).flatten())[::-1]).flatten()[l] + 1]
+        errr += [np.argsort(np.argsort((sr(l, o)[0]).flatten())[::-1]).flatten()[r] + 1]
     return errl, errr
 
 
@@ -1709,7 +1709,7 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
     errl = []
     errr = []
     for l, o, r in zip(idxl, idxo, idxr):
-        il=np.argwhere(true_triples[:,0]==l).reshape(-1,)
+        il=np.argwhere(true_triples[:,0]==l).reshape(-1,) # a list of positions k where left[k] == l
         io=np.argwhere(true_triples[:,1]==o).reshape(-1,)
         ir=np.argwhere(true_triples[:,2]==r).reshape(-1,)
  
