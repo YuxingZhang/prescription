@@ -1706,7 +1706,7 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
     """
     errl = []
     errr = []
-    print >> "-----------> printing true_triples!"
+    print >> sys.stderr, "-----------> printing true_triples!"
     print >> sys.stderr, true_triples[100, :]
     print >> sys.stderr, true_triples[1000, :]
     print >> sys.stderr, true_triples[10000, :]
