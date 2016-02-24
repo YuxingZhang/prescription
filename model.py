@@ -1706,6 +1706,10 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
     """
     errl = []
     errr = []
+    print >> "-----------> printing true_triples!"
+    print >> sys.stderr, true_triples[100]
+    print >> sys.stderr, true_triples[1000]
+    print >> sys.stderr, true_triples[10000]
     for l, o, r in zip(idxl, idxo, idxr):
         il=np.argwhere(true_triples[:,0]==l).reshape(-1,) # a list of positions k where left[k] == l
         io=np.argwhere(true_triples[:,1]==o).reshape(-1,)
