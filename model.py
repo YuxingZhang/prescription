@@ -1715,8 +1715,8 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
         rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l]
         print >> sys.stderr, 'printing sl(r, o)'
         print >> sys.stderr, sl(r, o)
-        print >> sys.stderr, scores_l
         scores_l = (sl(r, o)[0]).flatten()
+        print >> sys.stderr, scores_l
         scores_l[rmv_idx_l] = -np.inf
         errl += [np.argsort(np.argsort(-scores_l)).flatten()[l] + 1]
 
