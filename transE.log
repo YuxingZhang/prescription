@@ -1,0 +1,492 @@
+ngz@jan:/remote/curtis/yuxingz/SME/FB15k$ python FB15k_TransE.py 
+Using gpu device 0: GeForce GTX TITAN X (CNMeM is disabled)
+DD{'ndim': 50, 'test_all': 5, 'loadmodelBi': False, 'loadmodelTri': False, 'nhid': 50, 'lremb': 0.01, 'savepath': 'FB15k_TransE', 'seed': 123, 'marge': 0.5, 'simfn': 'L2', 'neval': 100, 'dataset': 'FB15k', 'nbatches': 100, 'lrparam': 0.01, 'loademb': False, 'datapath': '../data/', 'Nrel': 1345, 'totepochs': 200, 'rhoL': 5, 'Nent': 16296, 'Nsyn': 14951, 'loadmodel': False, 'rhoE': 1, 'op': 'TransE'}
+BEGIN TRAINING
+-- EPOCH 5 (9.596 seconds per epoch):
+COST >> 0.307 +/- 0.219, % updates: 45.788%
+	MEAN RANK >> valid: 433.43, train: 349.59
+		##### NEW BEST VALID >> test: 464.15
+	(the evaluation took 8.139 seconds)
+-- EPOCH 10 (9.6346 seconds per epoch):
+COST >> 0.0909 +/- 0.0109, % updates: 17.672%
+	MEAN RANK >> valid: 300.775, train: 204.215
+		##### NEW BEST VALID >> test: 261.935
+	(the evaluation took 8.286 seconds)
+-- EPOCH 15 (9.5302 seconds per epoch):
+COST >> 0.0697 +/- 0.0041, % updates: 13.571%
+	MEAN RANK >> valid: 238.745, train: 171.625
+		##### NEW BEST VALID >> test: 202.94
+	(the evaluation took 8.083 seconds)
+-- EPOCH 20 (9.2914 seconds per epoch):
+COST >> 0.0613 +/- 0.0027, % updates: 12.012%
+	MEAN RANK >> valid: 208.375, train: 156.675
+		##### NEW BEST VALID >> test: 181.405
+	(the evaluation took 8.095 seconds)
+-- EPOCH 25 (9.3124 seconds per epoch):
+COST >> 0.0566 +/- 0.0024, % updates: 11.185%
+	MEAN RANK >> valid: 175.505, train: 133.96
+		##### NEW BEST VALID >> test: 153.78
+	(the evaluation took 8.091 seconds)
+-- EPOCH 30 (9.303 seconds per epoch):
+COST >> 0.0533 +/- 0.0022, % updates: 10.67%
+	MEAN RANK >> valid: 151.28, train: 124.12
+		##### NEW BEST VALID >> test: 136.645
+	(the evaluation took 8.095 seconds)
+-- EPOCH 35 (9.3002 seconds per epoch):
+COST >> 0.051 +/- 0.0021, % updates: 10.317%
+	MEAN RANK >> valid: 136.875, train: 105.565
+		##### NEW BEST VALID >> test: 128.61
+	(the evaluation took 8.069 seconds)
+-- EPOCH 40 (9.273 seconds per epoch):
+COST >> 0.0492 +/- 0.0019, % updates: 10.05%
+	MEAN RANK >> valid: 125.03, train: 102.425
+		##### NEW BEST VALID >> test: 125.57
+	(the evaluation took 8.096 seconds)
+-- EPOCH 45 (9.283 seconds per epoch):
+COST >> 0.0479 +/- 0.0019, % updates: 9.859%
+	MEAN RANK >> valid: 111.24, train: 86.68
+		##### NEW BEST VALID >> test: 117.34
+	(the evaluation took 8.094 seconds)
+-- EPOCH 50 (9.2432 seconds per epoch):
+COST >> 0.0468 +/- 0.0019, % updates: 9.709%
+	MEAN RANK >> valid: 113.345, train: 86.885
+	(the evaluation took 5.546 seconds)
+-- EPOCH 55 (9.2912 seconds per epoch):
+COST >> 0.0462 +/- 0.0019, % updates: 9.62%
+	MEAN RANK >> valid: 113.56, train: 82.655
+	(the evaluation took 5.565 seconds)
+-- EPOCH 60 (9.756 seconds per epoch):
+COST >> 0.0454 +/- 0.0018, % updates: 9.499%
+	MEAN RANK >> valid: 108.79, train: 75.445
+		##### NEW BEST VALID >> test: 109.39
+	(the evaluation took 8.104 seconds)
+-- EPOCH 65 (9.2748 seconds per epoch):
+COST >> 0.0448 +/- 0.0019, % updates: 9.42%
+	MEAN RANK >> valid: 103.16, train: 80.32
+		##### NEW BEST VALID >> test: 120.285
+	(the evaluation took 8.111 seconds)
+-- EPOCH 70 (9.3406 seconds per epoch):
+COST >> 0.0445 +/- 0.0019, % updates: 9.379%
+	MEAN RANK >> valid: 96.65, train: 79.11
+		##### NEW BEST VALID >> test: 115.22
+	(the evaluation took 8.074 seconds)
+-- EPOCH 75 (9.2446 seconds per epoch):
+COST >> 0.0439 +/- 0.0019, % updates: 9.299%
+	MEAN RANK >> valid: 103.835, train: 77.275
+	(the evaluation took 5.548 seconds)
+-- EPOCH 80 (9.3006 seconds per epoch):
+COST >> 0.0438 +/- 0.0018, % updates: 9.282%
+	MEAN RANK >> valid: 104.37, train: 65.935
+	(the evaluation took 5.594 seconds)
+-- EPOCH 85 (9.3224 seconds per epoch):
+COST >> 0.0433 +/- 0.0019, % updates: 9.214%
+	MEAN RANK >> valid: 103.07, train: 62.97
+	(the evaluation took 5.566 seconds)
+-- EPOCH 90 (9.2732 seconds per epoch):
+COST >> 0.0432 +/- 0.0018, % updates: 9.214%
+	MEAN RANK >> valid: 100.03, train: 63.195
+	(the evaluation took 5.546 seconds)
+-- EPOCH 95 (9.2572 seconds per epoch):
+COST >> 0.0429 +/- 0.0019, % updates: 9.16%
+	MEAN RANK >> valid: 102.57, train: 61.65
+	(the evaluation took 5.535 seconds)
+-- EPOCH 100 (9.2796 seconds per epoch):
+COST >> 0.0426 +/- 0.0018, % updates: 9.122%
+	MEAN RANK >> valid: 95.69, train: 63.18
+		##### NEW BEST VALID >> test: 110.255
+	(the evaluation took 8.13 seconds)
+-- EPOCH 105 (9.6496 seconds per epoch):
+COST >> 0.0425 +/- 0.0018, % updates: 9.115%
+	MEAN RANK >> valid: 97.58, train: 67.69
+	(the evaluation took 5.622 seconds)
+-- EPOCH 110 (9.2488 seconds per epoch):
+COST >> 0.0423 +/- 0.0019, % updates: 9.094%
+	MEAN RANK >> valid: 93.1, train: 65.38
+		##### NEW BEST VALID >> test: 103.35
+	(the evaluation took 8.084 seconds)
+-- EPOCH 115 (9.2854 seconds per epoch):
+COST >> 0.0423 +/- 0.0018, % updates: 9.103%
+	MEAN RANK >> valid: 90.09, train: 63.4
+		##### NEW BEST VALID >> test: 110.755
+	(the evaluation took 8.1 seconds)
+-- EPOCH 120 (9.3126 seconds per epoch):
+COST >> 0.042 +/- 0.0019, % updates: 9.089%
+	MEAN RANK >> valid: 94.195, train: 67.36
+	(the evaluation took 5.567 seconds)
+-- EPOCH 125 (9.314 seconds per epoch):
+COST >> 0.0419 +/- 0.0018, % updates: 9.052%
+	MEAN RANK >> valid: 94.485, train: 63.725
+	(the evaluation took 5.541 seconds)
+-- EPOCH 130 (9.2764 seconds per epoch):
+COST >> 0.0419 +/- 0.0018, % updates: 9.037%
+	MEAN RANK >> valid: 91.515, train: 58.575
+	(the evaluation took 5.556 seconds)
+-- EPOCH 135 (9.289 seconds per epoch):
+COST >> 0.0416 +/- 0.0018, % updates: 9.032%
+	MEAN RANK >> valid: 97.49, train: 63.19
+	(the evaluation took 5.551 seconds)
+-- EPOCH 140 (9.2816 seconds per epoch):
+COST >> 0.0416 +/- 0.0017, % updates: 9.019%
+	MEAN RANK >> valid: 92.2, train: 57.08
+	(the evaluation took 5.555 seconds)
+-- EPOCH 145 (9.272 seconds per epoch):
+COST >> 0.0415 +/- 0.0018, % updates: 9.012%
+	MEAN RANK >> valid: 94.24, train: 56.39
+	(the evaluation took 5.56 seconds)
+-- EPOCH 150 (9.3144 seconds per epoch):
+COST >> 0.0415 +/- 0.0018, % updates: 9.013%
+	MEAN RANK >> valid: 89.03, train: 52.85
+		##### NEW BEST VALID >> test: 104.21
+	(the evaluation took 8.114 seconds)
+-- EPOCH 155 (9.2958 seconds per epoch):
+COST >> 0.0414 +/- 0.0018, % updates: 9.0%
+	MEAN RANK >> valid: 90.675, train: 49.13
+	(the evaluation took 5.532 seconds)
+-- EPOCH 160 (9.2434 seconds per epoch):
+COST >> 0.0413 +/- 0.0017, % updates: 8.976%
+	MEAN RANK >> valid: 97.495, train: 56.275
+	(the evaluation took 5.52 seconds)
+-- EPOCH 165 (9.2988 seconds per epoch):
+COST >> 0.0414 +/- 0.0018, % updates: 8.998%
+	MEAN RANK >> valid: 102.31, train: 58.19
+	(the evaluation took 5.569 seconds)
+-- EPOCH 170 (9.2578 seconds per epoch):
+COST >> 0.0412 +/- 0.0017, % updates: 8.975%
+	MEAN RANK >> valid: 86.49, train: 52.41
+		##### NEW BEST VALID >> test: 111.595
+	(the evaluation took 8.114 seconds)
+-- EPOCH 175 (9.2674 seconds per epoch):
+COST >> 0.0411 +/- 0.0018, % updates: 8.97%
+	MEAN RANK >> valid: 91.775, train: 55.4
+	(the evaluation took 5.534 seconds)
+-- EPOCH 180 (9.2884 seconds per epoch):
+COST >> 0.0411 +/- 0.0019, % updates: 8.943%
+	MEAN RANK >> valid: 97.56, train: 52.93
+	(the evaluation took 5.529 seconds)
+-- EPOCH 185 (9.3254 seconds per epoch):
+COST >> 0.0411 +/- 0.0018, % updates: 8.956%
+	MEAN RANK >> valid: 94.335, train: 56.02
+	(the evaluation took 5.544 seconds)
+-- EPOCH 190 (9.271 seconds per epoch):
+COST >> 0.0411 +/- 0.0018, % updates: 8.982%
+	MEAN RANK >> valid: 89.355, train: 57.92
+	(the evaluation took 5.541 seconds)
+-- EPOCH 195 (9.6862 seconds per epoch):
+COST >> 0.041 +/- 0.0018, % updates: 8.957%
+	MEAN RANK >> valid: 94.555, train: 60.65
+	(the evaluation took 5.547 seconds)
+-- EPOCH 200 (9.3054 seconds per epoch):
+COST >> 0.0408 +/- 0.0017, % updates: 8.948%
+	MEAN RANK >> valid: 85.17, train: 55.64
+		##### NEW BEST VALID >> test: 105.21
+	(the evaluation took 8.166 seconds)
+yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ ls
+FB15k_evaluation.py  FB15k_parse.py  FB15k_SE.py  FB15k_SME_bil.py  FB15k_SME_lin.py  FB15k_TransE  FB15k_TransE.out  FB15k_TransE.py  FB15k_Unstructured.py
+yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ vi FB15k_
+FB15k_evaluation.py    FB15k_SE.py            FB15k_SME_lin.py       FB15k_TransE.out       FB15k_Unstructured.py  
+FB15k_parse.py         FB15k_SME_bil.py       FB15k_TransE/          FB15k_TransE.py        
+yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ vi FB15k_TransE.py 
+yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ python FB15k_TransE.py 
+Using gpu device 0: GeForce GTX TITAN X (CNMeM is disabled)
+DD{'ndim': 50, 'test_all': 5, 'loadmodelBi': False, 'loadmodelTri': False, 'nhid': 50, 'lremb': 0.01, 'savepath': 'FB15k_TransE', 'seed': 123, 'marge': 0.5, 'simfn': 'L2', 'neval': 1000, 'dataset': 'FB15k', 'nbatches': 100, 'lrparam': 0.01, 'loademb': False, 'datapath': '../data/', 'Nrel': 1345, 'totepochs': 200, 'rhoL': 5, 'Nent': 16296, 'Nsyn': 14951, 'loadmodel': False, 'rhoE': 1, 'op': 'TransE'}
+BEGIN TRAINING
+-- EPOCH 5 (9.4608 seconds per epoch):
+COST >> 0.307 +/- 0.219, % updates: 45.788%
+	MEAN RANK >> valid: 446.499, train: 375.381
+		##### NEW BEST VALID >> test: 452.9595
+	(the evaluation took 81.012 seconds)
+-- EPOCH 10 (9.4426 seconds per epoch):
+COST >> 0.0909 +/- 0.0109, % updates: 17.672%
+	MEAN RANK >> valid: 283.2575, train: 208.5715
+		##### NEW BEST VALID >> test: 286.2665
+	(the evaluation took 80.141 seconds)
+-- EPOCH 15 (9.1512 seconds per epoch):
+COST >> 0.0697 +/- 0.0041, % updates: 13.571%
+	MEAN RANK >> valid: 228.4635, train: 156.1265
+		##### NEW BEST VALID >> test: 227.7985
+	(the evaluation took 80.083 seconds)
+-- EPOCH 20 (9.103 seconds per epoch):
+COST >> 0.0613 +/- 0.0027, % updates: 12.012%
+	MEAN RANK >> valid: 199.033, train: 133.2465
+		##### NEW BEST VALID >> test: 199.3925
+	(the evaluation took 80.183 seconds)
+-- EPOCH 25 (9.1358 seconds per epoch):
+COST >> 0.0566 +/- 0.0024, % updates: 11.185%
+	MEAN RANK >> valid: 174.685, train: 116.9495
+		##### NEW BEST VALID >> test: 177.7805
+	(the evaluation took 80.202 seconds)
+-- EPOCH 30 (9.1824 seconds per epoch):
+COST >> 0.0533 +/- 0.0022, % updates: 10.67%
+	MEAN RANK >> valid: 161.6545, train: 104.3525
+		##### NEW BEST VALID >> test: 164.269
+	(the evaluation took 80.144 seconds)
+-- EPOCH 35 (9.1168 seconds per epoch):
+COST >> 0.051 +/- 0.0021, % updates: 10.317%
+	MEAN RANK >> valid: 147.537, train: 95.6215
+		##### NEW BEST VALID >> test: 152.674
+	(the evaluation took 80.646 seconds)
+-- EPOCH 40 (9.143 seconds per epoch):
+COST >> 0.0492 +/- 0.0019, % updates: 10.05%
+	MEAN RANK >> valid: 137.704, train: 87.2235
+		##### NEW BEST VALID >> test: 142.751
+	(the evaluation took 80.4 seconds)
+-- EPOCH 45 (9.1254 seconds per epoch):
+COST >> 0.0479 +/- 0.0019, % updates: 9.859%
+	MEAN RANK >> valid: 133.5805, train: 82.1585
+		##### NEW BEST VALID >> test: 138.677
+	(the evaluation took 80.121 seconds)
+-- EPOCH 50 (9.1078 seconds per epoch):
+COST >> 0.0468 +/- 0.0019, % updates: 9.709%
+	MEAN RANK >> valid: 126.494, train: 78.1795
+		##### NEW BEST VALID >> test: 131.291
+	(the evaluation took 80.442 seconds)
+-- EPOCH 55 (9.1244 seconds per epoch):
+COST >> 0.0462 +/- 0.0019, % updates: 9.62%
+	MEAN RANK >> valid: 123.495, train: 76.703
+		##### NEW BEST VALID >> test: 125.057
+	(the evaluation took 80.293 seconds)
+-- EPOCH 60 (9.105 seconds per epoch):
+COST >> 0.0454 +/- 0.0018, % updates: 9.499%
+	MEAN RANK >> valid: 116.799, train: 70.822
+		##### NEW BEST VALID >> test: 121.038
+	(the evaluation took 80.281 seconds)
+-- EPOCH 65 (9.1212 seconds per epoch):
+COST >> 0.0448 +/- 0.0019, % updates: 9.42%
+	MEAN RANK >> valid: 110.105, train: 70.938
+		##### NEW BEST VALID >> test: 117.972
+	(the evaluation took 80.308 seconds)
+-- EPOCH 70 (9.117 seconds per epoch):
+COST >> 0.0445 +/- 0.0019, % updates: 9.379%
+	MEAN RANK >> valid: 110.0225, train: 69.234
+		##### NEW BEST VALID >> test: 115.069
+	(the evaluation took 80.271 seconds)
+-- EPOCH 75 (9.1514 seconds per epoch):
+COST >> 0.0439 +/- 0.0019, % updates: 9.299%
+	MEAN RANK >> valid: 110.337, train: 67.851
+	(the evaluation took 53.348 seconds)
+-- EPOCH 80 (9.1304 seconds per epoch):
+COST >> 0.0438 +/- 0.0018, % updates: 9.282%
+	MEAN RANK >> valid: 108.4295, train: 65.09
+		##### NEW BEST VALID >> test: 109.759
+	(the evaluation took 80.346 seconds)
+-- EPOCH 85 (9.5828 seconds per epoch):
+COST >> 0.0433 +/- 0.0019, % updates: 9.214%
+	MEAN RANK >> valid: 106.9825, train: 65.167
+		##### NEW BEST VALID >> test: 105.166
+	(the evaluation took 80.431 seconds)
+-- EPOCH 90 (9.0648 seconds per epoch):
+COST >> 0.0432 +/- 0.0018, % updates: 9.214%
+	MEAN RANK >> valid: 104.6125, train: 63.985
+		##### NEW BEST VALID >> test: 107.212
+	(the evaluation took 80.424 seconds)
+-- EPOCH 95 (9.1174 seconds per epoch):
+COST >> 0.0429 +/- 0.0019, % updates: 9.16%
+	MEAN RANK >> valid: 103.2235, train: 61.5505
+		##### NEW BEST VALID >> test: 103.508
+	(the evaluation took 80.278 seconds)
+-- EPOCH 100 (9.1222 seconds per epoch):
+COST >> 0.0426 +/- 0.0018, % updates: 9.122%
+	MEAN RANK >> valid: 104.1325, train: 60.842
+	(the evaluation took 53.41 seconds)
+-- EPOCH 105 (9.1368 seconds per epoch):
+COST >> 0.0425 +/- 0.0018, % updates: 9.115%
+	MEAN RANK >> valid: 103.049, train: 60.444
+		##### NEW BEST VALID >> test: 101.5615
+	(the evaluation took 80.164 seconds)
+-- EPOCH 110 (9.1734 seconds per epoch):
+COST >> 0.0423 +/- 0.0019, % updates: 9.094%
+	MEAN RANK >> valid: 100.266, train: 59.363
+		##### NEW BEST VALID >> test: 98.522
+	(the evaluation took 80.688 seconds)
+-- EPOCH 115 (9.0978 seconds per epoch):
+COST >> 0.0423 +/- 0.0018, % updates: 9.103%
+	MEAN RANK >> valid: 99.247, train: 59.894
+		##### NEW BEST VALID >> test: 99.09
+	(the evaluation took 80.318 seconds)
+-- EPOCH 120 (9.1536 seconds per epoch):
+COST >> 0.042 +/- 0.0019, % updates: 9.089%
+	MEAN RANK >> valid: 99.131, train: 60.2925
+		##### NEW BEST VALID >> test: 99.397
+	(the evaluation took 80.38 seconds)
+-- EPOCH 125 (9.1458 seconds per epoch):
+COST >> 0.0419 +/- 0.0018, % updates: 9.052%
+	MEAN RANK >> valid: 97.8655, train: 58.3695
+		##### NEW BEST VALID >> test: 96.2
+	(the evaluation took 80.219 seconds)
+-- EPOCH 130 (9.125 seconds per epoch):
+COST >> 0.0419 +/- 0.0018, % updates: 9.037%
+	MEAN RANK >> valid: 98.281, train: 56.061
+	(the evaluation took 53.413 seconds)
+-- EPOCH 135 (9.148 seconds per epoch):
+COST >> 0.0416 +/- 0.0018, % updates: 9.032%
+	MEAN RANK >> valid: 97.2945, train: 57.517
+		##### NEW BEST VALID >> test: 94.635
+	(the evaluation took 80.342 seconds)
+^CTraceback (most recent call last):
+  File "FB15k_TransE.py", line 5, in <module>
+    launch(op='TransE', simfn='L2', ndim=50, nhid=50, marge=0.5, lremb=0.01, lrparam=0.01, nbatches=100, totepochs=200, test_all=5, neval=1000, savepath='FB15k_TransE', datapath='../data/')
+  File "/remote/curtis/yuxingz/SME/FB15k_exp.py", line 410, in launch
+    FB15kexp(state, channel)
+  File "/remote/curtis/yuxingz/SME/FB15k_exp.py", line 249, in FB15kexp
+    trainln = create_random_mat(trainl.shape, np.arange(state.Nsyn))
+  File "/remote/curtis/yuxingz/SME/FB15k_exp.py", line 27, in create_random_mat
+    randommat[listidx[idx_term], idx_ex] = 1
+  File "/afs/cs.cmu.edu/user/yuxingz/.local/lib/python2.7/site-packages/scipy/sparse/lil.py", line 282, in __setitem__
+    self.rows, self.data, i, j, x)
+KeyboardInterrupt
+yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ ls
+FB15k_evaluation.py  FB15k_parse.py  FB15k_SE.py  FB15k_SME_bil.py  FB15k_SME_lin.py  FB15k_TransE  FB15k_TransE.out  FB15k_TransE.py  FB15k_Unstructured.py
+yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ cd ../
+yuxingz@jan:/remote/curtis/yuxingz/SME$ ls
+data	FB     FB15k_Bi.py   FB15k_exp.pyc   fb15k.tgz	   FB_exp.py   model.py   parse_experiment.py  Tensor	      WN
+Family	FB15k  FB15k_exp.py  FB15k_TATEC.py  FB15k_Tri.py  LICENSE.md  model.pyc  README.md	       Tensor_exp.py  WN_exp.py
+yuxingz@jan:/remote/curtis/yuxingz/SME$ cd ../
+yuxingz@jan:/remote/curtis/yuxingz$ ls
+SME  tagextraction
+yuxingz@jan:/remote/curtis/yuxingz$ mv SME 
+SME/           tagextraction/ 
+yuxingz@jan:/remote/curtis/yuxingz$ mv SME SME_FB15K
+yuxingz@jan:/remote/curtis/yuxingz$ ls
+SME_FB15K  tagextraction
+yuxingz@jan:/remote/curtis/yuxingz$ ls
+SME_FB15K  SME_prescription  tagextraction
+yuxingz@jan:/remote/curtis/yuxingz$ cd SME_prescription/
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription$ ls
+data  Family  FB  FB15k  FB15k_Bi.py  FB15k_exp.py  FB15k_exp.pyc  FB15k_TATEC.py  FB15k_Tri.py  FB_exp.py  LICENSE.md	model.py  model.pyc  README.md	Tensor	Tensor_exp.py
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription$ cd FB15k/
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ ls
+FB15k_evaluation.py  FB15k_parse.py  FB15k_SE.py  FB15k_SME_bil.py  FB15k_SME_lin.py  FB15k_TransE.out	FB15k_TransE.py  FB15k_Unstructured.py	prescription
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ python FB15k_TransE.py 
+Traceback (most recent call last):
+  File "FB15k_TransE.py", line 2, in <module>
+    from FB15k_exp import *
+ImportError: No module named FB15k_exp
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ export PYTHONPATH=/remote/curtis/yuxingz/SME_prescription/
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ python FB15k_TransE.py 
+Using gpu device 0: GeForce GTX TITAN X (CNMeM is disabled)
+DD{'ndim': 50, 'test_all': 5, 'loadmodelBi': False, 'loadmodelTri': False, 'nhid': 50, 'lremb': 0.01, 'savepath': 'prescription', 'seed': 123, 'marge': 0.5, 'simfn': 'L2', 'neval': 100, 'dataset': 'FB15k', 'nbatches': 100, 'lrparam': 0.01, 'loademb': False, 'datapath': '../data/prescription/', 'Nrel': 12, 'totepochs': 120, 'rhoL': 5, 'Nent': 13925, 'Nsyn': 13913, 'loadmodel': False, 'rhoE': 1, 'op': 'TransE'}
+Traceback (most recent call last):
+  File "FB15k_TransE.py", line 12, in <module>
+    savepath='prescription')
+  File "/remote/curtis/yuxingz/SME_prescription/FB15k_exp.py", line 418, in launch
+    FB15kexp(state, channel)
+  File "/remote/curtis/yuxingz/SME_prescription/FB15k_exp.py", line 93, in FB15kexp
+    trainl = load_file(state.datapath + state.dataset + '-train-lhs.pkl')
+  File "/remote/curtis/yuxingz/SME_prescription/FB15k_exp.py", line 36, in load_file
+    return scipy.sparse.csr_matrix(cPickle.load(open(path)),
+IOError: [Errno 2] No such file or directory: '../data/prescription/FB15k-train-lhs.pkl'
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ cd ../
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription$ vi FB15k_exp.py
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription$ cd FB15k/
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ vi FB15k_TransE.py 
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ python FB15k_TransE.py 
+Using gpu device 0: GeForce GTX TITAN X (CNMeM is disabled)
+DD{'ndim': 50, 'test_all': 5, 'loadmodelBi': False, 'loadmodelTri': False, 'nhid': 50, 'lremb': 0.01, 'savepath': 'prescription', 'seed': 123, 'marge': 0.5, 'simfn': 'L2', 'neval': 100, 'dataset': 'FB15k', 'nbatches': 100, 'lrparam': 0.01, 'loademb': False, 'datapath': '../data/', 'Nrel': 12, 'totepochs': 120, 'rhoL': 5, 'Nent': 13925, 'Nsyn': 13913, 'loadmodel': False, 'rhoE': 1, 'op': 'TransE'}
+BEGIN TRAINING
+-- EPOCH 5 (7.0488 seconds per epoch):
+COST >> 0.1497 +/- 0.0783, % updates: 21.67%
+	MEAN RANK >> valid: 629.84, train: 495.35
+		##### NEW BEST VALID >> test: 629.84
+	(the evaluation took 241.794 seconds)
+-- EPOCH 10 (6.827 seconds per epoch):
+COST >> 0.1119 +/- 0.0252, % updates: 16.105%
+	MEAN RANK >> valid: 566.205, train: 476.79
+		##### NEW BEST VALID >> test: 566.205
+	(the evaluation took 241.315 seconds)
+-- EPOCH 15 (6.793 seconds per epoch):
+COST >> 0.1076 +/- 0.0248, % updates: 15.5%
+	MEAN RANK >> valid: 531.915, train: 482.015
+		##### NEW BEST VALID >> test: 531.915
+	(the evaluation took 240.76 seconds)
+-- EPOCH 20 (6.763 seconds per epoch):
+COST >> 0.1027 +/- 0.0257, % updates: 15.12%
+	MEAN RANK >> valid: 506.975, train: 461.9
+		##### NEW BEST VALID >> test: 506.975
+	(the evaluation took 240.727 seconds)
+-- EPOCH 25 (6.7592 seconds per epoch):
+COST >> 0.1002 +/- 0.0274, % updates: 15.018%
+	MEAN RANK >> valid: 504.735, train: 468.05
+		##### NEW BEST VALID >> test: 504.735
+	(the evaluation took 240.614 seconds)
+-- EPOCH 30 (6.8172 seconds per epoch):
+COST >> 0.0969 +/- 0.028, % updates: 14.709%
+	MEAN RANK >> valid: 380.99, train: 398.93
+		##### NEW BEST VALID >> test: 380.99
+	(the evaluation took 241.065 seconds)
+-- EPOCH 35 (6.7692 seconds per epoch):
+COST >> 0.0976 +/- 0.0285, % updates: 14.614%
+	MEAN RANK >> valid: 440.76, train: 429.425
+	(the evaluation took 168.284 seconds)
+-- EPOCH 40 (6.8192 seconds per epoch):
+COST >> 0.0962 +/- 0.0299, % updates: 14.45%
+	MEAN RANK >> valid: 524.425, train: 440.245
+	(the evaluation took 168.676 seconds)
+-- EPOCH 45 (6.8048 seconds per epoch):
+COST >> 0.0939 +/- 0.0301, % updates: 14.336%
+	MEAN RANK >> valid: 434.85, train: 415.875
+	(the evaluation took 168.797 seconds)
+-- EPOCH 50 (6.7412 seconds per epoch):
+COST >> 0.0941 +/- 0.0289, % updates: 14.46%
+	MEAN RANK >> valid: 452.08, train: 417.01
+	(the evaluation took 168.25 seconds)
+-- EPOCH 55 (6.7944 seconds per epoch):
+COST >> 0.0962 +/- 0.0239, % updates: 14.233%
+	MEAN RANK >> valid: 443.25, train: 432.19
+	(the evaluation took 168.234 seconds)
+-- EPOCH 60 (6.7822 seconds per epoch):
+COST >> 0.094 +/- 0.0263, % updates: 14.128%
+	MEAN RANK >> valid: 483.01, train: 412.29
+	(the evaluation took 168.245 seconds)
+-- EPOCH 65 (6.8264 seconds per epoch):
+COST >> 0.091 +/- 0.029, % updates: 13.908%
+	MEAN RANK >> valid: 236.82, train: 339.855
+		##### NEW BEST VALID >> test: 236.82
+	(the evaluation took 240.577 seconds)
+-- EPOCH 70 (6.776 seconds per epoch):
+COST >> 0.0919 +/- 0.0304, % updates: 14.12%
+	MEAN RANK >> valid: 425.515, train: 413.57
+	(the evaluation took 168.343 seconds)
+-- EPOCH 75 (6.8048 seconds per epoch):
+COST >> 0.0914 +/- 0.03, % updates: 14.023%
+	MEAN RANK >> valid: 312.79, train: 377.075
+	(the evaluation took 169.047 seconds)
+-- EPOCH 80 (6.8368 seconds per epoch):
+COST >> 0.0902 +/- 0.0344, % updates: 13.99%
+	MEAN RANK >> valid: 230.895, train: 352.995
+		##### NEW BEST VALID >> test: 230.895
+	(the evaluation took 240.625 seconds)
+-- EPOCH 85 (6.778 seconds per epoch):
+COST >> 0.0916 +/- 0.0317, % updates: 13.978%
+	MEAN RANK >> valid: 431.06, train: 409.805
+	(the evaluation took 168.315 seconds)
+-- EPOCH 90 (6.7736 seconds per epoch):
+COST >> 0.0915 +/- 0.027, % updates: 13.896%
+	MEAN RANK >> valid: 394.175, train: 407.815
+	(the evaluation took 168.337 seconds)
+-- EPOCH 95 (6.8264 seconds per epoch):
+COST >> 0.0917 +/- 0.0294, % updates: 13.893%
+	MEAN RANK >> valid: 440.735, train: 410.545
+	(the evaluation took 168.482 seconds)
+-- EPOCH 100 (6.7772 seconds per epoch):
+COST >> 0.0901 +/- 0.0281, % updates: 13.781%
+	MEAN RANK >> valid: 474.795, train: 384.055
+	(the evaluation took 168.428 seconds)
+-- EPOCH 105 (6.8564 seconds per epoch):
+COST >> 0.0897 +/- 0.0288, % updates: 13.64%
+	MEAN RANK >> valid: 384.155, train: 385.295
+	(the evaluation took 168.29 seconds)
+-- EPOCH 110 (6.8008 seconds per epoch):
+COST >> 0.0882 +/- 0.0329, % updates: 13.658%
+	MEAN RANK >> valid: 335.38, train: 376.57
+	(the evaluation took 168.326 seconds)
+-- EPOCH 115 (6.811 seconds per epoch):
+COST >> 0.0898 +/- 0.0341, % updates: 13.786%
+	MEAN RANK >> valid: 429.48, train: 401.915
+	(the evaluation took 168.401 seconds)
+-- EPOCH 120 (6.7874 seconds per epoch):
+COST >> 0.0845 +/- 0.031, % updates: 13.589%
+	MEAN RANK >> valid: 378.59, train: 391.53
+	(the evaluation took 168.569 seconds)
+yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ 
+
+
