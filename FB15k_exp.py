@@ -301,23 +301,19 @@ def FB15kexp(state, channel):
 
         if (epoch_count % state.test_all) == 0:
             # model evaluation
-            print >> sys.stderr, "-- EPOCH %s (%s seconds per epoch):" % (
-                    epoch_count,
-                    round(time.time() - timeref, 3) / float(state.test_all))
+            print >> sys.stderr, "-- EPOCH %s (%s seconds per epoch):" % (epoch_count, round(time.time() - timeref, 3) / float(state.test_all))
             timeref = time.time()
-            print >> sys.stderr, "COST >> %s +/- %s, %% updates: %s%%" % (
-                    round(np.mean(out), 4), round(np.std(out), 4),
-                    round(np.mean(outb) * 100, 3))
+            print >> sys.stderr, "COST >> %s +/- %s, %% updates: %s%%" % (round(np.mean(out), 4), round(np.std(out), 4), round(np.mean(outb) * 100, 3))
             out = []
             outb = []
-            resvalid = FilteredRankingScoreIdx(ranklfunc, rankrfunc,
-                    validlidx, validridx, validoidx, true_triples)
+            resvalid = FilteredRankingScoreIdx(ranklfunc, rankrfunc, validlidx, validridx, validoidx, true_triples)
             state.valid = np.mean(resvalid[0] + resvalid[1])
-            restrain = FilteredRankingScoreIdx(ranklfunc, rankrfunc,
-                    trainlidx, trainridx, trainoidx, true_triples)
+            restrain = FilteredRankingScoreIdx(ranklfunc, rankrfunc, trainlidx, trainridx, trainoidx, true_triples)
             state.train = np.mean(restrain[0] + restrain[1])
-            print >> sys.stderr, "\tMEAN RANK >> valid: %s, train: %s" % (
-                    state.valid, state.train)
+            print >> sys.stderr, "\tMEAN RANK >> valid: %s, train: %s" % (state.valid, state.train)
+            print >> sys.stderr, "Evaluation time on training set and validation %s" % (round(time.time() - timeref, 3))
+            timeref = time.time()
+            
             if state.bestvalid == -1 or state.valid < state.bestvalid:
                 restest = FilteredRankingScoreIdx(ranklfunc, rankrfunc,
                         testlidx, testridx, testoidx, true_triples)
@@ -339,8 +335,7 @@ def FB15kexp(state, channel):
                     cPickle.dump(rightop, f, -1)
                     cPickle.dump(simfn, f, -1)
                 f.close()
-                print >> sys.stderr, "\t\t##### NEW BEST VALID >> test: %s" % (
-                        state.besttest)
+                print >> sys.stderr, "\t\t##### NEW BEST VALID >> test: %s" % (state.besttest)
             # Save current model
             f = open(state.savepath + '/current_model.pkl', 'w')
             if state.op == 'TATEC':
@@ -356,8 +351,7 @@ def FB15kexp(state, channel):
                 cPickle.dump(simfn, f, -1)
             f.close()
             state.nbepochs = epoch_count
-            print >> sys.stderr, "\t(the evaluation took %s seconds)" % (
-                round(time.time() - timeref, 3))
+            print >> sys.stderr, "\t(the evaluation on test set took %s seconds)" % (round(time.time() - timeref, 3))
             timeref = time.time()
             channel.save()
     return channel.COMPLETE
