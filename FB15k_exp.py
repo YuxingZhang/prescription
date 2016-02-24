@@ -227,14 +227,11 @@ def FB15kexp(state, channel):
     elif state.op == 'TATEC':
         trainfunc = TrainFn1MemberTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, marge=state.marge)
         ranklfunc = RankLeftFnIdxTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, subtensorspec=state.Nsyn)
-        rankrfunc = RankRightFnIdxTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, subtensorspec=state.Nsyn)      
+        rankrfunc = RankRightFnIdxTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, subtensorspec=state.Nsyn)
     else:
-        trainfunc = TrainFn1Member(simfn, embeddings, leftop, rightop,
-                marge=state.marge, rel=False)
-        ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop,
-                subtensorspec=state.Nsyn)
-        rankrfunc = RankRightFnIdx(simfn, embeddings, leftop, rightop,
-                subtensorspec=state.Nsyn)
+        trainfunc = TrainFn1Member(simfn, embeddings, leftop, rightop, marge=state.marge, rel=False)
+        ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
+        rankrfunc = RankRightFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
 
     out = []
     outb = []
