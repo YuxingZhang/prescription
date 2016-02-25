@@ -603,7 +603,7 @@ def RankRightFnIdx(fnsim, embeddings, leftop, rightop, subtensorspec=None):
         rhs = (embedding.E[:, :subtensorspec]).T
     else:
         rhs = embedding.E.T
-    rell = (relatronl.E[:, idxo]).reshape((1, relationl.D))
+    rell = (relationl.E[:, idxo]).reshape((1, relationl.D))
     relr = (relationr.E[:, idxo]).reshape((1, relationr.D))
     tmp = leftop(lhs, rell)
     simi = fnsim(tmp.reshape((1, tmp.shape[1])), rightop(rhs, relr))
