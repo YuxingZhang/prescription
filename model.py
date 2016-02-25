@@ -603,7 +603,7 @@ def RankRightFnIdx(fnsim, embeddings, leftop, rightop, subtensorspec=None):
         rhs = (embedding.E[:, :subtensorspec]).T
     else:
         rhs = embedding.E.T
-    rell = (relationl.E[:, idxo]).reshape((1, relationl.D))
+    rell = (relatronl.E[:, idxo]).reshape((1, relationl.D))
     relr = (relationr.E[:, idxo]).reshape((1, relationr.D))
     tmp = leftop(lhs, rell)
     simi = fnsim(tmp.reshape((1, tmp.shape[1])), rightop(rhs, relr))
@@ -1706,18 +1706,21 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
     """
     errl = []
     errr = []
-    print >> sys.stderr, "-----------> printing true_triples!"
-    print >> sys.stderr, true_triples[100, :]
-    print >> sys.stderr, true_triples[1000, :]
-    print >> sys.stderr, true_triples[10000, :]
+    #print >> sys.stderr, "-----------> printing true_triples!"
+    #print >> sys.stderr, true_triples[100, :]
     for l, o, r in zip(idxl, idxo, idxr):
         il=np.argwhere(true_triples[:,0]==l).reshape(-1,) # a list of positions k where left[k] == l
         io=np.argwhere(true_triples[:,1]==o).reshape(-1,)
         ir=np.argwhere(true_triples[:,2]==r).reshape(-1,)
  
         inter_l = [i for i in ir if i in io]
-        rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l]
-        print >> sys.stderr, rmv_idx_l
+        #print >> sys.stderr, l
+        rmv_idx_l_tmp = []
+        for i in inter_l:
+            if true_triples[i,0] != 1:
+                rmv_idx_l_tmp += [true_triples[i,0]]
+        rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l] # corrupted triplets that actually valid
+        #print >> sys.stderr, rmv_idx_l
         scores_l = (sl(r, o)[0]).flatten()
         scores_l[rmv_idx_l] = -np.inf
         errl += [np.argsort(np.argsort(-scores_l)).flatten()[l] + 1]
