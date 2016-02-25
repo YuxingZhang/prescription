@@ -8,5 +8,5 @@ from FB15k_exp import *
 launch(datapath='../data/', Nent=13925, rhoE=1, rhoL=5,
         Nsyn=13913, Nrel=12, loadmodel=False, loademb=False, op='TransE',
         simfn='L2', ndim=50, nhid=50, marge=0.5, lremb=0.01, lrparam=0.01,
-        nbatches=100, totepochs=120, test_all=5, neval=100, seed=123,
+        nbatches=100, totepochs=1000, test_all=10, neval=1000, seed=123,
         savepath='prescription')
