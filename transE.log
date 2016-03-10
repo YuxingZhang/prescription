@@ -180,8 +180,6 @@ COST >> 0.0408 +/- 0.0017, % updates: 8.948%
 	MEAN RANK >> valid: 85.17, train: 55.64
 		##### NEW BEST VALID >> test: 105.21
 	(the evaluation took 8.166 seconds)
-yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ ls
-FB15k_evaluation.py  FB15k_parse.py  FB15k_SE.py  FB15k_SME_bil.py  FB15k_SME_lin.py  FB15k_TransE  FB15k_TransE.out  FB15k_TransE.py  FB15k_Unstructured.py
 yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ vi FB15k_
 FB15k_evaluation.py    FB15k_SE.py            FB15k_SME_lin.py       FB15k_TransE.out       FB15k_Unstructured.py  
 FB15k_parse.py         FB15k_SME_bil.py       FB15k_TransE/          FB15k_TransE.py        
@@ -334,28 +332,12 @@ COST >> 0.0416 +/- 0.0018, % updates: 9.032%
   File "/afs/cs.cmu.edu/user/yuxingz/.local/lib/python2.7/site-packages/scipy/sparse/lil.py", line 282, in __setitem__
     self.rows, self.data, i, j, x)
 KeyboardInterrupt
-yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ ls
-FB15k_evaluation.py  FB15k_parse.py  FB15k_SE.py  FB15k_SME_bil.py  FB15k_SME_lin.py  FB15k_TransE  FB15k_TransE.out  FB15k_TransE.py  FB15k_Unstructured.py
 yuxingz@jan:/remote/curtis/yuxingz/SME/FB15k$ cd ../
-yuxingz@jan:/remote/curtis/yuxingz/SME$ ls
-data	FB     FB15k_Bi.py   FB15k_exp.pyc   fb15k.tgz	   FB_exp.py   model.py   parse_experiment.py  Tensor	      WN
-Family	FB15k  FB15k_exp.py  FB15k_TATEC.py  FB15k_Tri.py  LICENSE.md  model.pyc  README.md	       Tensor_exp.py  WN_exp.py
 yuxingz@jan:/remote/curtis/yuxingz/SME$ cd ../
-yuxingz@jan:/remote/curtis/yuxingz$ ls
-SME  tagextraction
 yuxingz@jan:/remote/curtis/yuxingz$ mv SME 
 SME/           tagextraction/ 
 yuxingz@jan:/remote/curtis/yuxingz$ mv SME SME_FB15K
-yuxingz@jan:/remote/curtis/yuxingz$ ls
-SME_FB15K  tagextraction
-yuxingz@jan:/remote/curtis/yuxingz$ ls
-SME_FB15K  SME_prescription  tagextraction
 yuxingz@jan:/remote/curtis/yuxingz$ cd SME_prescription/
-yuxingz@jan:/remote/curtis/yuxingz/SME_prescription$ ls
-data  Family  FB  FB15k  FB15k_Bi.py  FB15k_exp.py  FB15k_exp.pyc  FB15k_TATEC.py  FB15k_Tri.py  FB_exp.py  LICENSE.md	model.py  model.pyc  README.md	Tensor	Tensor_exp.py
-yuxingz@jan:/remote/curtis/yuxingz/SME_prescription$ cd FB15k/
-yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ ls
-FB15k_evaluation.py  FB15k_parse.py  FB15k_SE.py  FB15k_SME_bil.py  FB15k_SME_lin.py  FB15k_TransE.out	FB15k_TransE.py  FB15k_Unstructured.py	prescription
 yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ python FB15k_TransE.py 
 Traceback (most recent call last):
   File "FB15k_TransE.py", line 2, in <module>
@@ -488,5 +470,3 @@ COST >> 0.0845 +/- 0.031, % updates: 13.589%
 	MEAN RANK >> valid: 378.59, train: 391.53
 	(the evaluation took 168.569 seconds)
 yuxingz@jan:/remote/curtis/yuxingz/SME_prescription/FB15k$ 
-
-
