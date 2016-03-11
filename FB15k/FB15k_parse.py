@@ -139,7 +139,3 @@ print len(remove_tst_ex)
 for i in remove_tst_ex:
     print i
 
-
-
-
-

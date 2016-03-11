@@ -70,7 +70,7 @@ def RankingEval(datapath='../data/prescription/', dataset='FB15k-test',
             round(dres['microgmean'], 5), round(dres['microgmedian'], 5),
             n, round(dres['microghits@n'], 3))
 
-    listrel = set(idxo)
+    listrel = set(idxo) # the set of different relations
     dictrelres = {}
     dictrellmean = {}
     dictrelrmean = {}
@@ -86,10 +86,10 @@ def RankingEval(datapath='../data/prescription/', dataset='FB15k-test',
         dictrelres.update({i: [[], []]})
 
     for i, j in enumerate(res[0]):
-        dictrelres[idxo[i]][0] += [j]
+        dictrelres[idxo[i]][0] += [j] # the ranks of the left object under different relations
 
     for i, j in enumerate(res[1]):
-        dictrelres[idxo[i]][1] += [j]
+        dictrelres[idxo[i]][1] += [j] # the ranks of the right object under different relations
 
     for i in listrel:
         dictrellmean[i] = np.mean(dictrelres[i][0])
