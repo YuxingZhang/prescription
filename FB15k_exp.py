@@ -100,8 +100,6 @@ def FB15kexp(state, channel):
         trainr = trainr[:state.Nsyn, :]
         traino = traino[-state.Nrel:, :]
 
-    print >> sys.stderr, traino
-
     # Valid set
     validl = load_file(state.datapath + state.dataset + '-valid-lhs.pkl')
     validr = load_file(state.datapath + state.dataset + '-valid-rhs.pkl')
@@ -113,7 +111,6 @@ def FB15kexp(state, channel):
         validr = validr[:state.Nsyn, :]
         valido = valido[-state.Nrel:, :]
 
-    print >> sys.stderr, valido
 
     # Test set
     testl = load_file(state.datapath + state.dataset + '-test-lhs.pkl')
@@ -125,8 +122,6 @@ def FB15kexp(state, channel):
         testl = testl[:state.Nsyn, :]
         testr = testr[:state.Nsyn, :]
         testo = testo[-state.Nrel:, :]
-
-    print >> sys.stderr, testo
 
     # Index conversion, this part is used for evaluation during the training phase
     trainlidx = convert2idx(trainl)[:state.neval]

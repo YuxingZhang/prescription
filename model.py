@@ -1710,17 +1710,13 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
     #print >> sys.stderr, true_triples[100, :]
     for l, o, r in zip(idxl, idxo, idxr):
         il=np.argwhere(true_triples[:,0]==l).reshape(-1,) # a list of positions k where left[k] == l
-        io=np.argwhere(true_triples[:,1]==o).reshape(-1,)
-        ir=np.argwhere(true_triples[:,2]==r).reshape(-1,)
+        io=np.argwhere(true_triples[:,1]==o).reshape(-1,) # a list of positions k where rel[k] == o
+        ir=np.argwhere(true_triples[:,2]==r).reshape(-1,) # a list of positions k where right[k] == r
  
         inter_l = [i for i in ir if i in io]
-        #print >> sys.stderr, l
-        rmv_idx_l_tmp = []
-        for i in inter_l:
-            if true_triples[i,0] != 1:
-                rmv_idx_l_tmp += [true_triples[i,0]]
-        rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l] # corrupted triplets that actually valid
-        #print >> sys.stderr, rmv_idx_l
+        # corrupted triplets that actually valid, except the current one with left = l (since we need this rank), 
+        # and this set is the set of triplets that appear somewhere in the dataset
+        rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l] 
         scores_l = (sl(r, o)[0]).flatten()
         scores_l[rmv_idx_l] = -np.inf
         errl += [np.argsort(np.argsort(-scores_l)).flatten()[l] + 1]
