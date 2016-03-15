@@ -29,9 +29,9 @@ def RankingEval(datapath='../data/prescription/', dataset='FB15k-test',
     r = load_file(datapath + dataset + '-rhs.pkl')
     o = load_file(datapath + dataset + '-rel.pkl')
     if type(embeddings) is list:
-        print >> sys.stderr, "embedding is list"
-        print >> sys.stderr, embeddings[1].N
-        print >> o.dtype
+        print "embedding is list"
+        print embeddings[1].N
+        print o.dtype
         o = o[-embeddings[1].N:, :]
 
     # Convert sparse matrix to indexes
