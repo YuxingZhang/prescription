@@ -1728,7 +1728,36 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
         errr += [np.argsort(np.argsort(-scores_r)).flatten()[r] + 1]
     return errl, errr
     
+def FilteredRightPredictionIdx(sr, idxl, idxo, idxr, true_triples):
+    """
+    This function computes the predictions of rhs by returning the entity with the highest
+    score, over a list of lhs, rhs and rel indexes.
+
+    :param sr: Theano function created with RankRightFnIdx().
+    :param idxl: list of 'left' indices.
+    :param idxr: list of 'right' indices, which are the true rhs, include this because we are 
+    filtering the entities that appear in the training set, validation set or the test set and
+    we don't want to remove the true entity from the list.
+    :param idxo: list of relation indices.
+    """
+
+    predictions = []
+    #print >> sys.stderr, "-----------> printing true_triples!"
+    #print >> sys.stderr, true_triples[100, :]
+    for l, o, r in zip(idxl, idxo, idxr):
+        il=np.argwhere(true_triples[:,0]==l).reshape(-1,) # a list of positions k where left[k] == l
+        io=np.argwhere(true_triples[:,1]==o).reshape(-1,) # a list of positions k where rel[k] == o
+ 
+        inter_r = [i for i in il if i in io]
+        # corrupted triplets that actually valid, except the current one with right = r (since we will), 
+        # and this set is the set of triplets that appear somewhere in the dataset
+        rmv_idx_r = [true_triples[i,2] for i in inter_r if true_triples[i,2] != r]
+        scores_r = (sr(l, o)[0]).flatten()
+        scores_r[rmv_idx_r] = -np.inf
+        predictions += [np.argsort(-scores_r).flatten()[0]] # the index with the highest score
+    return predictions
     
+ 
 def RankingScoreRightIdx(sr, idxl, idxr, idxo):
     """
     This function computes the rank list of the rhs, over a list of lhs, rhs
