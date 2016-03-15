@@ -1717,7 +1717,9 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
         # corrupted triplets that actually valid, except the current one with left = l (since we need this rank), 
         # and this set is the set of triplets that appear somewhere in the dataset
         rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l] 
-        scores_l = (sl(r, o)[0]).flatten()
+        tmp = sl(r, o)
+        #scores_l = (sl(r, o)[0]).flatten()
+        scores_l = (tmp[0]).flatten()
         scores_l[rmv_idx_l] = -np.inf
         errl += [np.argsort(np.argsort(-scores_l)).flatten()[l] + 1]
 
@@ -1728,6 +1730,42 @@ def FilteredRankingScoreIdx(sl, sr, idxl, idxr, idxo, true_triples):
         errr += [np.argsort(np.argsort(-scores_r)).flatten()[r] + 1]
     return errl, errr
     
+def FilteredRightPredictionIdx(sl, sr, idxl, idxr, idxo, true_triples):
+    """
+    This function computes the list of predictions of rhs, over a list of
+    lhs and rel indexes.
+
+    :param sl: Theano function created with RankLeftFnIdx().
+    :param sr: Theano function created with RankRightFnIdx().
+    :param idxl: list of 'left' indices.
+    :param idxr: list of 'right' indices.
+    :param idxo: list of relation indices.
+    """
+    errl = []
+    errr = []
+    #print >> sys.stderr, "-----------> printing true_triples!"
+    #print >> sys.stderr, true_triples[100, :]
+    for l, o, r in zip(idxl, idxo, idxr):
+        il=np.argwhere(true_triples[:,0]==l).reshape(-1,) # a list of positions k where left[k] == l
+        io=np.argwhere(true_triples[:,1]==o).reshape(-1,) # a list of positions k where rel[k] == o
+        ir=np.argwhere(true_triples[:,2]==r).reshape(-1,) # a list of positions k where right[k] == r
+ 
+        inter_l = [i for i in ir if i in io]
+        # corrupted triplets that actually valid, except the current one with left = l (since we need this rank), 
+        # and this set is the set of triplets that appear somewhere in the dataset
+        rmv_idx_l = [true_triples[i,0] for i in inter_l if true_triples[i,0] != l] 
+        scores_l = (sl(r, o)[0]).flatten()
+        scores_l[rmv_idx_l] = -np.inf
+        errl += [np.argsort(np.argsort(-scores_l)).flatten()[l] + 1]
+
+        inter_r = [i for i in il if i in io]
+        rmv_idx_r = [true_triples[i,2] for i in inter_r if true_triples[i,2] != r]
+        scores_r = (sr(l, o)[0]).flatten()
+        scores_r[rmv_idx_r] = -np.inf
+        errr += [np.argsort(np.argsort(-scores_r)).flatten()[r] + 1]
+
+    return errl, errr
+ 
     
 def RankingScoreRightIdx(sr, idxl, idxr, idxo):
     """
