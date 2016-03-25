@@ -8,6 +8,7 @@ def parseline(line):
     rel = rel.split(' ')
     return lhs, rel, rhs
 
+# split the data into training set, validation set and testing set
 def split(path):
     f = open(path + 'triples.txt', 'r')
     dat = f.readlines()

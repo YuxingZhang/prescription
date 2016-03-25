@@ -21,9 +21,6 @@ def create_random_mat(shape, listidx=None):
     randommat = scipy.sparse.lil_matrix((shape[0], shape[1]),
             dtype=theano.config.floatX)
     idx_term = 0
-    #delete the next line
-    #print shape
-    #print listidx
     for idx_ex in range(shape[1]):
         if idx_term == len(listidx):
             idx_term = 0
@@ -181,6 +178,7 @@ def FB15kexp(state, channel):
             relationl = Embeddings(np.random, state.Nrel, state.ndim * state.nhid, 'rell')
             relationr = Embeddings(np.random, state.Nrel, state.ndim * state.nhid, 'relr')
             embeddings = [embeddings, relationl, relationr]
+
         if state.op == 'TransE' and type(embeddings) is not list:
             relationVec = Embeddings(np.random, state.Nrel, state.ndim, 'relvec')
             embeddings = [embeddings, relationVec, relationVec]
