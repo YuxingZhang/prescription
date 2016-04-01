@@ -4,11 +4,11 @@ import sys
 usage: run this and sort the outputfile, then run this again, to sort the test file by the relation
 '''
 
-def run(filename):
+def run(filename, outputfile):
     f = open(filename, 'r')
     dat = f.readlines()
     f.close()
-    outputfile = 'data/triples-test-tmp.txt'
+    #outputfile = 'data/triples-test-tmp.txt'
     f = open(outputfile, 'w')
     for line in dat:
         tokens = line.strip().split('\t')
@@ -16,4 +16,4 @@ def run(filename):
     f.close()
 
 if __name__ == "__main__":
-    run(sys.argv[1])
+    run(sys.argv[1], sys.argv[2])
