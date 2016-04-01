@@ -4,7 +4,7 @@ import cPickle
 import numpy as np
 import scipy.sparse as sp
 
-# Put the freebase15k data absolute path here
+# Put the prescription data absolute path here
 datapath = '../data/'
 assert datapath is not None
 
@@ -29,7 +29,7 @@ entrightlist = []
 rellist = []
 
 for datatyp in ['train']:
-    f = open(datapath + 'freebase_mtr100_mte100-%s.txt' % datatyp, 'r')
+    f = open(datapath + 'prescription-freq-%s.txt' % datatyp, 'r')
     dat = f.readlines()
     f.close()
     for i in dat:
@@ -89,7 +89,7 @@ remove_tst_ex=[]
 
 for datatyp in ['train', 'valid', 'test']:
     print datatyp
-    f = open(datapath + 'freebase_mtr100_mte100-%s.txt' % datatyp, 'r')
+    f = open(datapath + 'prescription-freq-%s.txt' % datatyp, 'r')
     dat = f.readlines()
     f.close()
 
@@ -132,8 +132,12 @@ for datatyp in ['train', 'valid', 'test']:
     h.close()
 
 unseen_ents=list(set(unseen_ents))
+print 'number of unseen entities'
 print len(unseen_ents)
 remove_tst_ex=list(set(remove_tst_ex))
+
+print '==================================='
+print 'test data to remove'
 print len(remove_tst_ex)
 
 for i in remove_tst_ex:
