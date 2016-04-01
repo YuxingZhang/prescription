@@ -13,9 +13,9 @@ def split(path):
     f = open(path + 'triples.txt', 'r')
     dat = f.readlines()
     f.close()
-    f_train = open(path + 'freebase_mtr100_mte100-train.txt', 'w')
-    f_test = open(path + 'freebase_mtr100_mte100-test.txt', 'w')
-    f_valid = open(path + 'freebase_mtr100_mte100-valid.txt', 'w')
+    f_train = open(path + 'prescription-freq-train.txt', 'w')
+    f_test = open(path + 'prescription-freq-test.txt', 'w')
+    f_valid = open(path + 'prescription-freq-valid.txt', 'w')
     lastdrug = ''
     cur = []
     for i in dat:
