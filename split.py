@@ -10,7 +10,7 @@ def parseline(line):
 
 # split the data into training set, validation set and testing set
 def split(path):
-    f = open(path + 'triples.txt', 'r')
+    f = open(path + 'triples_freq.txt', 'r')
     dat = f.readlines()
     f.close()
     f_train = open(path + 'prescription-freq-train.txt', 'w')
