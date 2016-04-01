@@ -1,7 +1,7 @@
 import sys
 
 def run():
-    filename = '../data/prescription-freq-test.txt'
+    filename = 'data/prescription-freq-test.txt'
     f = open(filename, 'r')
     dat = f.readlines()
     f.close()
