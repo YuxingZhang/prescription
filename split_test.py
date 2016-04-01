@@ -1,7 +1,10 @@
 import sys
 
-def run():
-    filename = 'data/prescription-freq-test.txt'
+'''
+usage: run this and sort the outputfile, then run this again
+'''
+
+def run(filename):
     f = open(filename, 'r')
     dat = f.readlines()
     f.close()
@@ -13,4 +16,4 @@ def run():
     f.close()
 
 if __name__ == "__main__":
-    run()
+    run(sys.argv[1])
