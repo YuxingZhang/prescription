@@ -7,6 +7,7 @@ def run():
     f.close()
     f = open(filename, 'w')
     for line in dat:
+        print line
         tokens = line.strip().split('\t')
         f.write(tokens[1] + '\t' + tokens[0] + '\t' + tokens[2] + '\n')
     f.close()
