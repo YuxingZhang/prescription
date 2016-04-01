@@ -1,7 +1,7 @@
 import sys
 
 '''
-usage: run this and sort the outputfile, then run this again
+usage: run this and sort the outputfile, then run this again, to sort the test file by the relation
 '''
 
 def run(filename):
