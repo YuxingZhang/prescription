@@ -1,0 +1,112 @@
+# of only_left/shared/only_right entities:  2953 / 127 / 663
+Number of relations:  4
+
+n = 1
+### MICRO:
+	-- left   >> mean: 624.7888, median: 422.0, hits@1: 0.137%
+	-- right  >> mean: 45.14663, median: 9.0, hits@1: 16.003%
+	-- global >> mean: 334.96772, median: 53.5, hits@1: 8.07%
+### MACRO:
+	-- left   >> mean: 681.63949, median: 453.875, hits@1: 0.132%
+	-- right  >> mean: 22.38433, median: 5.75, hits@1: 30.707%
+	-- global >> mean: 352.01191, median: 34.625, hits@1: 15.419%
+
+n = 10
+### MICRO:
+        -- left   >> mean: 624.7888, median: 422.0, hits@10: 3.091%
+        -- right  >> mean: 45.14663, median: 9.0, hits@10: 54.224%
+        -- global >> mean: 334.96772, median: 53.5, hits@10: 28.657%
+### MACRO:
+        -- left   >> mean: 681.63949, median: 453.875, hits@10: 2.136%
+        -- right  >> mean: 22.38433, median: 5.75, hits@10: 73.466%
+        -- global >> mean: 352.01191, median: 34.625, hits@10: 37.801%
+
+1. Predicting type: consume
+
+n = 1
+### MICRO:
+	-- left   >> mean: 707.31636, median: 449.0, hits@1: 0.364%
+	-- right  >> mean: 2.91636, median: 1.0, hits@1: 62.182%
+	-- global >> mean: 355.11636, median: 17.0, hits@1: 31.273%
+### MACRO:
+	-- left   >> mean: 707.31636, median: 449.0, hits@1: 0.364%
+	-- right  >> mean: 2.91636, median: 1.0, hits@1: 62.182%
+	-- global >> mean: 355.11636, median: 17.0, hits@1: 31.273%
+
+n = 10
+### MICRO:
+	-- left   >> mean: 707.31636, median: 449.0, hits@10: 1.455%
+	-- right  >> mean: 2.91636, median: 1.0, hits@10: 93.818%
+	-- global >> mean: 355.11636, median: 17.0, hits@10: 47.636%
+### MACRO:
+	-- left   >> mean: 707.31636, median: 449.0, hits@10: 1.455%
+	-- right  >> mean: 2.91636, median: 1.0, hits@10: 93.818%
+	-- global >> mean: 355.11636, median: 17.0, hits@10: 47.636%
+
+2. Predicting: dosage
+
+n = 1
+### MICRO:
+	-- left   >> mean: 515.60822, median: 318.0, hits@1: 0.0%
+	-- right  >> mean: 5.19178, median: 2.0, hits@1: 33.699%
+	-- global >> mean: 260.4, median: 19.0, hits@1: 16.849%
+### MACRO:
+	-- left   >> mean: 515.60822, median: 318.0, hits@1: 0.0%
+	-- right  >> mean: 5.19178, median: 2.0, hits@1: 33.699%
+	-- global >> mean: 260.4, median: 19.0, hits@1: 16.849%
+
+n = 10
+### MICRO:
+	-- left   >> mean: 515.60822, median: 318.0, hits@10: 1.918%
+	-- right  >> mean: 5.19178, median: 2.0, hits@10: 90.411%
+	-- global >> mean: 260.4, median: 19.0, hits@10: 46.164%
+### MACRO:
+	-- left   >> mean: 515.60822, median: 318.0, hits@10: 1.918%
+	-- right  >> mean: 5.19178, median: 2.0, hits@10: 90.411%
+	-- global >> mean: 260.4, median: 19.0, hits@10: 46.164%
+
+3. Predicting: ingredient
+
+n = 1
+### MICRO:
+	-- left   >> mean: 551.6312, median: 385.5, hits@1: 0.165%
+	-- right  >> mean: 67.45976, median: 17.0, hits@1: 3.583%
+	-- global >> mean: 309.54548, median: 61.0, hits@1: 1.874%
+### MACRO:
+	-- left   >> mean: 551.6312, median: 385.5, hits@1: 0.165%
+	-- right  >> mean: 67.45976, median: 17.0, hits@1: 3.583%
+	-- global >> mean: 309.54548, median: 61.0, hits@1: 1.874%
+
+
+n = 10
+### MICRO:
+	-- left   >> mean: 551.6312, median: 385.5, hits@10: 4.079%
+	-- right  >> mean: 67.45976, median: 17.0, hits@10: 36.053%
+	-- global >> mean: 309.54548, median: 61.0, hits@10: 20.066%
+### MACRO:
+	-- left   >> mean: 551.6312, median: 385.5, hits@10: 4.079%
+	-- right  >> mean: 67.45976, median: 17.0, hits@10: 36.053%
+	-- global >> mean: 309.54548, median: 61.0, hits@10: 20.066%
+
+4. predicting: package
+
+n = 1
+### MICRO:
+	-- left   >> mean: 952.00218, median: 663.0, hits@1: 0.0%
+	-- right  >> mean: 13.96943, median: 3.0, hits@1: 23.362%
+	-- global >> mean: 482.98581, median: 41.5, hits@1: 11.681%
+### MACRO:
+	-- left   >> mean: 952.00218, median: 663.0, hits@1: 0.0%
+	-- right  >> mean: 13.96943, median: 3.0, hits@1: 23.362%
+	-- global >> mean: 482.98581, median: 41.5, hits@1: 11.681%
+
+n = 10
+### MICRO:
+	-- left   >> mean: 952.00218, median: 663.0, hits@10: 1.092%
+	-- right  >> mean: 13.96943, median: 3.0, hits@10: 73.581%
+	-- global >> mean: 482.98581, median: 41.5, hits@10: 37.336%
+### MACRO:
+	-- left   >> mean: 952.00218, median: 663.0, hits@10: 1.092%
+	-- right  >> mean: 13.96943, median: 3.0, hits@10: 73.581%
+	-- global >> mean: 482.98581, median: 41.5, hits@10: 37.336%
+
