@@ -1,4 +1,5 @@
 import cPickle as pk
+from model import *
 
 if __name__ == "__main__":
     f = open('./data/FB15k_entity2idx.pkl')
@@ -9,5 +10,15 @@ if __name__ == "__main__":
     f.close()
 
     f = open('./FB15k/prescription/best_valid_model.pkl')
-    embedding = pk.load(f)
-
+    embeddings = pk.load(f)
+    embedding, relationl, relationr = parse_embeddings(embeddings)
+    embedding = embedding.E.get_value()
+    f.close()
+    
+    shape = embedding.shape
+    f = open('embedding.txt', 'w')
+    for i in range(shape[1]):
+        for j in range(shape[0]):
+            f.write(str(embedding[j][i]) + ' ')
+        f.write('\n')
+    f.close()
