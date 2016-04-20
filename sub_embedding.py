@@ -24,6 +24,9 @@ if __name__ == "__main__":
     for i in range(477400, 477410):
         print idx2entity_mer[i]
     print '===='
+    for i in range(477400, 477410):
+        print entity2idx_mer[idx2entity_mer[i]]
+    print '===='
     print len(idx2entity_mer)
     f.close()
     
