@@ -63,11 +63,11 @@ if __name__ == "__main__":
     new_embedding = emb[:, idx_list]
 
     #print embeddings1[0].E.get_value().shape
-    embeddings1[0].E.set_value(new_emb)
+    embeddings1[0].E.set_value(new_embedding)
     #print embeddings1[0].E.get_value().shape
-    embeddings2[0].E.set_value(new_emb)
-    embeddings2[1].E.set_value(new_emb[:, -4:])
-    embeddings2[2].E.set_value(new_emb[:, -4:])
+    embeddings2[0].E.set_value(new_embedding)
+    embeddings2[1].E.set_value(new_embedding[:, -10:-6])
+    embeddings2[2].E.set_value(new_embedding[:, -10:-6])
 
     open('./FB15k/prescription/best_valid_model_merge.pkl', 'w').close()
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
