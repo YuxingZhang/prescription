@@ -71,14 +71,16 @@ if __name__ == "__main__":
     print embeddings2[1].E.get_value().shape
     print embeddings2[2].E.get_value().shape
 
-    new_embedding = emb[:, idx_list]
+    new_embedding_entity = emb[:, idx_list]
+    print "rel shape", embeddings1[1].E.get_value().shape()
+    new_embedding_rel = embeddings1[1].E.get_value()[:, -10: -6]
 
     #print embeddings1[0].E.get_value().shape
-    embeddings1[0].E.set_value(new_embedding)
+    embeddings1[0].E.set_value(new_embedding_entity)
     #print embeddings1[0].E.get_value().shape
-    embeddings2[0].E.set_value(new_embedding)
-    embeddings2[1].E.set_value(new_embedding[:, -10:-6])
-    embeddings2[2].E.set_value(new_embedding[:, -10:-6])
+    embeddings2[0].E.set_value(new_embedding_entity)
+    embeddings2[1].E.set_value(new_embedding_rel)
+    embeddings2[2].E.set_value(new_embedding_rel)
 
     open('./FB15k/prescription/best_valid_model_merge.pkl', 'w').close()
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
