@@ -32,40 +32,32 @@ if __name__ == "__main__":
     #print idx_list
 
     f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
-    embeddings = pk.load(f)
+    embeddings1 = pk.load(f)
     leftop1 = pk.load(f)
     rightop1 = pk.load(f)
     simfn1 = pk.load(f)
-    print leftop1
-    print rightop1
-    print simfn1
 
     #embedding, relationl, relationr = parse_embeddings(embeddings)
 
-    emb = embeddings[0].E.get_value() # numpy matrix
+    emb = embeddings1[0].E.get_value() # numpy matrix
     f.close()
     
     f = open('../prescription/FB15k/prescription/best_valid_model.pkl', 'r')
     embeddings2 = pk.load(f)
-    leftop = pk.load(f)
-    rightop = pk.load(f)
-    simfn = pk.load(f)
-    print leftop
-    print rightop
-    print simfn
-    print leftop == leftop1
-    print rightop == rightop1
-    print simfn == simfn1
+    leftop2 = pk.load(f)
+    rightop2 = pk.load(f)
+    simfn2 = pk.load(f)
 
-    print embeddings[0].E.get_value().shape
-    embeddings2[0].E.set_value(emb[:, idx_list])
-    print embeddings2[0].E.get_value().shape
+    print embeddings1[0].E.get_value().shape
+    embeddings1[0].E.set_value(emb[:, idx_list])
+    print embeddings1[0].E.get_value().shape
 
+    open('./FB15k/prescription/best_valid_model_merge.pkl', 'w').close()
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
-    cPickle.dump(embeddings2, f, -1)
-    cPickle.dump(leftop, f, -1)
-    cPickle.dump(rightop, f, -1)
-    cPickle.dump(simfn, f, -1)
+    cPickle.dump(embeddings1, f, -1)
+    cPickle.dump(leftop1, f, -1)
+    cPickle.dump(rightop1, f, -1)
+    cPickle.dump(simfn1, f, -1)
     f.close()
 
 
