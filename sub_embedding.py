@@ -40,10 +40,15 @@ if __name__ == "__main__":
     #embedding, relationl, relationr = parse_embeddings(embeddings)
 
     emb = embeddings1[0].E.get_value() # numpy matrix
+    print "rel size"
+    print embeddings1[1].E.get_value().shape
+    print embeddings1[2].E.get_value().shape
     f.close()
     
     f = open('../prescription/FB15k/prescription/best_valid_model.pkl', 'r')
     embeddings2 = pk.load(f)
+    print embeddings2[1].E.get_value().shape
+    print embeddings2[2].E.get_value().shape
     leftop2 = pk.load(f)
     rightop2 = pk.load(f)
     simfn2 = pk.load(f)
