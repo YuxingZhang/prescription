@@ -27,7 +27,7 @@ if __name__ == "__main__":
     print "============ original shape ============"
     print emb.shape
 
-    embedding.E.set_value(emb[idx_list, :])
+    embedding.E.set_value(emb[:, idx_list])
     emb2 = embedding.E.get_value()
     print "============ new embedding ============"
     print emb2
