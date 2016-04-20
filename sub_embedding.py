@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     open('./FB15k/prescription/best_valid_model_merge.pkl', 'w').close()
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
-    cPickle.dump(embeddings1, f, -1)
+    cPickle.dump(embeddings2, f, -1)
     cPickle.dump(leftop2, f, -1)
     cPickle.dump(rightop2, f, -1)
     cPickle.dump(simfn2, f, -1)
