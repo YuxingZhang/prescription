@@ -7,14 +7,24 @@ if __name__ == "__main__":
     idx2entity_pre = pk.load(f)
     f.close()
 
+    f = open('./data/FB15k_entity2idx.pkl', 'r')
+    entity2idx_pre = pk.load(f)
+    f.close()
+
     f = open('../js_prescription/data/FB15k_entity2idx.pkl', 'r')
     entity2idx_mer = pk.load(f)
+    f.close()
+
+    f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
+    idx2entity_mer = pk.load(f)
     f.close()
     
     idx_list = []
     for i in range(len(idx2entity_pre)):
         entity = idx2entity_pre[i]
-        idx_list += [entity2idx_mer[entity]]
+        new_idx = entity2idx_mer[entity]
+        idx_list += [new_idx]
+        print entity + '\t' + idx2entity_mer[new_idx]
     print idx_list
 
     f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
