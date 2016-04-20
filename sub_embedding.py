@@ -18,7 +18,12 @@ if __name__ == "__main__":
 
     f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl')
     embeddings = pk.load(f)
+    leftop = pk.load(f)
+    rightop = pk.load(f)
+    simfn = pk.load(f)
+
     embedding, relationl, relationr = parse_embeddings(embeddings)
+
     emb = embedding.E.get_value() # numpy matrix
     f.close()
 
@@ -27,9 +32,15 @@ if __name__ == "__main__":
     print "============ original shape ============"
     print emb.shape
 
+    new_emb, rl, rr = parse_embeddings(embeddings)
+    print "============ new embedding shape ============"
+    print new_emb.E.get_value().shape
+    print "============ old ============"
     embedding.E.set_value(emb[:, idx_list])
     emb2 = embedding.E.get_value()
     print "============ new embedding ============"
     print emb2
     print "============ new shape ============"
     print emb2.shape
+
+    
