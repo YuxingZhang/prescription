@@ -5,18 +5,22 @@ if __name__ == "__main__":
 
     f = open('./data/FB15k_idx2entity.pkl', 'r')
     idx2entity_pre = pk.load(f)
+    print len(idx2entity_pre)
     f.close()
 
     f = open('./data/FB15k_entity2idx.pkl', 'r')
     entity2idx_pre = pk.load(f)
+    print len(entity2idx_pre)
     f.close()
 
     f = open('../js_prescription/data/FB15k_entity2idx.pkl', 'r')
     entity2idx_mer = pk.load(f)
+    print len(entity2idx_mer)
     f.close()
 
     f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
     idx2entity_mer = pk.load(f)
+    print len(idx2entity_mer)
     f.close()
     
     idx_list = []
@@ -37,13 +41,19 @@ if __name__ == "__main__":
 
     emb = embeddings[0].E.get_value() # numpy matrix
     f.close()
+    
+    f = open('../prescription/FB15k/prescription/best_valid_model.pkl', 'r')
+    embeddings2 = pk.load(f)
+    leftop = pk.load(f)
+    rightop = pk.load(f)
+    simfn = pk.load(f)
 
     print embeddings[0].E.get_value().shape
-    embeddings[0].E.set_value(emb[:, idx_list])
-    print embeddings[0].E.get_value().shape
+    embeddings2[0].E.set_value(emb[:, idx_list])
+    print embeddings2[0].E.get_value().shape
 
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
-    cPickle.dump(embeddings, f, -1)
+    cPickle.dump(embeddings2, f, -1)
     cPickle.dump(leftop, f, -1)
     cPickle.dump(rightop, f, -1)
     cPickle.dump(simfn, f, -1)
