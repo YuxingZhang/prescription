@@ -48,16 +48,17 @@ if __name__ == "__main__":
     rightop2 = pk.load(f)
     simfn2 = pk.load(f)
 
-    print embeddings1[0].E.get_value().shape
+    #print embeddings1[0].E.get_value().shape
     embeddings1[0].E.set_value(emb[:, idx_list])
-    print embeddings1[0].E.get_value().shape
+    #print embeddings1[0].E.get_value().shape
+    embeddings2[0].E.set_value(emb[:, idx_list])
 
     open('./FB15k/prescription/best_valid_model_merge.pkl', 'w').close()
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
     cPickle.dump(embeddings1, f, -1)
-    cPickle.dump(leftop1, f, -1)
-    cPickle.dump(rightop1, f, -1)
-    cPickle.dump(simfn1, f, -1)
+    cPickle.dump(leftop2, f, -1)
+    cPickle.dump(rightop2, f, -1)
+    cPickle.dump(simfn2, f, -1)
     f.close()
 
 
