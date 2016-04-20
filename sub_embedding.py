@@ -24,6 +24,8 @@ if __name__ == "__main__":
     for i in range(len(idx2entity_mer)):
         if idx2entity_mer[i] not in entity2idx_mer:
             print "not contained", idx2entity_mer[i]
+    for i in range(len(idx2entity_mer) - 20, len(idx2entity_mer))
+        print idx2entity_mer[i]
     print '===='
     print len(idx2entity_mer)
     f.close()
