@@ -33,12 +33,12 @@ if __name__ == "__main__":
 
     f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
     embeddings = pk.load(f)
-    leftop = pk.load(f)
-    rightop = pk.load(f)
-    simfn = pk.load(f)
-    print leftop
-    print rightop
-    print simfn
+    leftop1 = pk.load(f)
+    rightop1 = pk.load(f)
+    simfn1 = pk.load(f)
+    print leftop1
+    print rightop1
+    print simfn1
 
     #embedding, relationl, relationr = parse_embeddings(embeddings)
 
@@ -53,6 +53,9 @@ if __name__ == "__main__":
     print leftop
     print rightop
     print simfn
+    print leftop == leftop1
+    print rightop == rightop1
+    print simfn == simfn1
 
     print embeddings[0].E.get_value().shape
     embeddings2[0].E.set_value(emb[:, idx_list])
