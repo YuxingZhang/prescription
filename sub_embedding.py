@@ -27,6 +27,10 @@ if __name__ == "__main__":
     for i in range(len(idx2entity_mer) - 10, len(idx2entity_mer) - 6):
         print idx2entity_mer[i]
     print '===='
+    rels = ['CONSUMED_IN', 'CONTAINS_INGREDIENT', 'DOSAGE_FORM', 'PACKAGE_FORM']
+    for i in rels:
+        print entity2idx_mer[i]
+    print '===='
     print len(idx2entity_mer)
     f.close()
     
