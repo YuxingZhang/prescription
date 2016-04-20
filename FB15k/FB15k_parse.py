@@ -30,6 +30,7 @@ rellist = []
 
 for datatyp in ['train']:
     f = open(datapath + 'prescription-freq-%s.txt' % datatyp, 'r')
+    #f = open(datapath + 'prescription-freq-%s-consume.txt' % datatyp, 'r')
     dat = f.readlines()
     f.close()
     for i in dat:

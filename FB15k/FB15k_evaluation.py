@@ -12,8 +12,8 @@ def convert2idx(spmat):
     return rows[np.argsort(cols)]
 
 
-def RankingEval(datapath='../data/prescription/', dataset='FB15k-test',
-        loadmodel='best_valid_model.pkl', neval='all', Nsyn=14951, n=10,
+def RankingEval(datapath='../data/', dataset='FB15k-test',
+        loadmodel='best_valid_model.pkl', neval='all', Nsyn=3743, n=1,
         idx2synsetfile='FB15k_idx2entity.pkl'):
 
     # Load model
