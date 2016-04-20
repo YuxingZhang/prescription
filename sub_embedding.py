@@ -24,7 +24,7 @@ if __name__ == "__main__":
     for i in range(len(idx2entity_mer)):
         if idx2entity_mer[i] not in entity2idx_mer:
             print "not contained", idx2entity_mer[i]
-    for i in range(len(idx2entity_mer) - 20, len(idx2entity_mer)):
+    for i in range(len(idx2entity_mer) - 10, len(idx2entity_mer) - 6):
         print idx2entity_mer[i]
     print '===='
     print len(idx2entity_mer)
@@ -60,10 +60,14 @@ if __name__ == "__main__":
     rightop2 = pk.load(f)
     simfn2 = pk.load(f)
 
+    new_embedding = emb[:, idx_list]
+
     #print embeddings1[0].E.get_value().shape
-    embeddings1[0].E.set_value(emb[:, idx_list])
+    embeddings1[0].E.set_value(new_emb)
     #print embeddings1[0].E.get_value().shape
-    embeddings2[0].E.set_value(emb[:, idx_list])
+    embeddings2[0].E.set_value(new_emb)
+    embeddings2[1].E.set_value(new_emb[:, -4:])
+    embeddings2[2].E.set_value(new_emb[:, -4:])
 
     open('./FB15k/prescription/best_valid_model_merge.pkl', 'w').close()
     f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
