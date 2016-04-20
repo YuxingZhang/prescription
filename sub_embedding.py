@@ -20,6 +20,10 @@ if __name__ == "__main__":
 
     f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
     idx2entity_mer = pk.load(f)
+    print '===='
+    for i in range(477400, 477410):
+        print idx2entity_mer[i]
+    print '===='
     print len(idx2entity_mer)
     f.close()
     
