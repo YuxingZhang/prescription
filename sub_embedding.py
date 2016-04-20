@@ -21,11 +21,9 @@ if __name__ == "__main__":
     f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
     idx2entity_mer = pk.load(f)
     print '===='
-    for i in range(477400, 477410):
-        print idx2entity_mer[i]
-    print '===='
-    for i in range(477400, 477410):
-        print entity2idx_mer[idx2entity_mer[i]]
+    for i in range(len(idx2entity_mer)):
+        if idx2entity_mer[i] not in entity2idx_mer:
+            print "not contained", idx2entity_mer[i]
     print '===='
     print len(idx2entity_mer)
     f.close()
