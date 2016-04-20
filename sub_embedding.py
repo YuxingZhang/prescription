@@ -32,6 +32,7 @@ if __name__ == "__main__":
     print "============ original shape ============"
     print emb.shape
 
+    embeddings[0].E.set_value(emb[:, idx_list])
     new_emb, rl, rr = parse_embeddings(embeddings)
     print "============ new embedding shape ============"
     print new_emb.E.get_value().shape
