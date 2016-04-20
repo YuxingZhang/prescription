@@ -15,6 +15,7 @@ if __name__ == "__main__":
     for i in range(len(idx2entity_pre)):
         entity = idx2entity_pre[i]
         idx_list += [entity2idx_mer[entity]]
+    print idx_list
 
     f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
     embeddings = pk.load(f)
