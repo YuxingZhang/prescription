@@ -3,11 +3,11 @@ from model import *
 
 if __name__ == "__main__":
 
-    f = open('./data/FB15k_idx2entity.pkl')
+    f = open('./data/FB15k_idx2entity.pkl', 'r')
     idx2entity_pre = pk.load(f)
     f.close()
 
-    f = open('../js_prescription/data/FB15k_entity2idx.pkl')
+    f = open('../js_prescription/data/FB15k_entity2idx.pkl', 'r')
     entity2idx_mer = pk.load(f)
     f.close()
     
@@ -16,32 +16,44 @@ if __name__ == "__main__":
         entity = idx2entity_pre[i]
         idx_list += [entity2idx_mer[entity]]
 
-    f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl')
+    f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
     embeddings = pk.load(f)
     leftop = pk.load(f)
     rightop = pk.load(f)
     simfn = pk.load(f)
 
-    embedding, relationl, relationr = parse_embeddings(embeddings)
+    #embedding, relationl, relationr = parse_embeddings(embeddings)
 
-    emb = embedding.E.get_value() # numpy matrix
+    emb = embeddings[0].E.get_value() # numpy matrix
     f.close()
 
-    print "============ original embedding ============"
-    print emb
-    print "============ original shape ============"
-    print emb.shape
-
+    print embeddings[0].E.get_value().shape
     embeddings[0].E.set_value(emb[:, idx_list])
-    new_emb, rl, rr = parse_embeddings(embeddings)
-    print "============ new embedding shape ============"
-    print new_emb.E.get_value().shape
-    print "============ old ============"
-    embedding.E.set_value(emb[:, idx_list])
-    emb2 = embedding.E.get_value()
-    print "============ new embedding ============"
-    print emb2
-    print "============ new shape ============"
-    print emb2.shape
+    print embeddings[0].E.get_value().shape
+
+    f = open('./FB15k/prescription/best_valid_model_merge.pkl', 'w')
+    cPickle.dump(embeddings, f, -1)
+    cPickle.dump(leftop, f, -1)
+    cPickle.dump(rightop, f, -1)
+    cPickle.dump(simfn, f, -1)
+    f.close()
+
+
+    #print "============ original embedding ============"
+    #print emb
+    #print "============ original shape ============"
+    #print emb.shape
+
+
+    #new_emb, rl, rr = parse_embeddings(embeddings)
+    #print "============ new embedding shape ============"
+    #print new_emb.E.get_value().shape
+    #print "============ old ============"
+    #embedding.E.set_value(emb[:, idx_list])
+    #emb2 = embedding.E.get_value()
+    #print "============ new embedding ============"
+    #print emb2
+    #print "============ new shape ============"
+    #print emb2.shape
 
     
