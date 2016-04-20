@@ -28,14 +28,17 @@ if __name__ == "__main__":
         entity = idx2entity_pre[i]
         new_idx = entity2idx_mer[entity]
         idx_list += [new_idx]
-        print entity + '\t' + idx2entity_mer[new_idx]
-    print idx_list
+        #print entity + '\t' + idx2entity_mer[new_idx]
+    #print idx_list
 
     f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
     embeddings = pk.load(f)
     leftop = pk.load(f)
     rightop = pk.load(f)
     simfn = pk.load(f)
+    print leftop
+    print rightop
+    print simfn
 
     #embedding, relationl, relationr = parse_embeddings(embeddings)
 
@@ -47,6 +50,9 @@ if __name__ == "__main__":
     leftop = pk.load(f)
     rightop = pk.load(f)
     simfn = pk.load(f)
+    print leftop
+    print rightop
+    print simfn
 
     print embeddings[0].E.get_value().shape
     embeddings2[0].E.set_value(emb[:, idx_list])
