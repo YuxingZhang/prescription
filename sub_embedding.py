@@ -72,7 +72,7 @@ if __name__ == "__main__":
     print embeddings2[2].E.get_value().shape
 
     new_embedding_entity = emb[:, idx_list]
-    print "rel shape", embeddings1[1].E.get_value().shape()
+    print "rel shape", embeddings1[1].E.get_value().shape
     new_embedding_rel = embeddings1[1].E.get_value()[:, -10: -6]
 
     #print embeddings1[0].E.get_value().shape
