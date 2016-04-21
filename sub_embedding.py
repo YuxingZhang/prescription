@@ -68,9 +68,9 @@ if __name__ == "__main__":
     f = open('../prescription/FB15k/prescription/best_valid_model.pkl', 'r')
     embeddings2 = pk.load(f)
     print "==2=="
-    print embeddings2[0].E.get_value()[1:5, -10:]
-    print embeddings2[1].E.get_value()[1:5, -10:]
-    print embeddings2[2].E.get_value()[1:5, -10:]
+    #print embeddings2[0].E.get_value()[1:5, -10:]
+    #print embeddings2[1].E.get_value()[1:5, -10:]
+    #print embeddings2[2].E.get_value()[1:5, -10:]
     leftop2 = pk.load(f)
     rightop2 = pk.load(f)
     simfn2 = pk.load(f)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     new_embedding_entity = emb[:, idx_list]
     print "rel shape", embeddings1[1].E.get_value().shape
-    new_embedding_rel = embeddings1[1].E.get_value()[:, -10: -6]
+    new_embedding_rel = embeddings1[1].E.get_value()[:, :-8]
 
     #print embeddings1[0].E.get_value().shape
     embeddings1[0].E.set_value(new_embedding_entity)
