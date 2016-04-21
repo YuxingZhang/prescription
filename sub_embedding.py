@@ -21,12 +21,12 @@ if __name__ == "__main__":
     f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
     idx2entity_mer = pk.load(f)
     f.close()
-    print '===='
-    for i in range(len(idx2entity_mer)):
-        if idx2entity_mer[i] not in entity2idx_mer:
-            print "not contained", idx2entity_mer[i]
-    for i in range(len(idx2entity_mer) - 10, len(idx2entity_mer)):
-        print idx2entity_mer[i]
+    #print '===='
+    #for i in range(len(idx2entity_mer)):
+    #    if idx2entity_mer[i] not in entity2idx_mer:
+    #        print "not contained", idx2entity_mer[i]
+    #for i in range(len(idx2entity_mer) - 10, len(idx2entity_mer)):
+    #    print idx2entity_mer[i]
     print '===='
     rels = ['CONSUMED_IN_REL', 'CONTAINS_INGREDIENT_REL', 'DOSAGE_FORM_REL', 'PACKAGE_FORM_REL']
     for i in rels:
@@ -35,9 +35,9 @@ if __name__ == "__main__":
     print len(idx2entity_mer)
     
     idx_list = []
-    print idx2entity_pre
-    for i in entity2idx_pre:
-        print i, entity2idx_pre[i], idx2entity_pre[entity2idx_pre[i]]
+    #print idx2entity_pre
+    #for i in entity2idx_pre:
+    #    print i, entity2idx_pre[i], idx2entity_pre[entity2idx_pre[i]]
     for i in range(len(idx2entity_pre)):
         entity = idx2entity_pre[i]
         if entity == '':
