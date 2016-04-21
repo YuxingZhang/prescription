@@ -12,6 +12,8 @@ if __name__ == "__main__":
     f = open(out_file, 'w')
     for i in lines:
         tokens = i.strip().split('\t')
+        if len(tokens) < 3
+            continue
         f.write(tokens[0])
         f.write('\t')
         f.write(tokens[1] + "_REL")
