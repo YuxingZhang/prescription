@@ -20,6 +20,7 @@ if __name__ == "__main__":
 
     f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
     idx2entity_mer = pk.load(f)
+    f.close()
     print '===='
     for i in range(len(idx2entity_mer)):
         if idx2entity_mer[i] not in entity2idx_mer:
@@ -32,9 +33,9 @@ if __name__ == "__main__":
         print entity2idx_mer[i]
     print '===='
     print len(idx2entity_mer)
-    f.close()
     
     idx_list = []
+    print idx2entity_pre
     for i in range(len(idx2entity_pre)):
         entity = idx2entity_pre[i]
         if entity == '':
