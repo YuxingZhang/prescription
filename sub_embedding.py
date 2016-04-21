@@ -38,6 +38,7 @@ if __name__ == "__main__":
     for i in range(len(idx2entity_pre)):
         entity = idx2entity_pre[i]
         if entity == '':
+            print i
             print "empty entity in prescription"
         new_idx = entity2idx_mer[entity]
         idx_list += [new_idx]
