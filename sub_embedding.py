@@ -36,6 +36,8 @@ if __name__ == "__main__":
     
     idx_list = []
     print idx2entity_pre
+    for i in entity2idx_pre:
+        print i, entity2idx_pre[i], idx2entity_pre[entity2idx_pre[i]]
     for i in range(len(idx2entity_pre)):
         entity = idx2entity_pre[i]
         if entity == '':
