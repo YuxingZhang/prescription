@@ -50,6 +50,7 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
             subtensorspec=Nsyn)
 
     res = RankingScoreIdx(ranklfunc, rankrfunc, idxl, idxr, idxo)
+    print >> stderr, idxo[1: 20]
     dres = {}
     dres.update({'microlmean': np.mean(res[0])})
     dres.update({'microlmedian': np.median(res[0])})
