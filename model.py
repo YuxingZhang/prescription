@@ -790,13 +790,14 @@ def RankLeftFnIdx(fnsim, embeddings, leftop, rightop, subtensorspec=None):
     # Graph
     if subtensorspec is not None:
         # We compute the score only for a subset of entities
-        lhs = (embedding.E[:, :subtensorspec]).T
+        lhs = (embedding.E[:, :subtensorspec]).T # only consider entities not relations
     else:
         lhs = embedding.E.T
     rhs = (embedding.E[:, idxr]).reshape((1, embedding.D))
     rell = (relationl.E[:, idxo]).reshape((1, relationl.D))
+    print >> sys.stderr, "rell size = ", rell.shape
     relr = (relationr.E[:, idxo]).reshape((1, relationr.D))
-    tmp = rightop(rhs, relr)
+    tmp = rightop(rhs, relr) # in the case of TransE, this part is jus rhs
     simi = fnsim(leftop(lhs, rell), tmp.reshape((1, tmp.shape[1])))
     """
     Theano function inputs.
