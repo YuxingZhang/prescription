@@ -1,5 +1,9 @@
+# extract the embeddings from the best_valid_model and visualize it using tsne
 import cPickle as pk
 from model import *
+
+def load_embedding(filename):
+    '''load the embedding pickle and return the numpy matrix'''
 
 if __name__ == "__main__":
     f = open('./data/FB15k_entity2idx.pkl')
