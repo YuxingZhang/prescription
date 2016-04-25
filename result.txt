@@ -167,3 +167,31 @@ the entities appear in the prescription data.
 
 The solution is to replace relations with a unique phrase, say we replace 
 CONSUMED_IN with REL_CONSUMED_IN, which will not appear in the lhs or rhs.
+
+result:
+
+Using the full embedding list from the json file, including the entities 
+from the json file.
+n = 10:
+### MICRO:
+    -- left   >> mean: 1914.36882, median: 1168.0, hits@10: 0.721%
+    -- right  >> mean: 2449.66003, median: 37.0, hits@10: 27.988%
+    -- global >> mean: 2182.01442, median: 307.0, hits@10: 14.354%
+### MACRO:
+    -- left   >> mean: 1847.05422, median: 1390.25, hits@10: 0.407%
+    -- right  >> mean: 991.32638, median: 29.5, hits@10: 48.398%
+    -- global >> mean: 1419.1903, median: 141.875, hits@10: 24.403%
+
+n = 1:
+### MICRO:
+    -- left   >> mean: 1914.36882, median: 1168.0, hits@1: 0.034%
+    -- right  >> mean: 2449.66003, median: 37.0, hits@1: 7.212%
+    -- global >> mean: 2182.01442, median: 307.0, hits@1: 3.623%
+### MACRO:
+    -- left   >> mean: 1847.05422, median: 1390.25, hits@1: 0.014%
+    -- right  >> mean: 991.32638, median: 29.5, hits@1: 15.131%
+    -- global >> mean: 1419.1903, median: 141.875, hits@1: 7.572%
+
+Using the high score json triples, with only the entities from the 
+prescription dataset:
+
