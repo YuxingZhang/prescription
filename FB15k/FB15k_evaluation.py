@@ -13,7 +13,7 @@ def convert2idx(spmat):
 
 
 def RankingEval(datapath='../data/', dataset='FB15k-test',
-        loadmodel='best_valid_model.pkl', neval='all', Nsyn=3743, n=1,
+        loadmodel='best_valid_model.pkl', neval='all', Nsyn=3743, n=10,
         idx2synsetfile='FB15k_idx2entity.pkl'):
 
     # Load model
