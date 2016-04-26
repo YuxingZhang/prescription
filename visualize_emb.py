@@ -33,7 +33,7 @@ def print_emb(embedding):
     f.close()
 
 def parseline(line):
-    lhs, rel, rhs = line.split('\t')
+    lhs, rel, rhs = line.strip().split('\t')
     lhs = lhs.split(' ')
     rhs = rhs.split(' ')
     rel = rel.split(' ')
