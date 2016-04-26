@@ -29,15 +29,14 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
     r = load_file(datapath + dataset + '-rhs.pkl')
     o = load_file(datapath + dataset + '-rel.pkl')
     print o.shape
-    print o[0:10, 0: 12]
+    print o
     if type(embeddings) is list:
         print "embedding is list"
         print embeddings[1].N
         print o.dtype
         o = o[-embeddings[1].N:, :]
     print o.shape
-    print o[:, 0: 20]
-
+    print o
     # Convert sparse matrix to indexes
     if neval == 'all':
         idxl = convert2idx(l)
