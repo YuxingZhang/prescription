@@ -52,8 +52,8 @@ if __name__ == "__main__":
     f = open(output_file, 'w')
     for line in data:
         lhs, rel, rhs = parseline(line)
-        lidx = ent2idx[lhs]
-        ridx = ent2idx[rhs]
+        lidx = ent2idx[lhs[0]]
+        ridx = ent2idx[rhs[0]]
         lemb = embedding[lidx, :]
         remb = embedding[ridx, :]
         dif = remb - lemb
