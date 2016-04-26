@@ -17,8 +17,6 @@ def parseline(line):
     lhs = lhs.split(' ')
     rhs = rhs.split(' ')
     rel = rel.split(' ')
-    if len(lhs) == 0 or len(lhs) == 0 or len(lhs) == 0:
-        print "empty!!!!!!", lhs, rel, rhs
     return lhs, rel, rhs
 
 #################################################
@@ -55,22 +53,16 @@ idx = 0
 for i in entrightset:
     entity2idx[i] = idx
     idx2entity[idx] = i
-    if i == '':
-        print "empty string"
     idx += 1
 nbright = idx
 for i in entsharedset:
     entity2idx[i] = idx
     idx2entity[idx] = i
-    if i == '':
-        print "empty string"
     idx += 1
 nbshared = idx - nbright
 for i in entleftset:
     entity2idx[i] = idx
     idx2entity[idx] = i
-    if i == '':
-        print "empty string"
     idx += 1
 nbleft = idx - (nbshared + nbright)
 
@@ -79,8 +71,6 @@ print "# of only_left/shared/only_right entities: ", nbleft, '/', nbshared, '/',
 for i in relset:
     entity2idx[i] = idx
     idx2entity[idx] = i
-    if i == '':
-        print "empty string"
     idx += 1
 nbrel = idx - (nbright + nbshared + nbleft)
 print "Number of relations: ", nbrel
