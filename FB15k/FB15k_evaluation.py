@@ -28,17 +28,20 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
     l = load_file(datapath + dataset + '-lhs.pkl')
     r = load_file(datapath + dataset + '-rhs.pkl')
     o = load_file(datapath + dataset + '-rel.pkl')
-    print o.shape
-    print o
-    print "before"
-    print convert2idx(o)
+    #print o.shape
+    #print o
+    #print "before"
+    #print convert2idx(o)
     if type(embeddings) is list:
-        print "embedding is list"
-        print embeddings[1].N
-        print o.dtype
+        #print "embedding is list"
+        #print embeddings[1].N
+        #print o.dtype
         o = o[-embeddings[1].N:, :]
-    print o.shape
-    print o
+        ''' before the o is using the Nent as the size, now using Nrel as size, change from idx to (idx - Nsyn)
+            then using the embedding for the relations, which is a Nrel * dim matrix
+        '''
+    #print o.shape
+    #print o
     # Convert sparse matrix to indexes
     if neval == 'all':
         idxl = convert2idx(l)
@@ -48,8 +51,8 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
         idxl = convert2idx(l)[:neval]
         idxr = convert2idx(r)[:neval]
         idxo = convert2idx(o)[:neval]
-    print "after"
-    print idxo
+    #print "after"
+    #print idxo
 
     ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop,
             subtensorspec=Nsyn)
@@ -57,7 +60,7 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
             subtensorspec=Nsyn)
 
     res = RankingScoreIdx(ranklfunc, rankrfunc, idxl, idxr, idxo)
-    print >> sys.stderr, idxo[1: 20]
+    #print >> sys.stderr, idxo[1: 20]
     dres = {}
     dres.update({'microlmean': np.mean(res[0])})
     dres.update({'microlmedian': np.median(res[0])})
