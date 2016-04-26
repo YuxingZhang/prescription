@@ -35,7 +35,7 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
         print o.dtype
         o = o[-embeddings[1].N:, :]
     print o.shape
-    print o[:, 1: 10]
+    print o[:, 0: 20]
 
     # Convert sparse matrix to indexes
     if neval == 'all':
