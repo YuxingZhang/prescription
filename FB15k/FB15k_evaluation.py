@@ -30,6 +30,8 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
     o = load_file(datapath + dataset + '-rel.pkl')
     print o.shape
     print o
+    print "before"
+    print convert2idx(o)
     if type(embeddings) is list:
         print "embedding is list"
         print embeddings[1].N
@@ -46,6 +48,8 @@ def RankingEval(datapath='../data/', dataset='FB15k-test',
         idxl = convert2idx(l)[:neval]
         idxr = convert2idx(r)[:neval]
         idxo = convert2idx(o)[:neval]
+    print "after"
+    print idxo
 
     ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop,
             subtensorspec=Nsyn)
