@@ -53,10 +53,10 @@ if __name__ == "__main__":
     leftop1 = pk.load(f)
     rightop1 = pk.load(f)
     simfn1 = pk.load(f)
-    print embeddings1[0].E.get_value()[1:5, -10:]
-    print embeddings1[1].E.get_value()[1:5, -10:]
-    print embeddings1[2].E.get_value()[1:5, -10:]
-
+    #print embeddings1[0].E.get_value()[1:5, -10:]
+    #print embeddings1[1].E.get_value()[1:5, -10:]
+    #print embeddings1[2].E.get_value()[1:5, -10:]
+#
     #embedding, relationl, relationr = parse_embeddings(embeddings)
 
     emb = embeddings1[0].E.get_value() # numpy matrix
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     new_embedding_entity = emb[:, idx_list]
     print "rel shape", embeddings1[1].E.get_value().shape
-    new_embedding_rel = embeddings1[1].E.get_value()[:, :-8]
+    new_embedding_rel = embeddings1[1].E.get_value()[:, 2:6]
 
     #print embeddings1[0].E.get_value().shape
     embeddings1[0].E.set_value(new_embedding_entity)
