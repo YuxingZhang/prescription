@@ -13,12 +13,13 @@ if __name__ == "__main__":
     print len(entity2idx_pre)
     f.close()
 
-    f = open('../js_prescription/data/FB15k_entity2idx.pkl', 'r')
+    f = open('../js_prescription_relevant/data/FB15k_entity2idx.pkl', 'r')
+    #f = open('../js_prescription/data/FB15k_entity2idx.pkl', 'r')
     entity2idx_mer = pk.load(f)
     print len(entity2idx_mer)
     f.close()
 
-    f = open('../js_prescription/data/FB15k_idx2entity.pkl', 'r')
+    f = open('../js_prescription_relevant/data/FB15k_idx2entity.pkl', 'r')
     idx2entity_mer = pk.load(f)
     f.close()
     #print '===='
@@ -48,7 +49,7 @@ if __name__ == "__main__":
         #print entity + '\t' + idx2entity_mer[new_idx]
     #print idx_list
 
-    f = open('../js_prescription/FB15k/js_prescription/best_valid_model.pkl', 'r')
+    f = open('../js_prescription_relevant/FB15k/js_prescription/best_valid_model.pkl', 'r')
     embeddings1 = pk.load(f)
     leftop1 = pk.load(f)
     rightop1 = pk.load(f)
@@ -56,7 +57,7 @@ if __name__ == "__main__":
     #print embeddings1[0].E.get_value()[1:5, -10:]
     #print embeddings1[1].E.get_value()[1:5, -10:]
     #print embeddings1[2].E.get_value()[1:5, -10:]
-#
+
     #embedding, relationl, relationr = parse_embeddings(embeddings)
 
     emb = embeddings1[0].E.get_value() # numpy matrix
@@ -95,7 +96,6 @@ if __name__ == "__main__":
     cPickle.dump(rightop2, f, -1)
     cPickle.dump(simfn2, f, -1)
     f.close()
-
 
     #print "============ original embedding ============"
     #print emb
