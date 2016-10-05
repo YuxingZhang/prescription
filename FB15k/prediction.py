@@ -1,3 +1,6 @@
+# We don't really need this function since the evaluation is contained in 
+# the evaluation script, and it can compute the result using different 
+# metrics.
 #! /usr/bin/python
 import sys
 from model import *
