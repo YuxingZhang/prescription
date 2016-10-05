@@ -90,35 +90,29 @@ def FB15kexp(state, channel):
     trainl = load_file(state.datapath + state.dataset + '-train-lhs.pkl')
     trainr = load_file(state.datapath + state.dataset + '-train-rhs.pkl')
     traino = load_file(state.datapath + state.dataset + '-train-rel.pkl')
-    if state.op == 'SE' or state.op == 'TransE':
+    if state.op == 'TransE':
         traino = traino[-state.Nrel:, :]
-    elif state.op =='Bi' or state.op == 'Tri'or state.op == 'TATEC':
-        trainl = trainl[:state.Nsyn, :]
-        trainr = trainr[:state.Nsyn, :]
-        traino = traino[-state.Nrel:, :]
+    else:
+        print "OP Must be TransE"
 
     # Valid set
     validl = load_file(state.datapath + state.dataset + '-valid-lhs.pkl')
     validr = load_file(state.datapath + state.dataset + '-valid-rhs.pkl')
     valido = load_file(state.datapath + state.dataset + '-valid-rel.pkl')
-    if state.op == 'SE' or state.op == 'TransE':
+    if state.op == 'TransE':
         valido = valido[-state.Nrel:, :]
-    elif state.op =='Bi' or state.op == 'Tri'or state.op == 'TATEC':
-        validl = validl[:state.Nsyn, :]
-        validr = validr[:state.Nsyn, :]
-        valido = valido[-state.Nrel:, :]
+    else:
+        print "OP Must be TransE"
 
 
     # Test set
     testl = load_file(state.datapath + state.dataset + '-test-lhs.pkl')
     testr = load_file(state.datapath + state.dataset + '-test-rhs.pkl')
     testo = load_file(state.datapath + state.dataset + '-test-rel.pkl')
-    if state.op == 'SE' or state.op == 'TransE':
+    if state.op == 'TransE':
         testo = testo[-state.Nrel:, :]
-    elif state.op =='Bi' or state.op == 'Tri'or state.op == 'TATEC':
-        testl = testl[:state.Nsyn, :]
-        testr = testr[:state.Nsyn, :]
-        testo = testo[-state.Nrel:, :]
+    else:
+        print "OP Must be TransE"
 
     # Index conversion, this part is used for evaluation during the training phase
     trainlidx = convert2idx(trainl)[:state.neval]
@@ -146,27 +140,12 @@ def FB15kexp(state, channel):
     # Model declaration
     if not state.loadmodel:
         # operators
-        if state.op == 'Unstructured':
-            leftop  = Unstructured()
-            rightop = Unstructured()
-        elif state.op == 'SME_lin':
-            leftop  = LayerLinear(np.random, 'lin', state.ndim, state.ndim, state.nhid, 'left')
-            rightop = LayerLinear(np.random, 'lin', state.ndim, state.ndim, state.nhid, 'right')
-        elif state.op == 'SME_bil':
-            leftop  = LayerBilinear(np.random, 'lin', state.ndim, state.ndim, state.nhid, 'left')
-            rightop = LayerBilinear(np.random, 'lin', state.ndim, state.ndim, state.nhid, 'right')
-        elif state.op == 'SE':
-            leftop  = LayerMat('lin', state.ndim, state.nhid)
-            rightop = LayerMat('lin', state.ndim, state.nhid)
-        elif state.op == 'TransE':
+        if state.op == 'TransE':
             leftop  = LayerTrans()
             rightop = Unstructured()
-        elif state.op == 'Bi':
-            leftop = LayerMat('lin', state.ndim, 1)
-            rightop = LayerdMat()
-        elif state.op == 'Tri':
-            leftop = LayerMat('lin', state.ndim, 1)
-            rightop = LayerMat('lin', state.ndim, state.ndim)
+        else:
+            print "OP Must be TransE"
+
         # embeddings
         if not state.loademb:
             embeddings = Embeddings(np.random, state.Nent, state.ndim, 'emb')
@@ -174,63 +153,28 @@ def FB15kexp(state, channel):
             f = open(state.loademb)
             embeddings = cPickle.load(f)
             f.close()
-        if state.op == 'SE' and type(embeddings) is not list:
-            relationl = Embeddings(np.random, state.Nrel, state.ndim * state.nhid, 'rell')
-            relationr = Embeddings(np.random, state.Nrel, state.ndim * state.nhid, 'relr')
-            embeddings = [embeddings, relationl, relationr]
-
         if state.op == 'TransE' and type(embeddings) is not list:
             relationVec = Embeddings(np.random, state.Nrel, state.ndim, 'relvec')
             embeddings = [embeddings, relationVec, relationVec]
-        if state.op == 'Bi' and type(embeddings) is not list:
-            embeddings = Embeddings(np.random, state.Nsyn, state.ndim, 'emb')
-            W = Embeddings(np.random, 1, state.ndim, 'W')
-            rel_matricesl = Embeddings(np.random, state.Nrel, state.ndim, 'relmatL')
-            rel_matricesr = Embeddings(np.random, state.Nrel, state.ndim, 'relmatR')
-            embeddings = [embeddings, W, rel_matricesl, rel_matricesr]
-        if state.op == 'Tri' and type(embeddings) is not list:
-            embeddings = Embeddings(np.random, state.Nsyn, state.ndim, 'emb')
-            rel_matrices = Embeddings(np.random, state.Nrel, state.ndim*state.ndim, 'relmat')
-            embeddings = [embeddings, rel_matrices]
         simfn = eval(state.simfn + 'sim')
     else:
-        if state.op == 'TATEC':
-            f = open(state.loadmodelBi)
-            embbi = cPickle.load(f)
-            leftopbi = cPickle.load(f)
-            rightopbi = cPickle.load(f)
-            f.close()
-            f = open(state.loadmodelTri)
-            embtri = cPickle.load(f)
-            leftoptri = cPickle.load(f)
-            rightoptri = cPickle.load(f)
-            f.close()
-            embeddings = [embbi[0], embbi[1], embbi[2], embbi[3], embtri[0], embtri[1]]
-        else:
+        if state.op == 'TransE':
             f = open(state.loadmodel)
             embeddings = cPickle.load(f)
             leftop = cPickle.load(f)
             rightop = cPickle.load(f)
             simfn = cPickle.load(f)
             f.close()
+        else:
+            print "OP Must be TransE"
 
     # Function compilation
-    if state.op == 'Bi':
-        trainfunc = TrainFn1MemberBi(embeddings, leftop, rightop, marge=state.marge)
-        ranklfunc = RankLeftFnIdxBi(embeddings, leftop, rightop, subtensorspec=state.Nsyn)
-        rankrfunc = RankRightFnIdxBi(embeddings, leftop, rightop, subtensorspec=state.Nsyn)
-    elif state.op == 'Tri':
-        trainfunc = TrainFn1MemberTri(embeddings, leftop, rightop, marge=state.marge)
-        ranklfunc = RankLeftFnIdxTri(embeddings, leftop, rightop, subtensorspec=state.Nsyn)
-        rankrfunc = RankRightFnIdxTri(embeddings, leftop, rightop, subtensorspec=state.Nsyn)
-    elif state.op == 'TATEC':
-        trainfunc = TrainFn1MemberTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, marge=state.marge)
-        ranklfunc = RankLeftFnIdxTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, subtensorspec=state.Nsyn)
-        rankrfunc = RankRightFnIdxTATEC(embeddings, leftopbi, leftoptri, rightopbi, rightoptri, subtensorspec=state.Nsyn)
-    else:
+    if state.op == 'TransE':
         trainfunc = TrainFn1Member(simfn, embeddings, leftop, rightop, marge=state.marge, rel=False)
         ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
         rankrfunc = RankRightFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
+    else:
+        print "OP Must be TransE"
 
     out = []
     outb = []
@@ -263,34 +207,7 @@ def FB15kexp(state, channel):
             out += [outtmp[0] / float(batchsize)]
             outb += [outtmp[1]]
             # embeddings normalization
-            if type(embeddings) is list and state.op == 'Bi':
-                auxE = embeddings[0].E.get_value()
-                idx=np.where(np.sqrt(np.sum(auxE ** 2, axis=0)) > state.rhoE)
-                auxE[:, idx] = (state.rhoE*auxE[:, idx]) / np.sqrt(np.sum(auxE[:, idx] ** 2, axis=0))
-                embeddings[0].E.set_value(auxE)
-            elif type(embeddings) is list and state.op == 'Tri':
-                auxE = embeddings[0].E.get_value()
-                idx=np.where(np.sqrt(np.sum(auxE ** 2, axis=0)) > state.rhoE)
-                auxE[:, idx] = (state.rhoE*auxE[:, idx]) / np.sqrt(np.sum(auxE[:, idx] ** 2, axis=0))
-                embeddings[0].E.set_value(auxE)
-                auxR = embeddings[1].E.get_value()
-                idx=np.where(np.sqrt(np.sum(auxR ** 2, axis=0)) > state.rhoL)
-                auxR[:, idx] = (state.rhoL*auxR[:, idx]) / np.sqrt(np.sum(auxR[:, idx] ** 2, axis=0))
-                embeddings[1].E.set_value(auxR)
-            elif type(embeddings) is list and state.op == 'TATEC':
-                auxEb = embeddings[0].E.get_value()
-                idxb=np.where(np.sqrt(np.sum(auxEb ** 2, axis=0)) > state.rhoE)
-                auxEb[:, idxb] = (state.rhoE*auxEb[:, idxb]) / np.sqrt(np.sum(auxEb[:, idxb] ** 2, axis=0))
-                embeddings[0].E.set_value(auxEb)
-                auxEt = embeddings[4].E.get_value()
-                idxt=np.where(np.sqrt(np.sum(auxEt ** 2, axis=0)) > state.rhoE)
-                auxEt[:, idxt] = (state.rhoE*auxEt[:, idxt]) / np.sqrt(np.sum(auxEt[:, idxt] ** 2, axis=0))
-                embeddings[4].E.set_value(auxEt)
-                auxR = embeddings[5].E.get_value()
-                idxr=np.where(np.sqrt(np.sum(auxR ** 2, axis=0)) > state.rhoL)
-                auxR[:, idxr] = (state.rhoL*auxR[:, idxr]) / np.sqrt(np.sum(auxR[:, idxr] ** 2, axis=0))
-                embeddings[5].E.set_value(auxR)
-            elif type(embeddings) is list:
+            if type(embeddings) is list:
                 embeddings[0].normalize()
             else:
                 embeddings.normalize()
@@ -318,32 +235,24 @@ def FB15kexp(state, channel):
                 state.bestepoch = epoch_count
                 # Save model best valid model
                 f = open(state.savepath + '/best_valid_model.pkl', 'w')
-                if state.op == 'TATEC':
-                    cPickle.dump(embeddings, f, -1)
-                    cPickle.dump(leftopbi, f, -1)
-                    cPickle.dump(leftoptri, f, -1)
-                    cPickle.dump(rightopbi, f, -1)
-                    cPickle.dump(rightoptri, f, -1)
-                else:
+                if state.op == 'TransE':
                     cPickle.dump(embeddings, f, -1)
                     cPickle.dump(leftop, f, -1)
                     cPickle.dump(rightop, f, -1)
                     cPickle.dump(simfn, f, -1)
+                else:
+                    print "OP Must be TransE"
                 f.close()
                 print >> sys.stderr, "\t\t##### NEW BEST VALID >> test: %s" % (state.besttest)
             # Save current model
             f = open(state.savepath + '/current_model.pkl', 'w')
-            if state.op == 'TATEC':
-                cPickle.dump(embeddings, f, -1)
-                cPickle.dump(leftopbi, f, -1)
-                cPickle.dump(leftoptri, f, -1)
-                cPickle.dump(rightopbi, f, -1)
-                cPickle.dump(rightoptri, f, -1)
-            else:
+            if state.op == 'TransE':
                 cPickle.dump(embeddings, f, -1)
                 cPickle.dump(leftop, f, -1)
                 cPickle.dump(rightop, f, -1)
                 cPickle.dump(simfn, f, -1)
+            else:
+                print "OP Must be TransE"
             f.close()
             state.nbepochs = epoch_count
             print >> sys.stderr, "\t(the evaluation on test set took %s seconds)" % (round(time.time() - timeref, 3))
