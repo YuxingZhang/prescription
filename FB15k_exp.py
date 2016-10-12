@@ -28,16 +28,13 @@ def create_random_mat(shape, listidx=None):
         idx_term += 1
     return randommat.tocsr()
 
-
 def load_file(path):
     return scipy.sparse.csr_matrix(cPickle.load(open(path)),
             dtype=theano.config.floatX)
 
-
 def convert2idx(spmat):
     rows, cols = spmat.nonzero()
     return rows[np.argsort(cols)]
-
 
 class DD(dict):
     """This class is only used to replace a state variable of Jobman"""
@@ -67,9 +64,6 @@ class DD(dict):
             z[k] = copy.deepcopy(kv, memo)
         return z
 
-# ----------------------------------------------------------------------------
-
-
 # Experiment function --------------------------------------------------------
 def FB15kexp(state, channel):
 
@@ -90,29 +84,19 @@ def FB15kexp(state, channel):
     trainl = load_file(state.datapath + state.dataset + '-train-lhs.pkl')
     trainr = load_file(state.datapath + state.dataset + '-train-rhs.pkl')
     traino = load_file(state.datapath + state.dataset + '-train-rel.pkl')
-    if state.op == 'TransE':
-        traino = traino[-state.Nrel:, :]
-    else:
-        print "OP Must be TransE"
+    traino = traino[-state.Nrel:, :]
 
     # Valid set
     validl = load_file(state.datapath + state.dataset + '-valid-lhs.pkl')
     validr = load_file(state.datapath + state.dataset + '-valid-rhs.pkl')
     valido = load_file(state.datapath + state.dataset + '-valid-rel.pkl')
-    if state.op == 'TransE':
-        valido = valido[-state.Nrel:, :]
-    else:
-        print "OP Must be TransE"
-
+    valido = valido[-state.Nrel:, :]
 
     # Test set
     testl = load_file(state.datapath + state.dataset + '-test-lhs.pkl')
     testr = load_file(state.datapath + state.dataset + '-test-rhs.pkl')
     testo = load_file(state.datapath + state.dataset + '-test-rel.pkl')
-    if state.op == 'TransE':
-        testo = testo[-state.Nrel:, :]
-    else:
-        print "OP Must be TransE"
+    testo = testo[-state.Nrel:, :]
 
     # Index conversion, this part is used for evaluation during the training phase
     trainlidx = convert2idx(trainl)[:state.neval]
@@ -138,43 +122,22 @@ def FB15kexp(state, channel):
     true_triples=np.concatenate([idxtl,idxvl,idxl,idxto,idxvo,idxo,idxtr,idxvr,idxr]).reshape(3,idxtl.shape[0]+idxvl.shape[0]+idxl.shape[0]).T
 
     # Model declaration
-    if not state.loadmodel:
-        # operators
-        if state.op == 'TransE':
-            leftop  = LayerTrans()
-            rightop = Unstructured()
-        else:
-            print "OP Must be TransE"
+    # operators
+    leftop  = LayerTrans()
+    rightop = Unstructured()
 
-        # embeddings
-        if not state.loademb:
-            embeddings = Embeddings(np.random, state.Nent, state.ndim, 'emb')
-        else:
-            f = open(state.loademb)
-            embeddings = cPickle.load(f)
-            f.close()
-        if state.op == 'TransE' and type(embeddings) is not list:
-            relationVec = Embeddings(np.random, state.Nrel, state.ndim, 'relvec')
-            embeddings = [embeddings, relationVec, relationVec]
-        simfn = eval(state.simfn + 'sim')
-    else:
-        if state.op == 'TransE':
-            f = open(state.loadmodel)
-            embeddings = cPickle.load(f)
-            leftop = cPickle.load(f)
-            rightop = cPickle.load(f)
-            simfn = cPickle.load(f)
-            f.close()
-        else:
-            print "OP Must be TransE"
+    # embeddings
+    embeddings = Embeddings(np.random, state.Nent, state.ndim, 'emb')
+    if state.op == 'TransE' and type(embeddings) is not list:
+        print "embeddings is not list"
+        relationVec = Embeddings(np.random, state.Nrel, state.ndim, 'relvec')
+        embeddings = [embeddings, relationVec, relationVec]
+    simfn = eval(state.simfn + 'sim')
 
     # Function compilation
-    if state.op == 'TransE':
-        trainfunc = TrainFn1Member(simfn, embeddings, leftop, rightop, marge=state.marge, rel=False)
-        ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
-        rankrfunc = RankRightFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
-    else:
-        print "OP Must be TransE"
+    trainfunc = TrainFn1Member(simfn, embeddings, leftop, rightop, marge=state.marge, rel=False)
+    ranklfunc = RankLeftFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
+    rankrfunc = RankRightFnIdx(simfn, embeddings, leftop, rightop, subtensorspec=state.Nsyn)
 
     out = []
     outb = []
@@ -235,24 +198,18 @@ def FB15kexp(state, channel):
                 state.bestepoch = epoch_count
                 # Save model best valid model
                 f = open(state.savepath + '/best_valid_model.pkl', 'w')
-                if state.op == 'TransE':
-                    cPickle.dump(embeddings, f, -1)
-                    cPickle.dump(leftop, f, -1)
-                    cPickle.dump(rightop, f, -1)
-                    cPickle.dump(simfn, f, -1)
-                else:
-                    print "OP Must be TransE"
-                f.close()
-                print >> sys.stderr, "\t\t##### NEW BEST VALID >> test: %s" % (state.besttest)
-            # Save current model
-            f = open(state.savepath + '/current_model.pkl', 'w')
-            if state.op == 'TransE':
                 cPickle.dump(embeddings, f, -1)
                 cPickle.dump(leftop, f, -1)
                 cPickle.dump(rightop, f, -1)
                 cPickle.dump(simfn, f, -1)
-            else:
-                print "OP Must be TransE"
+                f.close()
+                print >> sys.stderr, "\t\t##### NEW BEST VALID >> test: %s" % (state.besttest)
+            # Save current model
+            f = open(state.savepath + '/current_model.pkl', 'w')
+            cPickle.dump(embeddings, f, -1)
+            cPickle.dump(leftop, f, -1)
+            cPickle.dump(rightop, f, -1)
+            cPickle.dump(simfn, f, -1)
             f.close()
             state.nbepochs = epoch_count
             print >> sys.stderr, "\t(the evaluation on test set took %s seconds)" % (round(time.time() - timeref, 3))
