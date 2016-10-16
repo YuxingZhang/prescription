@@ -43,8 +43,9 @@ class charLM(object):
         emb_rhsn = lasagne.layers.get_output(l_emb_rhsn) # embedding vectors for right hand side negative entities
         
         # define loss
-        pos_loss = L2dist(emb_lhs + emb_rel, emb_rhs) # positive triple distance
-        neg_loss_r = L2dist(emb_lhs + emb_rel, emb_rhsn) # negative triple distance
+        pred_rhs = emb_lhs + emb_rel
+        pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
+        neg_loss_r = L2dist(pred_rhs, emb_rhsn) # negative triple distance
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
         loss = loss_rn # TODO do we need loss_ln? And how do we sample random lhs embedding?
         self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(self.params.values(), LR)
