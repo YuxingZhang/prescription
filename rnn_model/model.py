@@ -31,9 +31,9 @@ class charLM(object):
 
         # model
         word, mask, l_encoder = char2vec(self.params, n_char) 
-        emb_in_rhs, l_emb_rhs = embedding_rhs(params)
-        emb_in_rel, l_emb_rel = embedding_rel(params)
-        emb_in_rhsn, l_emb_rhsn = embedding_rhsn(params)
+        emb_in_rhs, l_emb_rhs = embedding_rhs(self.params)
+        emb_in_rel, l_emb_rel = embedding_rel(self.params)
+        emb_in_rhsn, l_emb_rhsn = embedding_rhsn(self.params)
 
         # cost
         emb_lhs = lasagne.layers.get_output(l_encoder) # embedding vectors for left hand side positive entities
