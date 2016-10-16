@@ -128,10 +128,8 @@ def FB15kexp(state, channel):
 
     # embeddings
     embeddings = Embeddings(np.random, state.Nent, state.ndim, 'emb')
-    if state.op == 'TransE' and type(embeddings) is not list:
-        print "embeddings is not list"
-        relationVec = Embeddings(np.random, state.Nrel, state.ndim, 'relvec')
-        embeddings = [embeddings, relationVec, relationVec]
+    relationVec = Embeddings(np.random, state.Nrel, state.ndim, 'relvec')
+    embeddings = [embeddings, relationVec, relationVec]
     simfn = eval(state.simfn + 'sim')
 
     # Function compilation

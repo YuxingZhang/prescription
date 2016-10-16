@@ -459,7 +459,7 @@ def RankRelFnIdx(fnsim, embeddings, leftop, rightop, subtensorspec=None):
             on_unused_input='ignore')
 
 
-def TrainFn1Member(fnsim, embeddings, leftop, rightop, marge=1.0, rel=True):
+def TrainFn1Member(fnsim, embeddings, leftop, rightop, marge=1.0, rel=False):
     """
     This function returns a theano function to perform a training iteration,
     contrasting positive and negative triplets. members are given as sparse
@@ -467,7 +467,7 @@ def TrainFn1Member(fnsim, embeddings, leftop, rightop, marge=1.0, rel=True):
     negative triplets. To create a negative triplet we replace only one member
     at a time.
 
-    :param fnsim: similarity function (on theano variables).
+    :param fnsim: similarity function (on theano variables). See line 20 for L2sim function
     :param embeddings: an embeddings instance.
     :param leftop: class for the 'left' operator.
     :param rightop: class for the 'right' operator.
@@ -493,6 +493,7 @@ def TrainFn1Member(fnsim, embeddings, leftop, rightop, marge=1.0, rel=True):
     relr = S.dot(relationr.E, inpo).T
     lhsn = S.dot(embedding.E, inpln).T
     rhsn = S.dot(embedding.E, inprn).T
+
     simi = fnsim(leftop(lhs, rell), rightop(rhs, relr))
     # Negative 'left' member
     similn = fnsim(leftop(lhsn, rell), rightop(rhs, relr))
@@ -505,28 +506,19 @@ def TrainFn1Member(fnsim, embeddings, leftop, rightop, marge=1.0, rel=True):
     # List of inputs of the function
     list_in = [lrembeddings, lrparams,
             inpl, inpr, inpo, inpln, inprn]
-    if rel:
-        # If rel is True, we also consider a negative relation member
-        inpon = S.csr_matrix()
-        relln = S.dot(relationl.E, inpon).T
-        relrn = S.dot(relationr.E, inpon).T
-        simion = fnsim(leftop(lhs, relln), rightop(rhs, relrn))
-        costo, outo = margincost(simi, simion, marge)
-        cost += costo
-        out = T.concatenate([out, outo])
-        list_in += [inpon]
 
-    if hasattr(fnsim, 'params'):
+    if hasattr(fnsim, 'params'): # always false
         # If the similarity function has some parameters, we update them too.
         gradientsparams = T.grad(cost,
             leftop.params + rightop.params + fnsim.params)
         updates = OrderedDict((i, i - lrparams * j) for i, j in zip(
             leftop.params + rightop.params + fnsim.params, gradientsparams))
     else:
-        gradientsparams = T.grad(cost, leftop.params + rightop.params)
+        gradientsparams = T.grad(cost, leftop.params + rightop.params) # nothing happens here, since neither op has parameters
         updates = OrderedDict((i, i - lrparams * j) for i, j in zip(
             leftop.params + rightop.params, gradientsparams))
-    gradients_embedding = T.grad(cost, embedding.E)
+
+    gradients_embedding = T.grad(cost, embedding.E) # TODO add rnn parameters
     newE = embedding.E - lrembeddings * gradients_embedding
     updates.update({embedding.E: newE})
     if type(embeddings) == list:
@@ -542,7 +534,7 @@ def TrainFn1Member(fnsim, embeddings, leftop, rightop, marge=1.0, rel=True):
     :input lrembeddings: learning rate for the embeddings.
     :input lrparams: learning rate for the parameters.
     :input inpl: sparse csr matrix representing the indexes of the positive
-                 triplet 'left' member, shape=(#examples,N [Embeddings]).
+                 triplet 'left' member, shape=(#examples,N [Embeddings]). # TODO replace with RNN input
     :input inpr: sparse csr matrix representing the indexes of the positive
                  triplet 'right' member, shape=(#examples,N [Embeddings]).
     :input inpo: sparse csr matrix representing the indexes of the positive

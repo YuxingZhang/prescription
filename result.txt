@@ -1,6 +1,8 @@
 # of only_left/shared/only_right entities:  2953 / 127 / 663
 Number of relations:  4
 
+Using the 4 relations all together, not using the json data:
+
 n = 1
 ### MICRO:
 	-- left   >> mean: 624.7888, median: 422.0, hits@1: 0.137%
