@@ -32,7 +32,7 @@ class charLM(object):
         # model
         word, mask, l_encoder = char2vec(self.params, n_char) 
         emb_in_rhs, l_emb_rhs = embedding_rhs(self.params, n_voc, emb_dim)
-        emb_in_rel, l_emb_rel = embedding_rel(self.params, emb_dim)
+        emb_in_rel, l_emb_rel = embedding_rel(self.params, n_rel, emb_dim)
         emb_in_rhsn, l_emb_rhsn = embedding_rhsn(self.params, n_voc, emb_dim)
 
         # cost
@@ -211,7 +211,7 @@ def embedding_rhsn(params, n_voc, emb_dim):
     return emb_in_rhsn, l_emb_rhsn
 
 # by Yuxing Zhang
-def embedding_rel(params, emb_dim):
+def embedding_rel(params, n_ren, emb_dim):
     '''
     Embedding part for right hand side entity embedding
 
