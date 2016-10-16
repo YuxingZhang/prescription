@@ -93,40 +93,41 @@ class charLM(object):
 def init_params(params, n_char, n_voc, n_rel, emb_dim):
     np.random.seed(0)
 
-    # lookup table
+    # lookup table # TODO when using float 32, there will be an error in theano 
+    # "An update must have the same type as the original shared variable", why is that
     params['Wc'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_char,CHAR_DIM)).astype('float64'), name='Wc')
 
     # f-GRU
-    params['W_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_f_r')
-    params['W_c2w_f_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_f_z')
-    params['W_c2w_f_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_f_h')
-    params['b_c2w_f_r'] = theano.shared(np.zeros((C2W_HDIM)).astype('float32'), name='b_c2w_f_r')
-    params['b_c2w_f_z'] = theano.shared(np.zeros((C2W_HDIM)).astype('float32'), name='b_c2w_f_z')
-    params['b_c2w_f_h'] = theano.shared(np.zeros((C2W_HDIM)).astype('float32'), name='b_c2w_f_h')
-    params['U_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float32'), name='U_c2w_f_r')
-    params['U_c2w_f_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float32'), name='U_c2w_f_z')
-    params['U_c2w_f_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float32'), name='U_c2w_f_h')
+    params['W_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_f_r')
+    params['W_c2w_f_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_f_z')
+    params['W_c2w_f_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_f_h')
+    params['b_c2w_f_r'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_f_r')
+    params['b_c2w_f_z'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_f_z')
+    params['b_c2w_f_h'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_f_h')
+    params['U_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_f_r')
+    params['U_c2w_f_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_f_z')
+    params['U_c2w_f_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_f_h')
 
     # b-GRU
-    params['W_c2w_b_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_b_r')
-    params['W_c2w_b_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_b_z')
-    params['W_c2w_b_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_b_h')
-    params['b_c2w_b_r'] = theano.shared(np.zeros((C2W_HDIM)).astype('float32'), name='b_c2w_b_r')
-    params['b_c2w_b_z'] = theano.shared(np.zeros((C2W_HDIM)).astype('float32'), name='b_c2w_b_z')
-    params['b_c2w_b_h'] = theano.shared(np.zeros((C2W_HDIM)).astype('float32'), name='b_c2w_b_h')
-    params['U_c2w_b_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float32'), name='U_c2w_b_r')
-    params['U_c2w_b_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float32'), name='U_c2w_b_z')
-    params['U_c2w_b_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float32'), name='U_c2w_b_h')
+    params['W_c2w_b_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_b_r')
+    params['W_c2w_b_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_b_z')
+    params['W_c2w_b_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_b_h')
+    params['b_c2w_b_r'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_b_r')
+    params['b_c2w_b_z'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_b_z')
+    params['b_c2w_b_h'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_b_h')
+    params['U_c2w_b_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_b_r')
+    params['U_c2w_b_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_b_z')
+    params['U_c2w_b_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_b_h')
 
     # dense
-    params['W_c2w'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2*C2W_HDIM,WDIM)).astype('float32'), name='W_c2w_df')
-    params['b_c2w'] = theano.shared(np.zeros((WDIM)).astype('float32'), name='b_c2w_df')
+    params['W_c2w'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2*C2W_HDIM,WDIM)).astype('float64'), name='W_c2w_df')
+    params['b_c2w'] = theano.shared(np.zeros((WDIM)).astype('float64'), name='b_c2w_df')
 
     # Initialize parameters for rhs entity embedding
-    params['W_emb_rhs'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_voc, emb_dim)).astype('float32'), name='W_emb_rhs')
+    params['W_emb_rhs'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_voc, emb_dim)).astype('float64'), name='W_emb_rhs')
 
     # Initialize parameters for relation embedding
-    params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rel, emb_dim)).astype('float32'), name='W_emb_rel')
+    params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rel, emb_dim)).astype('float64'), name='W_emb_rel')
 
     return params
 
