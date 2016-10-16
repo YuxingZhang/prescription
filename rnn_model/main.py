@@ -1,9 +1,9 @@
 import numpy as np
 import shutil
-#import theano
-#import theano.tensor as T
+import theano
+import theano.tensor as T
 import sys
-#import lasagne
+import lasagne
 import time
 import cPickle as pkl
 import io
@@ -13,7 +13,7 @@ from collections import OrderedDict
 import batch
 import evaluate
 from settings import N_BATCH, N_EPOCH, DISPF, SAVEF, VALF
-#from model import charLM
+from model import charLM
 
 T1 = 0.01
 T2 = 0.001
@@ -102,7 +102,7 @@ if __name__=='__main__':
 		    print("Saving...")
                     m.save_model('%s/model.npz' % save_path)
                 # validation
-                if np.mod(uidx,VALF) == 0:
+                if False and np.mod(uidx,VALF) == 0:
                     print("Testing on Validation set...")
                     val_pred = []
                     val_targets = []
