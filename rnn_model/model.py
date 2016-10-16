@@ -43,7 +43,7 @@ class charLM(object):
         emb_rhsn = lasagne.layers.get_output(l_emb_rhsn) # embedding vectors for right hand side negative entities
         
         # define loss
-        pred_rhs = emb_lhs.dimshuffle(1, 0, 2) + emb_rel
+        pred_rhs = emb_lhs.dimshuffle(1, 0) + emb_rel
         pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
         neg_loss_r = L2dist(pred_rhs, emb_rhsn) # negative triple distance
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
