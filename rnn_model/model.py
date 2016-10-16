@@ -211,7 +211,7 @@ def embedding_rhsn(params, n_voc, emb_dim):
     return emb_in_rhsn, l_emb_rhsn
 
 # by Yuxing Zhang
-def embedding_rel(params, n_ren, emb_dim):
+def embedding_rel(params, n_rel, emb_dim):
     '''
     Embedding part for right hand side entity embedding
 
