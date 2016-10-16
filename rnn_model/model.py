@@ -47,6 +47,7 @@ class charLM(object):
         neg_loss_r = L2dist(emb_lhs + emb_rel, emb_rhsn) # negative triple distance
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
         loss = loss_rn # TODO do we need loss_ln? And how do we sample random lhs embedding?
+        print loss.shape
         self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(self.params.values(), LR)
         # TODO can we only add regularization to the RNN parameters?
         cost_only = T.mean(loss)
@@ -76,7 +77,7 @@ class charLM(object):
         return self.encode_fn(w,m)
 
     def update_learningrate(self):
-        self.lr = max(1e-5,self.lr/2)
+        self.lr = max(1e-5,self.lr / 2)
         updates = lasagne.updates.nesterov_momentum(self.cost, self.params.values(), self.lr, momentum=self.mu)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
 
