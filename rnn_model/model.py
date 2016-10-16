@@ -31,9 +31,9 @@ class charLM(object):
 
         # model
         word, mask, l_encoder = char2vec(self.params, n_char) 
-        emb_in_rhs, l_emb_rhs = embedding_rhs(self.params)
-        emb_in_rel, l_emb_rel = embedding_rel(self.params)
-        emb_in_rhsn, l_emb_rhsn = embedding_rhsn(self.params)
+        emb_in_rhs, l_emb_rhs = embedding_rhs(self.params, n_voc)
+        emb_in_rel, l_emb_rel = embedding_rel(self.params, emb_dim)
+        emb_in_rhsn, l_emb_rhsn = embedding_rhsn(self.params, n_voc)
 
         # cost
         emb_lhs = lasagne.layers.get_output(l_encoder) # embedding vectors for left hand side positive entities
@@ -175,7 +175,7 @@ def char2vec(params,n_char,bias=True):
     return word, mask, l_c2w_source # return input variables and output variables
 
 # by Yuxing Zhang
-def embedding_rhs(params):
+def embedding_rhs(params, n_voc):
     '''
     Embedding part for right hand side entity embedding
 
@@ -193,7 +193,7 @@ def embedding_rhs(params):
     return emb_in_rhs, l_emb_rhs
 
 # by Yuxing Zhang
-def embedding_rhsn(params):
+def embedding_rhsn(params, n_voc):
     '''
     Embedding part for right hand side negative entity embedding
 
@@ -211,7 +211,7 @@ def embedding_rhsn(params):
     return emb_in_rhsn, l_emb_rhsn
 
 # by Yuxing Zhang
-def embedding_rel(params):
+def embedding_rel(params, emb_dim):
     '''
     Embedding part for right hand side entity embedding
 
