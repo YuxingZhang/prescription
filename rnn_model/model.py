@@ -57,14 +57,14 @@ class charLM(object):
         updates = lasagne.updates.nesterov_momentum(self.cost, self.params.values(), self.lr, momentum=self.mu)
 
         # theano functions
-        self.inps = [word, mask, emb_in_rhs, emb_in_rel, emb_in_rhsn] # inputs for the function
+        self.inps = [word, mask, emb_in_rel, emb_in_rhs, emb_in_rhsn] # inputs for the function
         #self.predict_fn = theano.function([word,mask],predictions)
         self.cost_fn = theano.function(self.inps,cost_only)
         self.encode_fn = theano.function([word,mask], emb_lhs) # compute RNN embeddings given word (drug name)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
 
-    def train(self, word, mask, emb_in_rhs, emb_in_rel, emb_in_rhsn):
-        return self.train_fn(word, mask, emb_in_rhs, emb_in_rel, emb_in_rhsn)
+    def train(self, word, mask, emb_in_rel, emb_in_rhs, emb_in_rhsn):
+        return self.train_fn(word, mask, emb_in_rel, emb_in_rhs, emb_in_rhsn)
 
     #def predict(self,w,m):
     #   return self.predict_fn(w,m)
