@@ -47,7 +47,6 @@ class charLM(object):
         neg_loss_r = L2dist(emb_lhs + emb_rel, emb_rhsn) # negative triple distance
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
         loss = loss_rn # TODO do we need loss_ln? And how do we sample random lhs embedding?
-        print loss.shape
         self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(self.params.values(), LR)
         # TODO can we only add regularization to the RNN parameters?
         cost_only = T.mean(loss)
@@ -95,7 +94,7 @@ def init_params(params, n_char, n_voc, n_rel, emb_dim):
     np.random.seed(0)
 
     # lookup table
-    params['Wc'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_char,CHAR_DIM)).astype('float32'), name='Wc')
+    params['Wc'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_char,CHAR_DIM)).astype('float64'), name='Wc')
 
     # f-GRU
     params['W_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float32'), name='W_c2w_f_r')
