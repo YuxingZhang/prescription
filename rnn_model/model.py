@@ -63,8 +63,8 @@ class charLM(object):
         self.encode_fn = theano.function([word,mask], emb_lhs) # compute RNN embeddings given word (drug name)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
 
-    def train(self,w,m,t):
-        return self.train_fn(w,m,t)
+    def train(self, word, mask, emb_in_rhs, emb_in_rel, emb_in_rhsn):
+        return self.train_fn(word, mask, emb_in_rhs, emb_in_rel, emb_in_rhsn)
 
     #def predict(self,w,m):
     #   return self.predict_fn(w,m)
