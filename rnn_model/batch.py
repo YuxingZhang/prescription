@@ -64,17 +64,17 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, rel_dict, rhs_dict, n_chars, use
 
     lhs_in = np.zeros((n_samples,max_length)).astype('int32')
     lhs_mask = np.zeros((n_samples,max_length)).astype('float32')
-    rel_in = np.zeros((n_samples, 1)).astype('int32')
-    rhs_in = np.zeros((n_samples, 1)).astype('int32')
+    rel_in = np.zeros((n_samples)).astype('int32')
+    rhs_in = np.zeros((n_samples)).astype('int32')
 
     # random index as the negative triples
-    rhsn_in = np.random.randint(len(rhs_dict), size=(n_samples, 1)).astype('int32')
+    rhsn_in = np.random.randint(len(rhs_dict), size=n_samples).astype('int32')
     
     for idx, lhs_idx_i in enumerate(lhs_idx):
         lhs_in[idx,:len_lhs[idx]] = lhs_idx_i
         lhs_mask[idx,:len_lhs[idx]] = 1.
-        rel_in[idx, 0] = rel_idx[idx]
-        rhs_in[idx, 0] = rhs_idx[idx]
+        rel_in[idx] = rel_idx[idx]
+        rhs_in[idx] = rhs_idx[idx]
 
     return lhs_in, lhs_mask, rel_in, rhs_in, rhsn_in
 
