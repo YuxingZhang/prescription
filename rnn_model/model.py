@@ -184,7 +184,7 @@ def embedding_rhs(params, n_voc, emb_dim):
     :param params: dict to store parameters
     '''
     # input variables that is right hand side entity
-    emb_in_rhs = T.imatrix() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
+    emb_in_rhs = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
 
     # Input layer over entity
     l_in_rhs = lasagne.layers.InputLayer(shape=(N_BATCH), input_var=emb_in_rhs, name = 'rhs_input')
@@ -202,7 +202,7 @@ def embedding_rhsn(params, n_voc, emb_dim):
     :param params: dict to store parameters
     '''
     # input variables that is right hand side negative entity (to construct corrupted triples)
-    emb_in_rhsn = T.imatrix() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
+    emb_in_rhsn = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
 
     # Input layer over entity
     l_in_rhsn = lasagne.layers.InputLayer(shape=(N_BATCH), input_var=emb_in_rhsn, name = 'rhsn_input')
@@ -220,7 +220,7 @@ def embedding_rel(params, n_rel, emb_dim):
     :param params: dict to store parameters
     '''
     # input variables that is the relation index
-    emb_in_rel = T.imatrix() # B * 1 vector, where each row is a number between 0 and (n_rel - 1) as the index
+    emb_in_rel = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_rel - 1) as the index
 
     # Input layer over relation
     l_in_rel = lasagne.layers.InputLayer(shape=(N_BATCH), input_var=emb_in_rel, name = 'rel_input')
