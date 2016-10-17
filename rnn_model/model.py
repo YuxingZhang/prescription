@@ -43,7 +43,7 @@ class charLM(object):
         emb_rhsn = lasagne.layers.get_output(l_emb_rhsn) # embedding vectors for right hand side negative entities
         
         # define loss
-        pred_rhs = emb_lhs.dimshuffle(2, 0, 1) + emb_rel
+        pred_rhs = emb_lhs + emb_rel
         pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
         neg_loss_r = L2dist(pred_rhs, emb_rhsn) # negative triple distance
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
@@ -187,7 +187,7 @@ def embedding_rhs(params, n_voc, emb_dim):
     emb_in_rhs = T.imatrix() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
 
     # Input layer over entity
-    l_in_rhs = lasagne.layers.InputLayer(shape=(N_BATCH, 1), input_var=emb_in_rhs, name = 'rhs_input')
+    l_in_rhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_in_rhs, name = 'rhs_input')
 
     # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
     l_emb_rhs = lasagne.layers.EmbeddingLayer(l_in_rhs, input_size=n_voc, output_size=emb_dim, W=params['W_emb_rhs'])
@@ -205,7 +205,7 @@ def embedding_rhsn(params, n_voc, emb_dim):
     emb_in_rhsn = T.imatrix() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
 
     # Input layer over entity
-    l_in_rhsn = lasagne.layers.InputLayer(shape=(N_BATCH, 1), input_var=emb_in_rhsn, name = 'rhsn_input')
+    l_in_rhsn = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_in_rhsn, name = 'rhsn_input')
 
     # Embedding layer for rhsn entity, and emb_dim should equal # the embedding dimension from RNN model.
     l_emb_rhsn = lasagne.layers.EmbeddingLayer(l_in_rhsn, input_size=n_voc, output_size=emb_dim, W=params['W_emb_rhs'])
@@ -223,7 +223,7 @@ def embedding_rel(params, n_rel, emb_dim):
     emb_in_rel = T.imatrix() # B * 1 vector, where each row is a number between 0 and (n_rel - 1) as the index
 
     # Input layer over relation
-    l_in_rel = lasagne.layers.InputLayer(shape=(N_BATCH, 1), input_var=emb_in_rel, name = 'rel_input')
+    l_in_rel = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_in_rel, name = 'rel_input')
 
     # Embedding layer for relation, and emb_dim should equal # the embedding dimension from RNN model.
     l_emb_rel = lasagne.layers.EmbeddingLayer(l_in_rel, input_size=n_rel, output_size=emb_dim, W=params['W_emb_rel'])
