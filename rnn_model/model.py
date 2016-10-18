@@ -81,7 +81,9 @@ class charLM(object):
     def rank_right(self, in_lhs, in_lmask, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs
         pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_rel)
         print pred_rhs_batch.shape
+        print pred_rhs_batch
         print self.emb_right_all.shape
+        print self.emb_right_all
         right_ranks = []
         
 
