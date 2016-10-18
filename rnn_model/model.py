@@ -80,11 +80,15 @@ class charLM(object):
 
     def rank_right(self, in_lhs, in_lmask, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs
         pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_rel)
-        print pred_rhs_batch.shape
-        print pred_rhs_batch
-        print self.emb_right_all.shape
-        print self.emb_right_all
         right_ranks = []
+        for i in range(pred_rhs_batch.shape[0]):
+            true_idx = in_rhs[i]
+            distances = np.zeros(self.emb_right_all.shape[0])
+            for j in range(self.emb_right_all.shape[0]):
+                distances[j] = np.linalg.norm(pred_rhs_batch[i, :] - self.emb_right_all[j, :], 2)
+            rank = np.argsort(np.argsort(distances))
+            right_ranks += [rank[true_idx]]
+        return right_ranks
         
 
     def update_learningrate(self):
