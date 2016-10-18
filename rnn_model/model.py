@@ -55,6 +55,7 @@ class charLM(object):
         self.lr = LEARNING_RATE
         self.mu = MOMENTUM
         updates = lasagne.updates.nesterov_momentum(self.cost, self.params.values(), self.lr, momentum=self.mu)
+        # lr, momentum
 
         # theano functions
         self.inps = [in_lhs, in_lmask, in_rel, in_rhs, in_rhsn] # inputs for the function
