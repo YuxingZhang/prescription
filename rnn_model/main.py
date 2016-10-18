@@ -126,7 +126,7 @@ if __name__=='__main__':
                     #    m.save_model('%s/best_model.npz' % save_path)
                     valid_mean_rank = np.array(valid_mean_rank)
                     print("Epoch {} Update {} Training Cost {} Validation mean rank {} Validation hit@10 {}%".format(epoch, 
-                        uidx, train_cost/n_samples, np.mean(valid_mean_rank), float(100 * sum(valid_mean_rank < 10)) / float(valid_mean_rank.shape[0]))))
+                        uidx, train_cost/n_samples, np.mean(valid_mean_rank), float(100 * sum(valid_mean_rank < 10)) / float(valid_mean_rank.shape[0])))
                     #valcosts.append(R.acc)
 
             print("Saving...")
