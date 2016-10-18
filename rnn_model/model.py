@@ -35,6 +35,7 @@ class charLM(object):
         in_rhs, in_rhsn, emb_rhs, emb_rhsn = embedding_rhs(self.params, n_voc, emb_dim)
         in_rel, emb_rel = embedding_rel(self.params, n_rel, emb_dim)
         
+        # TODO N_BATCH for input size? or just None, because later we need to do validation and testing
         # define loss
         pred_rhs = emb_lhs + emb_rel
         pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
@@ -67,8 +68,8 @@ class charLM(object):
     #def predict(self,w,m):
     #   return self.predict_fn(w,m)
 
-    def validate(self,w,m,t):
-        return self.cost_fn(w,m,t)
+    def validate(self, in_lhs, in_lmask, in_rel, in_rhs, in_rhsn):
+        return self.cost_fn(in_lhs, in_lmask, in_rel, in_rhs, in_rhsn)
 
     def encode(self,w,m):
         return self.encode_fn(w,m)

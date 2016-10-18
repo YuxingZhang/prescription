@@ -107,14 +107,22 @@ if __name__=='__main__':
 		    print("Saving...")
                     m.save_model('%s/model.npz' % save_path)
                 # validation
-                if False and np.mod(uidx,VALF) == 0:
+                #if False and np.mod(uidx,VALF) == 0:
+                if True:
                     print("Testing on Validation set...")
                     val_pred = []
                     val_targets = []
                     validation_cost = 0.
                     n_val_samples = 0
-                    for xr,yr in valid_iter:
-                        x, x_m, y = batch.prepare_data(xr, yr, chardict, labeldict, n_chars=n_char)
+                    #for xr,yr in valid_iter:
+                    for lhs_vb, rel_vb, rhs_vb in valid_iter: # one batch
+                        lhs_v, lhs_vmask, rel_v, rhs_v, rhsn_v = batch.prepare_data(lhs_vb, rel_vb, rhs_vb, chardict, rel_dict, rhs_dict, n_chars=n_char)
+                        print lhs_v.shape
+                        print lhs_vmask.shape
+                        print rel_v.shape
+                        print rhs_v.shape
+                        print rhsn_v.shape
+                        quit()
                         vp = m.predict(x,x_m)
                         ranks = np.argmax(vp, axis=1)
                         for idx,item in enumerate(xr):
