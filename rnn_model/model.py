@@ -21,34 +21,29 @@ def L2dist(left, right):
     return T.sqrt(T.sum(T.sqr(left - right), axis=1))
 
 class charLM(object):
-    def __init__(self, n_char, n_voc, n_rel, emb_dim=WDIM, pretrained=None): # TODO is WDIM the RNN embedding dimension?
+    def __init__(self, n_char, n_voc, n_rel, emb_dim=WDIM, pretrained=None): # is WDIM the RNN embedding dimension? yes
         # params
         if pretrained==None:
             self.params = OrderedDict()
-            self.params = init_params(self.params, n_char, n_voc, n_rel, emb_dim) # TODO define n_voc, emb_dim
+            self.params = init_params(self.params, n_char, n_voc, n_rel, emb_dim) # define n_voc, emb_dim
         else:
             self.params = load_params_shared(pretrained)
 
         # model
-        word, mask, l_encoder = char2vec(self.params, n_char) 
-        emb_in_rhs, emb_in_rhsn, l_emb_rhs = embedding_rhs(self.params, n_voc, emb_dim)
-        emb_in_rel, l_emb_rel = embedding_rel(self.params, n_rel, emb_dim)
-
-        # cost
-        emb_lhs = l_encoder#lasagne.layers.get_output(l_encoder) # embedding vectors for left hand side positive entities
+        in_lhs, in_lmask, in_lhsn, in_lmaskn, emb_lhs, emb_lhsn, l_encoder = char2vec(self.params, n_char) 
         # TODO maybe concatenate RNN embedding with look up table? Do it later.
-        emb_rel = lasagne.layers.get_output(l_emb_rel) # embedding vectors for relations
-        emb_rhs = lasagne.layers.get_output(l_emb_rhs, emb_in_rhs) # embedding vectors for right hand side positive entities
-        emb_rhsn = lasagne.layers.get_output(l_emb_rhs, emb_in_rhsn) # embedding vectors for right hand side negative entities
+        in_rhs, in_rhsn, emb_rhs, emb_rhsn = embedding_rhs(self.params, n_voc, emb_dim)
+        in_rel, emb_rel = embedding_rel(self.params, n_rel, emb_dim)
         
         # define loss
         pred_rhs = emb_lhs + emb_rel
         pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
         neg_loss_r = L2dist(pred_rhs, emb_rhsn) # negative triple distance
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
-        loss = loss_rn # TODO do we need loss_ln? And how do we sample random lhs embedding?
-        self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(self.params.values(), LR)
-        # TODO can we only add regularization to the RNN parameters? yes, only pass RNN parameters
+        loss = loss_rn
+        # TODO do we need loss_ln? And how do we sample random lhs embedding? yes build a dict too
+        self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(lasagne.layers.get_all_params(l_encoder), LR)
+        # can we only add regularization to the RNN parameters? yes, only pass RNN parameters
         cost_only = T.mean(loss)
 
         '''get_output can specify input, so don't need to define another embedding layer'''
@@ -59,14 +54,15 @@ class charLM(object):
         updates = lasagne.updates.nesterov_momentum(self.cost, self.params.values(), self.lr, momentum=self.mu)
 
         # theano functions
-        self.inps = [word, mask, emb_in_rel, emb_in_rhs, emb_in_rhsn] # inputs for the function
+        self.inps = [in_lhs, in_lmask, in_rel, in_rhs, in_rhsn] # inputs for the function
+        # TODO add loss_ln, self.inps = [in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn]
         #self.predict_fn = theano.function([word,mask],predictions)
         self.cost_fn = theano.function(self.inps,cost_only)
-        self.encode_fn = theano.function([word,mask], emb_lhs) # compute RNN embeddings given word (drug name)
+        self.encode_fn = theano.function([in_lhs, in_lmask], emb_lhs) # compute RNN embeddings given word (drug name)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
 
-    def train(self, word, mask, emb_in_rel, emb_in_rhs, emb_in_rhsn):
-        return self.train_fn(word, mask, emb_in_rel, emb_in_rhs, emb_in_rhsn)
+    def train(self, in_lhs, in_lmask, in_rel, in_rhs, in_rhsn):
+        return self.train_fn(in_lhs, in_lmask, in_rel, in_rhs, in_rhsn)
 
     #def predict(self,w,m):
     #   return self.predict_fn(w,m)
@@ -137,9 +133,13 @@ def char2vec(params,n_char,bias=True):
     '''
     Bi-GRU for encoding input
     '''
-    # Variables
+    # Variables for positive lhs
     word = T.imatrix() # B x N # input
     mask = T.fmatrix() # B x N # input
+
+    # Variables for negative lhs
+    wordn = T.imatrix() # B x N # input
+    maskn = T.fmatrix() # B x N # input
 
     # Input layer over characters
     l_in_source = lasagne.layers.InputLayer(shape=(N_BATCH,None), name='input')
@@ -175,7 +175,9 @@ def char2vec(params,n_char,bias=True):
     else:
         l_c2w_source = lasagne.layers.DenseLayer(l_concat, WDIM, W=params['W_c2w'], b=None, nonlinearity=NL3)
 
-    return word, mask, lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
+    emb_lhs = lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
+    emb_lhsn = lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: wordn, l_mask: maskn})
+    return word, mask, wordn, maskn, emb_lhs, emb_lhsn, l_c2w_source
     #return word, mask, l_c2w_source # return input variables and output variables
 
 # by Yuxing Zhang
@@ -195,7 +197,7 @@ def embedding_rhs(params, n_voc, emb_dim):
     # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
     l_emb_rhs = lasagne.layers.EmbeddingLayer(l_in_rhs, input_size=n_voc, output_size=emb_dim, W=params['W_emb_rhs'])
 
-    return emb_in_rhs, emb_in_rhsn, l_emb_rhs
+    return emb_in_rhs, emb_in_rhsn, lasagne.layers.get_output(l_emb_rhs, emb_in_rhs), lasagne.layers.get_output(l_emb_rhs, emb_in_rhsn)
 
 # by Yuxing Zhang
 def embedding_rel(params, n_rel, emb_dim):
@@ -213,7 +215,7 @@ def embedding_rel(params, n_rel, emb_dim):
     # Embedding layer for relation, and emb_dim should equal # the embedding dimension from RNN model.
     l_emb_rel = lasagne.layers.EmbeddingLayer(l_in_rel, input_size=n_rel, output_size=emb_dim, W=params['W_emb_rel'])
 
-    return emb_in_rel, l_emb_rel
+    return emb_in_rel, lasagne.layers.get_output(l_emb_rel)
 
 def load_params(path):
     """
