@@ -31,16 +31,15 @@ class charLM(object):
 
         # model
         word, mask, l_encoder = char2vec(self.params, n_char) 
-        emb_in_rhs, l_emb_rhs = embedding_rhs(self.params, n_voc, emb_dim)
+        emb_in_rhs, emb_in_rhsn, l_emb_rhs = embedding_rhs(self.params, n_voc, emb_dim)
         emb_in_rel, l_emb_rel = embedding_rel(self.params, n_rel, emb_dim)
-        emb_in_rhsn, l_emb_rhsn = embedding_rhsn(self.params, n_voc, emb_dim)
 
         # cost
         emb_lhs = lasagne.layers.get_output(l_encoder) # embedding vectors for left hand side positive entities
-        # TODO maybe concatenate RNN embedding with look up table?
+        # TODO maybe concatenate RNN embedding with look up table? Do it later.
         emb_rel = lasagne.layers.get_output(l_emb_rel) # embedding vectors for relations
-        emb_rhs = lasagne.layers.get_output(l_emb_rhs) # embedding vectors for right hand side positive entities
-        emb_rhsn = lasagne.layers.get_output(l_emb_rhsn) # embedding vectors for right hand side negative entities
+        emb_rhs = lasagne.layers.get_output(l_emb_rhs, emb_in_rhs) # embedding vectors for right hand side positive entities
+        emb_rhsn = lasagne.layers.get_output(l_emb_rhsn, emb_in_rhsn) # embedding vectors for right hand side negative entities
         
         # define loss
         pred_rhs = emb_lhs + emb_rel
@@ -49,8 +48,10 @@ class charLM(object):
         loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin
         loss = loss_rn # TODO do we need loss_ln? And how do we sample random lhs embedding?
         self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(self.params.values(), LR)
-        # TODO can we only add regularization to the RNN parameters?
+        # TODO can we only add regularization to the RNN parameters? yes, only pass RNN parameters
         cost_only = T.mean(loss)
+
+        '''get_output can specify input, so don't need to define another embedding layer'''
 
         # updates
         self.lr = LEARNING_RATE
@@ -179,38 +180,21 @@ def char2vec(params,n_char,bias=True):
 # by Yuxing Zhang
 def embedding_rhs(params, n_voc, emb_dim):
     '''
-    Embedding part for right hand side entity embedding
+    Embedding part for right hand side entity embedding and right hand side negative entity embedding
 
     :param params: dict to store parameters
     '''
     # input variables that is right hand side entity
     emb_in_rhs = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
+    emb_in_rhsn = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
 
     # Input layer over entity
-    l_in_rhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_in_rhs, name = 'rhs_input')
+    l_in_rhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), name = 'rhs_input') # removing input_var to reuse it for negative rhs
 
     # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
     l_emb_rhs = lasagne.layers.EmbeddingLayer(l_in_rhs, input_size=n_voc, output_size=emb_dim, W=params['W_emb_rhs'])
 
-    return emb_in_rhs, l_emb_rhs
-
-# by Yuxing Zhang
-def embedding_rhsn(params, n_voc, emb_dim):
-    '''
-    Embedding part for right hand side negative entity embedding
-
-    :param params: dict to store parameters
-    '''
-    # input variables that is right hand side negative entity (to construct corrupted triples)
-    emb_in_rhsn = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_voc - 1) as the index
-
-    # Input layer over entity
-    l_in_rhsn = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_in_rhsn, name = 'rhsn_input')
-
-    # Embedding layer for rhsn entity, and emb_dim should equal # the embedding dimension from RNN model.
-    l_emb_rhsn = lasagne.layers.EmbeddingLayer(l_in_rhsn, input_size=n_voc, output_size=emb_dim, W=params['W_emb_rhs'])
-
-    return emb_in_rhsn, l_emb_rhsn
+    return emb_in_rhs, emb_in_rhsn, l_emb_rhs
 
 # by Yuxing Zhang
 def embedding_rel(params, n_rel, emb_dim):
