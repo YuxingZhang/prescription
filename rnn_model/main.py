@@ -120,23 +120,18 @@ if __name__=='__main__':
                     m.compute_emb_right_all()
                     for lhs_vb, rel_vb, rhs_vb in valid_iter: # one batch
                         lhs_v, lhs_vmask, rel_v, rhs_v, rhsn_v = batch.prepare_data(lhs_vb, rel_vb, rhs_vb, chardict, rel_dict, rhs_dict, n_chars=n_char)
-                        print m.rank_right(lhs_v, lhs_vmask, rel_v, rhs_v)
-                        quit()
-                        vp = m.predict(x,x_m)
-                        ranks = np.argmax(vp, axis=1)
-                        for idx,item in enumerate(xr):
-                            val_pred.append(ranks[idx])
-                            val_targets.append(y[idx])
-                        vc = m.validate(x,x_m,y)
-                        validation_cost += vc*x.shape[0]
-                        n_val_samples += x.shape[0]
-                    R = evaluate.Result.fromlists(np.asarray(val_pred), val_targets, n_classes)
-                    if R.acc > max_acc:
-                        max_acc = R.acc
-                        m.save_model('%s/best_model.npz' % save_path)
-                    print("Epoch {} Update {} Training Cost {} Validation Cost {} Validation Accuracy {} Max Accuracy {}".format(epoch, 
-                        uidx, train_cost/n_samples, validation_cost/n_val_samples, R.acc, max_acc))
-                    valcosts.append(R.acc)
+                        valid_mean_rank += m.rank_right(lhs_v, lhs_vmask, rel_v, rhs_v)
+
+                        #vc = m.validate(x,x_m,y)
+                        #validation_cost += vc*x.shape[0]
+                        #n_val_samples += x.shape[0]
+                    #R = evaluate.Result.fromlists(np.asarray(val_pred), val_targets, n_classes)
+                    #if R.acc > max_acc:
+                    #    max_acc = R.acc
+                    #    m.save_model('%s/best_model.npz' % save_path)
+                    print("Epoch {} Update {} Training Cost {} Validation mean rank {}".format(epoch, 
+                        uidx, train_cost/n_samples, np.mean(np.array(valid_mean_rank))))
+                    #valcosts.append(R.acc)
 
             print("Saving...")
             m.save_model('%s/model_%d.npz' % (save_path,epoch))
