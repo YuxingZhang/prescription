@@ -39,7 +39,7 @@ class charLM(object):
         # TODO maybe concatenate RNN embedding with look up table? Do it later.
         emb_rel = lasagne.layers.get_output(l_emb_rel) # embedding vectors for relations
         emb_rhs = lasagne.layers.get_output(l_emb_rhs, emb_in_rhs) # embedding vectors for right hand side positive entities
-        emb_rhsn = lasagne.layers.get_output(l_emb_rhsn, emb_in_rhsn) # embedding vectors for right hand side negative entities
+        emb_rhsn = lasagne.layers.get_output(l_emb_rhs, emb_in_rhsn) # embedding vectors for right hand side negative entities
         
         # define loss
         pred_rhs = emb_lhs + emb_rel
