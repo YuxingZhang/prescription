@@ -29,6 +29,8 @@ class charLM(object):
         else:
             self.params = load_params_shared(pretrained)
 
+        self.n_voc = n_voc
+
         # model
         in_lhs, in_lmask, in_lhsn, in_lmaskn, emb_lhs, emb_lhsn, l_encoder = char2vec(self.params, n_char) 
         # TODO maybe concatenate RNN embedding with look up table? Do it later.
@@ -57,22 +59,31 @@ class charLM(object):
         # theano functions
         self.inps = [in_lhs, in_lmask, in_rel, in_rhs, in_rhsn] # inputs for the function
         # TODO add loss_ln, self.inps = [in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn]
-        #self.predict_fn = theano.function([word,mask],predictions)
         self.cost_fn = theano.function(self.inps,cost_only)
         self.encode_fn = theano.function([in_lhs, in_lmask], emb_lhs) # compute RNN embeddings given word (drug name)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
+        self.pred_right_fn = theano.function([in_lhs, in_lmask, in_rel], pred_rhs) # compute lhs + rel as predicted rhs
+        self.emb_right_fn = theano.function([in_rhs], emb_rhs) # compute only rhs embedding
 
     def train(self, in_lhs, in_lmask, in_rel, in_rhs, in_rhsn):
         return self.train_fn(in_lhs, in_lmask, in_rel, in_rhs, in_rhsn)
 
-    #def predict(self,w,m):
-    #   return self.predict_fn(w,m)
-
     def validate(self, in_lhs, in_lmask, in_rel, in_rhs, in_rhsn):
         return self.cost_fn(in_lhs, in_lmask, in_rel, in_rhs, in_rhsn)
 
-    def encode(self,w,m):
+    def compute_emb_right_all(self): # compute a (n_voc * emb_dim) numpy matrix, each row is an embedding for a right hand side entity
+        in_rhs_all = np.arange(self.n_voc) # input pretend to compute the embedding for all right hand side entities
+        self.emb_right_all = self.emb_right_fn(in_rhs_all)
+
+    def encode(self, w, m):
         return self.encode_fn(w,m)
+
+    def rank_right(self, in_lhs, in_lmask, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs
+        pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_rel)
+        print pred_rhs_batch.shape
+        print self.emb_right_all.shape
+        right_ranks = []
+        
 
     def update_learningrate(self):
         self.lr = max(1e-5,self.lr / 2)
