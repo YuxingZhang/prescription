@@ -35,7 +35,7 @@ class charLM(object):
         emb_in_rel, l_emb_rel = embedding_rel(self.params, n_rel, emb_dim)
 
         # cost
-        emb_lhs = lasagne.layers.get_output(l_encoder) # embedding vectors for left hand side positive entities
+        emb_lhs = l_encoder#lasagne.layers.get_output(l_encoder) # embedding vectors for left hand side positive entities
         # TODO maybe concatenate RNN embedding with look up table? Do it later.
         emb_rel = lasagne.layers.get_output(l_emb_rel) # embedding vectors for relations
         emb_rhs = lasagne.layers.get_output(l_emb_rhs, emb_in_rhs) # embedding vectors for right hand side positive entities
@@ -142,10 +142,10 @@ def char2vec(params,n_char,bias=True):
     mask = T.fmatrix() # B x N # input
 
     # Input layer over characters
-    l_in_source = lasagne.layers.InputLayer(shape=(N_BATCH,None), input_var=word, name='input')
+    l_in_source = lasagne.layers.InputLayer(shape=(N_BATCH,None), name='input')
 
     # Mask layer for variable length sequences
-    l_mask = lasagne.layers.InputLayer(shape=(N_BATCH,None), input_var=mask, name='mask')
+    l_mask = lasagne.layers.InputLayer(shape=(N_BATCH,None), name='mask')
 
     # lookup
     l_clookup_source = lasagne.layers.EmbeddingLayer(l_in_source, input_size=n_char, output_size=CHAR_DIM, W=params['Wc'])
@@ -175,7 +175,8 @@ def char2vec(params,n_char,bias=True):
     else:
         l_c2w_source = lasagne.layers.DenseLayer(l_concat, WDIM, W=params['W_c2w'], b=None, nonlinearity=NL3)
 
-    return word, mask, l_c2w_source # return input variables and output variables
+    return word, mask, lasagne.layer.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
+    #return word, mask, l_c2w_source # return input variables and output variables
 
 # by Yuxing Zhang
 def embedding_rhs(params, n_voc, emb_dim):
