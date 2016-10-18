@@ -72,7 +72,7 @@ class charLM(object):
         return self.cost_fn(in_lhs, in_lmask, in_rel, in_rhs, in_rhsn)
 
     def compute_emb_right_all(self): # compute a (n_voc * emb_dim) numpy matrix, each row is an embedding for a right hand side entity
-        in_rhs_all = np.arange(self.n_voc) # input pretend to compute the embedding for all right hand side entities
+        in_rhs_all = np.arange(self.n_voc).astype('int32') # input pretend to compute the embedding for all right hand side entities
         self.emb_right_all = self.emb_right_fn(in_rhs_all)
 
     def encode(self, w, m):
