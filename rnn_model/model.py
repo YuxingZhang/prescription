@@ -175,7 +175,7 @@ def char2vec(params,n_char,bias=True):
     else:
         l_c2w_source = lasagne.layers.DenseLayer(l_concat, WDIM, W=params['W_c2w'], b=None, nonlinearity=NL3)
 
-    return word, mask, lasagne.layer.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
+    return word, mask, lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
     #return word, mask, l_c2w_source # return input variables and output variables
 
 # by Yuxing Zhang
