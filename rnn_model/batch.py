@@ -50,33 +50,53 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     """
     Prepare the data for training - add masks and remove infrequent characters
     """
+    batch_size = len(lhs_b)
+
+    # TODO build a fake lhsn_b
+    lhs_list = lhs_dict.keys()
+    rand_idx = np.random.choice(len(lhs_list), batch_size)
+    print rand_idx
+    lhsn_b = []
+    lhsn_b.append([lhs_list[rand_idx[i]] if lhs_b[i] != lhs_list[rand_idx[i]] else lhs_list[np.random.randint(len(lhs_list))] for i in range(batch_size)])
+    print lhsn_b
+    print lhs_b
+    quit()
+    lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict)
+    lhsn_in, lhsn_mask = prepare_lhs(lhsn_b, chardict)
+
+    # rel and rhs
+    rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
+    rhs_idx = [rhs_dict[yy] for yy in rhs_b] # convert each right hand side to its index
+    rel_in = np.zeros((n_samples)).astype('int32')
+    rhs_in = np.zeros((n_samples)).astype('int32')
+    for idx in range(batch_size):
+        rel_in[idx] = rel_idx[idx]
+        rhs_in[idx] = rhs_idx[idx]
+
+    # random index as the negative triples
+    rhsn_in = np.random.randint(len(rhs_dict), size=n_samples).astype('int32')
+    
+    return lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in
+
+def prepare_lhs(lhs_b, chardict):
     lhs_idx = []
     for cc in lhs_b:
         current = list(cc)
         lhs_idx.append([chardict[c] if c in chardict and chardict[c] <= n_chars else 0 for c in current])
 
-    rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
-    rhs_idx = [rhs_dict[yy] for yy in rhs_b] # convert each right hand side to its index
-
     len_lhs = [len(s) for s in lhs_idx]
     max_length = max(len_lhs)
     n_samples = len(lhs_idx)
 
+    # positive lhs
     lhs_in = np.zeros((n_samples,max_length)).astype('int32')
     lhs_mask = np.zeros((n_samples,max_length)).astype('float32')
-    rel_in = np.zeros((n_samples)).astype('int32')
-    rhs_in = np.zeros((n_samples)).astype('int32')
 
-    # random index as the negative triples
-    rhsn_in = np.random.randint(len(rhs_dict), size=n_samples).astype('int32')
-    
     for idx, lhs_idx_i in enumerate(lhs_idx):
         lhs_in[idx,:len_lhs[idx]] = lhs_idx_i
         lhs_mask[idx,:len_lhs[idx]] = 1.
-        rel_in[idx] = rel_idx[idx]
-        rhs_in[idx] = rhs_idx[idx]
 
-    return lhs_in, lhs_mask, rel_in, rhs_in, rhsn_in
+    return lhs_in, lhs_mask
 
 def build_char_dictionary(text):
     """
