@@ -84,11 +84,9 @@ if __name__=='__main__':
 
             # train
             ud_start = time.time()
-            print "start training iteration"
 	    for lhs_b, rel_b, rhs_b in train_iter: # one batch
 		n_samples += len(lhs_b)
 		uidx += 1
-                print "prepare data"
 		lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in = \
                         batch.prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
                 ''' Check shapes
@@ -100,11 +98,9 @@ if __name__=='__main__':
                 print rhs_in.shape 
                 print rhsn_in.shape
                 '''
-
 		curr_cost = m.train(lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in)
                 train_cost += curr_cost * len(lhs_b) # why times length, because the training function returns the mean
 		ud = time.time() - ud_start
-                print "finished gradient descent"
                 
                 # detect nan cost
 		if np.isnan(curr_cost) or np.isinf(curr_cost):
