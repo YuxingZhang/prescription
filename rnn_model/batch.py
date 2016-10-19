@@ -113,9 +113,6 @@ def build_char_dictionary(text):
     for idx, sidx in enumerate(sorted_idx):
         chardict[chars[sidx]] = idx + 1
 
-    #print charcount # TODO why sort it??
-    #print chardict
-
     return chardict, charcount
 
 def build_entity_dictionary(targets):
