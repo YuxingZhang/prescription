@@ -63,14 +63,14 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     # rel and rhs
     rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
     rhs_idx = [rhs_dict[yy] for yy in rhs_b] # convert each right hand side to its index
-    rel_in = np.zeros((n_samples)).astype('int32')
-    rhs_in = np.zeros((n_samples)).astype('int32')
+    rel_in = np.zeros((batch_size)).astype('int32')
+    rhs_in = np.zeros((batch_size)).astype('int32')
     for idx in range(batch_size):
         rel_in[idx] = rel_idx[idx]
         rhs_in[idx] = rhs_idx[idx]
 
     # random index as the negative triples
-    rhsn_in = np.random.randint(len(rhs_dict), size=n_samples).astype('int32')
+    rhsn_in = np.random.randint(len(rhs_dict), size=batch_size).astype('int32')
     
     return lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in
 
