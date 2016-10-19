@@ -57,8 +57,8 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     rand_idx = np.random.choice(len(lhs_list), batch_size)
     lhsn_b = []
     lhsn_b.append([lhs_list[rand_idx[i]] if lhs_b[i] != lhs_list[rand_idx[i]] else lhs_list[np.random.randint(len(lhs_list))] for i in range(batch_size)])
-    lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict)
-    lhsn_in, lhsn_mask = prepare_lhs(lhsn_b, chardict)
+    lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict, n_chars)
+    lhsn_in, lhsn_mask = prepare_lhs(lhsn_b, chardict, n_chars)
 
     # rel and rhs
     rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
@@ -74,7 +74,7 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     
     return lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in
 
-def prepare_lhs(lhs_b, chardict):
+def prepare_lhs(lhs_b, chardict, n_chars):
     lhs_idx = []
     for cc in lhs_b:
         current = list(cc)
