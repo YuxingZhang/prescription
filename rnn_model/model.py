@@ -25,20 +25,15 @@ class charLM(object):
         # params
         if pretrained==None:
             self.params = OrderedDict()
-            self.params = init_params(self.params, n_char) # define n_rhs, emb_dim
+            self.params = init_params(self.params, n_char, n_rel, n_rhs, emb_dim) # define n_rhs, emb_dim
         else:
             self.params = load_params_shared(pretrained)
-
-        self.n_lhs = n_lhs
-        self.n_rel = n_rel
-        self.n_rhs = n_rhs
-        self.emb_dim = emb_dim
 
         # model
         in_lhs, in_lmask, in_lhsn, in_lmaskn, emb_lhs, emb_lhsn, l_encoder = char2vec(self.params, n_char) 
         # TODO maybe concatenate RNN embedding with look up table? Do it later. Use a lasagne layer to compress (linear)
-        in_rhs, in_rhsn, emb_rhs, emb_rhsn = embedding_rhs(self.params)
-        in_rel, emb_rel = embedding_rel(self.params)
+        in_rhs, in_rhsn, emb_rhs, emb_rhsn = embedding_rhs(self.params, n_rhs, emb_dim)
+        in_rel, emb_rel = embedding_rel(self.params, n_rel, emb_dim)
         
         # N_BATCH for input size? or just None, because later we need to do validation and testing, can uses any size
         # define loss
@@ -77,7 +72,7 @@ class charLM(object):
     def validate(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn):
         return self.cost_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn)
 
-    def compute_emb_right_all(self): # compute a (self.n_rhs * self.emb_dim) numpy matrix, each row is an embedding for a right hand side entity
+    def compute_emb_right_all(self): # compute a (n_rhs * emb_dim) numpy matrix, each row is an embedding for a right hand side entity
         in_rhs_all = np.arange(self.n_rhs).astype('int32') # input pretend to compute the embedding for all right hand side entities
         self.emb_right_all = self.emb_right_fn(in_rhs_all)
 
@@ -111,7 +106,7 @@ class charLM(object):
         for kk,vv in self.params.iteritems():
             print("Param {} Max {} Min {}".format(kk, np.max(vv.get_value()), np.min(vv.get_value())))
 
-def init_params(params, n_char):
+def init_params(params, n_char, n_rel, n_rhs, emb_dim):
     np.random.seed(0)
 
     # lookup table # TODO when using float 32, there will be an error in theano 
@@ -145,10 +140,10 @@ def init_params(params, n_char):
     params['b_c2w'] = theano.shared(np.zeros((WDIM)).astype('float64'), name='b_c2w_df')
 
     # Initialize parameters for rhs entity embedding
-    params['W_emb_rhs'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(self.n_rhs, self.emb_dim)).astype('float64'), name='W_emb_rhs')
+    params['W_emb_rhs'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rhs, emb_dim)).astype('float64'), name='W_emb_rhs')
 
     # Initialize parameters for relation embedding
-    params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(self.n_rel, self.emb_dim)).astype('float64'), name='W_emb_rel')
+    params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rel, emb_dim)).astype('float64'), name='W_emb_rel')
 
     return params
 
@@ -204,39 +199,39 @@ def char2vec(params,n_char,bias=True):
     #return word, mask, l_c2w_source # return input variables and output variables
 
 # by Yuxing Zhang
-def embedding_rhs(params):
+def embedding_rhs(params, n_rhs, emb_dim):
     '''
     Embedding part for right hand side entity embedding and right hand side negative entity embedding
 
     :param params: dict to store parameters
     '''
     # input variables that is right hand side entity
-    emb_in_rhs = T.ivector() # B * 1 vector, where each row is a number between 0 and (self.n_rhs - 1) as the index
-    emb_in_rhsn = T.ivector() # B * 1 vector, where each row is a number between 0 and (self.n_rhs - 1) as the index
+    emb_in_rhs = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_rhs - 1) as the index
+    emb_in_rhsn = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_rhs - 1) as the index
 
     # Input layer over entity
     l_in_rhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), name = 'rhs_input') # removing input_var to reuse it for negative rhs
 
     # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
-    l_emb_rhs = lasagne.layers.EmbeddingLayer(l_in_rhs, input_size=self.n_rhs, output_size=self.emb_dim, W=params['W_emb_rhs'])
+    l_emb_rhs = lasagne.layers.EmbeddingLayer(l_in_rhs, input_size=n_rhs, output_size=emb_dim, W=params['W_emb_rhs'])
 
     return emb_in_rhs, emb_in_rhsn, lasagne.layers.get_output(l_emb_rhs, emb_in_rhs), lasagne.layers.get_output(l_emb_rhs, emb_in_rhsn)
 
 # by Yuxing Zhang
-def embedding_rel(params):
+def embedding_rel(params, n_rel, emb_dim):
     '''
     Embedding part for right hand side entity embedding
 
     :param params: dict to store parameters
     '''
     # input variables that is the relation index
-    emb_in_rel = T.ivector() # B * 1 vector, where each row is a number between 0 and (self.n_rel - 1) as the index
+    emb_in_rel = T.ivector() # B * 1 vector, where each row is a number between 0 and (n_rel - 1) as the index
 
     # Input layer over relation
     l_in_rel = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_in_rel, name = 'rel_input')
 
-    # Embedding layer for relation, and self.emb_dim should equal # the embedding dimension from RNN model.
-    l_emb_rel = lasagne.layers.EmbeddingLayer(l_in_rel, input_size=self.n_rel, output_size=self.emb_dim, W=params['W_emb_rel'])
+    # Embedding layer for relation, and emb_dim should equal # the embedding dimension from RNN model.
+    l_emb_rel = lasagne.layers.EmbeddingLayer(l_in_rel, input_size=n_rel, output_size=emb_dim, W=params['W_emb_rel'])
 
     return emb_in_rel, lasagne.layers.get_output(l_emb_rel)
 
