@@ -46,7 +46,7 @@ class Batch():
     def __iter__(self):
         return self
 
-def prepare_data(lhs_b, rel_b, rhs_b, chardict, rel_dict, rhs_dict, n_chars, use_beos=False):
+def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars, use_beos=False):
     """
     Prepare the data for training - add masks and remove infrequent characters
     """
