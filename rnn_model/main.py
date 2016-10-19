@@ -35,9 +35,6 @@ if __name__=='__main__':
     lhs_dict, lhs_count = batch.build_entity_dictionary(lhs)
     n_lhs = len(lhs_dict.keys())
     batch.save_dictionary(lhs_dict,lhs_count,'%s/lhs_dict.pkl' % save_path)
-    print lhs_dict
-    print n_lhs
-    quit()
 
     # build dictionary for relations
     rel_dict, rel_count = batch.build_entity_dictionary(rel)
