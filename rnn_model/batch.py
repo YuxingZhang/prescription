@@ -55,12 +55,8 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     # TODO build a fake lhsn_b
     lhs_list = lhs_dict.keys()
     rand_idx = np.random.choice(len(lhs_list), batch_size)
-    print rand_idx
     lhsn_b = []
     lhsn_b.append([lhs_list[rand_idx[i]] if lhs_b[i] != lhs_list[rand_idx[i]] else lhs_list[np.random.randint(len(lhs_list))] for i in range(batch_size)])
-    print lhsn_b
-    print lhs_b
-    quit()
     lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict)
     lhsn_in, lhsn_mask = prepare_lhs(lhsn_b, chardict)
 
