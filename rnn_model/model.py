@@ -29,6 +29,8 @@ class charLM(object):
         else:
             self.params = load_params_shared(pretrained)
 
+        self.n_rhs = n_rhs
+
         # model
         in_lhs, in_lmask, in_lhsn, in_lmaskn, emb_lhs, emb_lhsn, l_encoder = char2vec(self.params, n_char) 
         # TODO maybe concatenate RNN embedding with look up table? Do it later. Use a lasagne layer to compress (linear)
