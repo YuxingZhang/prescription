@@ -91,6 +91,7 @@ if __name__=='__main__':
                 print "prepare data"
 		lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in = \
                         batch.prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
+                ''' Check shapes
                 print lhs_in.shape 
                 print lhs_mask.shape 
                 print lhsn_in.shape 
@@ -98,6 +99,7 @@ if __name__=='__main__':
                 print rel_in.shape 
                 print rhs_in.shape 
                 print rhsn_in.shape
+                '''
 
 		curr_cost = m.train(lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in)
                 train_cost += curr_cost * len(lhs_b) # why times length, because the training function returns the mean
