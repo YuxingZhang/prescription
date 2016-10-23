@@ -76,6 +76,9 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     return lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in
 
 def prepare_lhs(lhs_b, chardict, n_chars):
+    '''
+    prepare left hand side (or negative left hand side) given a list of words
+    '''
     lhs_idx = []
     for cc in lhs_b:
         current = list(cc)

@@ -70,17 +70,18 @@ if __name__=='__main__':
             # learning schedule
             if len(valcosts) > 1:
                 change = (valcosts[-1]-valcosts[-2])/abs(valcosts[-2])
+                print "change = {}".format(change)
                 if change < T1:
                     print("Updating Schedule...")
                     m.update_learningrate()
                     T1 = T1/2
             # stopping criterion
-            if len(valcosts) > 4:
-                deltas = []
-                for i in range(3):
-                    deltas.append((valcosts[-i-1]-valcosts[-i-2])/abs(valcosts[-i-2]))
-                if all([d < T2 for d in deltas]):
-                    break
+            #if len(valcosts) > 4:
+            #    deltas = []
+            #    for i in range(3):
+            #        deltas.append((valcosts[-i-1]-valcosts[-i-2])/abs(valcosts[-i-2]))
+            #    if all([d < T2 for d in deltas]):
+            #        break
 
             # train
             ud_start = time.time()
@@ -138,7 +139,7 @@ if __name__=='__main__':
                     print("Epoch {} Update {} Training Cost {} Validation mean rank {} Validation hit@10 {}% Validation hit@1 {}%".format(epoch, 
                         uidx, train_cost/n_samples, cur_mean_rank, float(100 * sum(valid_mean_rank < 10)) / float(valid_mean_rank.shape[0]),
                         float(100 * sum(valid_mean_rank < 1)) / float(valid_mean_rank.shape[0])))
-                    #valcosts.append(cur_mean_rank) TODO add stop criteria
+                    valcosts.append(cur_mean_rank) # TODO add stop criteria
 
             print("Saving...")
             m.save_model('%s/model_%d.npz' % (save_path,epoch))
