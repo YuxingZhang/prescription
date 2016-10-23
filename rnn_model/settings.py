@@ -18,7 +18,7 @@ CHAR_DIM = 8
 
 C2W_HDIM = 32
 
-WDIM = 32
+WDIM = 50
 
 SCALE = 0.1
 

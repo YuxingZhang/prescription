@@ -28,6 +28,7 @@ if __name__=='__main__':
     #lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open(sys.argv[2],'r'))
     lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-freq-train.txt"))
     lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/prescription-freq-valid.txt"))
+    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-freq-test.txt"))
 
     # left hand side dictionaries, both character and entity
     chardict, charcount = batch.build_char_dictionary(lhs)
@@ -52,6 +53,7 @@ if __name__=='__main__':
     # batches
     train_iter = batch.Batch(lhs, rel, rhs, batch_size=N_BATCH)
     valid_iter = batch.Batch(lhs_v, rel_v, rhs_v, batch_size=N_BATCH)
+    test_iter = batch.Batch(lhs_s, rel_s, rhs_s, batch_size=N_BATCH)
 
     print("Building model...")
     m = charLM(n_char, n_lhs, n_rel, n_rhs) # emb_dim = WDIM by default
@@ -71,7 +73,7 @@ if __name__=='__main__':
             # updating learning rate or stop iteration
             # learning schedule
             if len(valcosts) > 1:
-                change = (valcosts[-1]-valcosts[-2])/abs(valcosts[-2])
+                change = (valcosts[-2]-valcosts[-1])/abs(valcosts[-2])
                 print "change = {}".format(change)
                 if change < T1:
                     print("Updating Schedule...")
@@ -116,7 +118,7 @@ if __name__=='__main__':
 		if np.mod(uidx,SAVEF) == 0:
 		    print("Saving...")
                     m.save_model('%s/model.npz' % save_path)
-                # validation
+                # validation and testing
                 if np.mod(uidx,VALF) == 0:
                     print("Testing on Validation set...")
                     val_pred = []
@@ -129,8 +131,8 @@ if __name__=='__main__':
                     # compute right hand side embeddings for all entities using the new parameters
                     m.compute_emb_right_all()
                     for lhs_vb, rel_vb, rhs_vb in valid_iter: # one batch
-                        lhs_v, lhs_vmask, lhsn_v, lhsn_vmask, rel_v, rhs_v, rhsn_v = \
-                                batch.prepare_data(lhs_vb, rel_vb, rhs_vb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
+                        lhs_v, lhs_vmask, rel_v, rhs_v = \
+                                batch.prepare_vs(lhs_vb, rel_vb, rhs_vb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
                         valid_mean_rank += m.rank_right(lhs_v, lhs_vmask, rel_v, rhs_v)
                     valid_mean_rank = np.array(valid_mean_rank)
 
@@ -138,9 +140,21 @@ if __name__=='__main__':
                     if cur_mean_rank < min_mean_rank:
                         min_mean_rank = cur_mean_rank
                         m.save_model('%s/best_model.npz' % save_path)
+                        print "####### NEW BEST VALID #######"
+
+                    test_mean_rank = []
+                    for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
+                        lhs_s, lhs_smask, rel_s, rhs_s = \
+                                batch.prepare_vs(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
+                        test_mean_rank += m.rank_right(lhs_s, lhs_smask, rel_s, rhs_s)
+                    test_mean_rank = np.array(test_mean_rank)
+
                     print("Epoch {} Update {} Training Cost {} Validation mean rank {} Validation hit@10 {}% Validation hit@1 {}%".format(epoch, 
                         uidx, train_cost/n_samples, cur_mean_rank, float(100 * sum(valid_mean_rank < 10)) / float(valid_mean_rank.shape[0]),
                         float(100 * sum(valid_mean_rank < 1)) / float(valid_mean_rank.shape[0])))
+                    print("                                               Testing mean rank {} Testing hit@10 {}% Testing hit@1 {}%".format(
+                        np.mean(test_mean_rank), float(100 * sum(test_mean_rank < 10)) / float(test_mean_rank.shape[0]),
+                        float(100 * sum(test_mean_rank < 1)) / float(test_mean_rank.shape[0])))
                     valcosts.append(cur_mean_rank) # TODO add stop criteria
 
             print("Saving...")

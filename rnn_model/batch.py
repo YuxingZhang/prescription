@@ -48,11 +48,10 @@ class Batch():
 
 def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars, use_beos=False):
     """
-    Prepare the data for training - add masks and remove infrequent characters
+    Prepare the data for training - add masks and remove infrequent characters, used for training
     """
     batch_size = len(lhs_b)
 
-    # TODO build a fake lhsn_b
     lhs_list = lhs_dict.keys()
     rand_idx = np.random.choice(len(lhs_list), batch_size)
     lhsn_b = []
@@ -75,9 +74,27 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     
     return lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in
 
+def prepare_vs(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars):
+    '''
+    prepare data without generating negative triples, used for validation and testing
+    '''
+    batch_size = len(lhs_b)
+    lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict, n_chars)
+
+    # rel and rhs
+    rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
+    rhs_idx = [rhs_dict[yy] if yy in rhs_dict else 0 for yy in rhs_b] # convert each right hand side to its index, 0 if not in dict
+    rel_in = np.zeros((batch_size)).astype('int32')
+    rhs_in = np.zeros((batch_size)).astype('int32')
+    for idx in range(batch_size):
+        rel_in[idx] = rel_idx[idx]
+        rhs_in[idx] = rhs_idx[idx]
+
+    return lhs_in, lhs_mask, rel_in, rhs_in
+
 def prepare_lhs(lhs_b, chardict, n_chars):
     '''
-    prepare left hand side (or negative left hand side) given a list of words
+    prepare left hand side (or negative left hand side) given a list of words, used as a subroutine of prepare_data
     '''
     lhs_idx = []
     for cc in lhs_b:
