@@ -24,8 +24,10 @@ if __name__=='__main__':
 
     print("Preparing data...")
     # load
-    lhs, rel, rhs = batch.load_labeled_entities(io.open(sys.argv[1],'r'))
-    lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open(sys.argv[2],'r'))
+    #lhs, rel, rhs = batch.load_labeled_entities(io.open(sys.argv[1],'r'))
+    #lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open(sys.argv[2],'r'))
+    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-freq-train.txt"))
+    lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/prescription-freq-valid.txt"))
 
     # left hand side dictionaries, both character and entity
     chardict, charcount = batch.build_char_dictionary(lhs)
