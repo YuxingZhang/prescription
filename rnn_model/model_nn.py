@@ -273,11 +273,11 @@ def linear_nn(params, emb_rnn_lhs, emb_rnn_lhsn, emb_emb_lhs, emb_emb_lhsn, emb_
     Linear nn part for left hand side entity embedding and left hand side negative entity embedding
     '''
 
-    #emb_lhs = lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
+    emb_lhsn = 0
 
     # Input layer over entity
-    l_in_emb_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), name = 'lhs_emb_input') # removing input_var to reuse it for negative rhs
-    l_in_rnn_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), name = 'lhs_rnn_input') # removing input_var to reuse it for negative rhs
+    l_in_emb_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_emb_lhs, name = 'lhs_emb_input') # removing input_var to reuse it for negative rhs
+    l_in_rnn_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), input_var=emb_rnn_lhs, name = 'lhs_rnn_input') # removing input_var to reuse it for negative rhs
 
     # concatenate embedding with rnn output
     l_concat = lasagne.layers.ConcatLayer((l_in_emb_lhs, l_in_rnn_lhs), axis=1)
@@ -286,8 +286,9 @@ def linear_nn(params, emb_rnn_lhs, emb_rnn_lhsn, emb_emb_lhs, emb_emb_lhsn, emb_
     l_emb_lhs = lasagne.layers.DenseLayer(l_concat, num_units=out_dim, W=params['W_linear'], b=params['b_concat'], nonlinearity=None)
 
 
-    emb_lhs = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhs, l_in_rnn_lhs: emb_rnn_lhs})
-    emb_lhsn = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhsn, l_in_rnn_lhs: emb_rnn_lhsn})
+    #emb_lhs = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhs, l_in_rnn_lhs: emb_rnn_lhs})
+    emb_lhs = lasagne.layers.get_output(l_emb_lhs)
+    #emb_lhsn = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhsn, l_in_rnn_lhs: emb_rnn_lhsn})
     return emb_lhs, emb_lhsn
 
 def load_params(path):
