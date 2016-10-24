@@ -74,6 +74,59 @@ def prepare_data(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_
     
     return lhs_in, lhs_mask, lhsn_in, lhsn_mask, rel_in, rhs_in, rhsn_in
 
+def prepare_data_nn(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars, use_beos=False):
+    """
+    Prepare the data for training - add masks and remove infrequent characters, used for training
+    """
+    batch_size = len(lhs_b)
+
+    lhs_list = lhs_dict.keys()
+    rand_idx = np.random.choice(len(lhs_list), batch_size)
+    lhsn_b = []
+    for i in range(batch_size):
+        lhsn_b.append([lhs_list[rand_idx[i]] if lhs_b[i] != lhs_list[rand_idx[i]] else lhs_list[np.random.randint(len(lhs_list))]])
+    lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict, n_chars)
+    lhsn_in, lhsn_mask = prepare_lhs(lhsn_b, chardict, n_chars)
+
+    # rel and rhs
+    rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
+    rhs_idx = [rhs_dict[yy] for yy in rhs_b] # convert each right hand side to its index
+    lhs_idx = [(lhs_dict[yy] + 1) if yy in lhs_dict else 0 for yy in lhs_b] # if not in dict, set to 0
+    rel_in = np.zeros((batch_size)).astype('int32')
+    rhs_in = np.zeros((batch_size)).astype('int32')
+    lhs_emb_in = np.zeros((batch_size)).astype('int32')
+    for idx in range(batch_size):
+        rel_in[idx] = rel_idx[idx]
+        rhs_in[idx] = rhs_idx[idx]
+        lhs_emb_in[idx] = lhs_idx[idx]
+
+    # random index as the negative triples
+    rhsn_in = np.random.randint(len(rhs_dict), size=batch_size).astype('int32')
+    lhsn_emb_in = np.random.randint(len(lhs_dict) + 1, size=batch_size).astype('int32')
+    
+    return lhs_in, lhs_mask, lhsn_in, lhsn_mask, lhs_emb_in, lhsn_emb_in, rel_in, rhs_in, rhsn_in
+
+def prepare_vs_nn(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars):
+    '''
+    prepare data without generating negative triples, used for validation and testing
+    '''
+    batch_size = len(lhs_b)
+    lhs_in, lhs_mask = prepare_lhs(lhs_b, chardict, n_chars)
+
+    # rel and rhs
+    rel_idx = [rel_dict[yy] for yy in rel_b] # convert each relation to its index
+    rhs_idx = [rhs_dict[yy] if yy in rhs_dict else 0 for yy in rhs_b] # convert each right hand side to its index, 0 if not in dict
+    lhs_idx = [(lhs_dict[yy] + 1) if yy in lhs_dict else 0 for yy in lhs_b] # if not in dict, set to 0
+    rel_in = np.zeros((batch_size)).astype('int32')
+    rhs_in = np.zeros((batch_size)).astype('int32')
+    lhs_emb_in = np.zeros((batch_size)).astype('int32')
+    for idx in range(batch_size):
+        rel_in[idx] = rel_idx[idx]
+        rhs_in[idx] = rhs_idx[idx]
+        lhs_emb_in[idx] = lhs_idx[idx]
+
+    return lhs_in, lhs_mask, lhs_emb_in, rel_in, rhs_in
+
 def prepare_vs(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars):
     '''
     prepare data without generating negative triples, used for validation and testing
