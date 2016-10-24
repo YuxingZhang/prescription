@@ -155,7 +155,7 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
     params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rel, emb_dim)).astype('float64'), name='W_emb_rel')
 
     # Initialize parameters for dense layer
-    params['W_linear'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2 * emb_dim, emb_dim)).astype('float64'), name='W_emb_rel')
+    params['W_linear'] = theano.shared(np.random.normal(loc=0., scale=0.001, size=(2 * emb_dim, emb_dim)).astype('float64'), name='W_emb_rel')
     params['b_concat'] = theano.shared(np.zeros((emb_dim)).astype('float64'), name='b_concat')
     return params
 
