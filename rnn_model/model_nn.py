@@ -156,7 +156,7 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
 
     # Initialize parameters for dense layer
     params['W_linear'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2 * emb_dim, emb_dim)).astype('float64'), name='W_emb_rel')
-    params['b_c2w_b_r'] = theano.shared(np.zeros((emb_dim)).astype('float64'), name='b_concat')
+    params['b_concat'] = theano.shared(np.zeros((emb_dim)).astype('float64'), name='b_concat')
     return params
 
 def char2vec(params,n_char,bias=True):
