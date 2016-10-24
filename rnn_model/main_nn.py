@@ -55,7 +55,7 @@ if __name__=='__main__':
     test_iter = batch.Batch(lhs_s, rel_s, rhs_s, batch_size=N_BATCH)
 
     print("Building model...")
-    m = charLM(n_char, n_lhs, n_rel, n_rhs) # emb_dim = WDIM by default
+    m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
 
     # Training
     print("Training...")

@@ -262,7 +262,7 @@ def embedding_lhs(params, n_lhs, emb_dim):
     l_in_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), name = 'lhs_input') # removing input_var to reuse it for negative rhs
 
     # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
-    l_emb_lhs = lasagne.layers.EmbeddingLayer(l_in_lhs, input_size=n_lhs + 1, output_size=emb_dim, W=params['W_emb_lhs'])
+    l_emb_lhs = lasagne.layers.EmbeddingLayer(l_in_lhs, input_size=n_lhs, output_size=emb_dim, W=params['W_emb_lhs'])
     # extra input for unseen entities 0
 
     return emb_in_lhs, emb_in_lhsn, lasagne.layers.get_output(l_emb_lhs, emb_in_lhs), lasagne.layers.get_output(l_emb_lhs, emb_in_lhsn)
