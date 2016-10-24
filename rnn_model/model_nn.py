@@ -276,8 +276,8 @@ def linear_nn(params, emb_rnn_lhs, emb_rnn_lhsn, emb_emb_lhs, emb_emb_lhsn, emb_
     emb_lhsn = 0
 
     # Input layer over entity
-    l_in_emb_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, None), input_var=emb_emb_lhs, name='lhs_emb_input') # removing input_var to reuse it for negative rhs
-    l_in_rnn_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, None), input_var=emb_rnn_lhs, name='lhs_rnn_input') # removing input_var to reuse it for negative rhs
+    l_in_emb_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, emb_dim), input_var=emb_emb_lhs, name='lhs_emb_input') # removing input_var to reuse it for negative rhs
+    l_in_rnn_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, emb_dim), input_var=emb_rnn_lhs, name='lhs_rnn_input') # removing input_var to reuse it for negative rhs
 
     # concatenate embedding with rnn output
     l_concat = lasagne.layers.ConcatLayer((l_in_emb_lhs, l_in_rnn_lhs), axis=1)
