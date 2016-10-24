@@ -156,7 +156,7 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
 
     # Initialize parameters for dense layer
     params['W_linear'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2 * emb_dim, emb_dim)).astype('float64'), name='W_emb_rel')
-
+    params['b_c2w_b_r'] = theano.shared(np.zeros((emb_dim)).astype('float64'), name='b_concat')
     return params
 
 def char2vec(params,n_char,bias=True):
@@ -280,10 +280,10 @@ def linear_nn(params, emb_rnn_lhs, emb_rnn_lhsn, emb_emb_lhs, emb_emb_lhsn, emb_
     l_in_rnn_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, ), name = 'lhs_rnn_input') # removing input_var to reuse it for negative rhs
 
     # concatenate embedding with rnn output
-    l_concat = lasagne.layers.ConcatLayer([l_in_emb_lhs, l_in_rnn_lhs], axis=1)
+    l_concat = lasagne.layers.ConcatLayer((l_in_emb_lhs, l_in_rnn_lhs), axis=1)
 
     # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
-    l_emb_lhs = lasagne.layers.DenseLayer(l_concat, input_size=emb_dim + rnn_dim, output_size=out_dim, W=params['W_linear'])
+    l_emb_lhs = lasagne.layers.DenseLayer(l_concat, num_units=out_dim, W=params['W_linear'], b=params['b_concat'], nonlinearity=None)
 
 
     emb_lhs = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhs, l_in_rnn_lhs: emb_rnn_lhs})
