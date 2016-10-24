@@ -67,26 +67,26 @@ class charLM(object):
         # theano functions
         self.inps = [in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn] # inputs for the function
         self.cost_fn = theano.function(self.inps,cost_only)
-        self.encode_fn = theano.function([in_lhs, in_lmask], emb_lhs) # compute RNN embeddings given word (drug name)
+        self.encode_fn = theano.function([in_lhs, in_lmask, in_emb_lhs], emb_lhs) # compute RNN embeddings given word (drug name)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
-        self.pred_right_fn = theano.function([in_lhs, in_lmask, in_rel], pred_rhs) # compute lhs + rel as predicted rhs
+        self.pred_right_fn = theano.function([in_lhs, in_lmask, in_emb_lhs, in_rel], pred_rhs) # compute lhs + rel as predicted rhs
         self.emb_right_fn = theano.function([in_rhs], emb_rhs) # compute only rhs embedding
 
-    def train(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn):
-        return self.train_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn)
+    def train(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn):
+        return self.train_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn)
 
-    def validate(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn):
-        return self.cost_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn)
+    def validate(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn):
+        return self.cost_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn)
 
     def compute_emb_right_all(self): # compute a (n_rhs * emb_dim) numpy matrix, each row is an embedding for a right hand side entity
         in_rhs_all = np.arange(self.n_rhs).astype('int32') # input pretend to compute the embedding for all right hand side entities
         self.emb_right_all = self.emb_right_fn(in_rhs_all)
 
-    def encode(self, in_lhs, in_lmask):
-        return self.encode_fn(in_lhs, in_lmask)
+    def encode(self, in_lhs, in_lmask, in_emb_lhs):
+        return self.encode_fn(in_lhs, in_lmask, in_emb_lhs)
 
-    def rank_right(self, in_lhs, in_lmask, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs among all the rhs
-        pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_rel)
+    def rank_right(self, in_lhs, in_lmask, in_emb_lhs, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs among all the rhs
+        pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_emb_lhs, in_rel)
         right_ranks = []
         for i in range(pred_rhs_batch.shape[0]):
             true_idx = in_rhs[i]
@@ -145,7 +145,7 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
     params['W_c2w'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2*C2W_HDIM,WDIM)).astype('float64'), name='W_c2w_df')
     params['b_c2w'] = theano.shared(np.zeros((WDIM)).astype('float64'), name='b_c2w_df')
 
-    # Initialize parameters for rhs entity embedding
+    # Initialize parameters for lhs entity embedding
     params['W_emb_lhs'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_lhs, emb_dim)).astype('float64'), name='W_emb_lhs')
 
     # Initialize parameters for rhs entity embedding
@@ -153,6 +153,9 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
 
     # Initialize parameters for relation embedding
     params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rel, emb_dim)).astype('float64'), name='W_emb_rel')
+
+    # Initialize parameters for dense layer
+    params['W_linear'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2 * emb_dim, emb_dim)).astype('float64'), name='W_emb_rel')
 
     return params
 
