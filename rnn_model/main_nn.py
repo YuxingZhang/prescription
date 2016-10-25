@@ -164,6 +164,7 @@ if __name__=='__main__':
     except KeyboardInterrupt:
 	pass
     print("Total training time = {}".format(time.time()-start))
+    m.compute_emb_right_all()
     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
         lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s = \
                 batch.prepare_vs_nn(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
