@@ -6,7 +6,7 @@ LEARNING_RATE = 0.05
 
 MOMENTUM = 0.9
 
-N_EPOCH = 0
+N_EPOCH = 3
 
 DEBUG = False
 
