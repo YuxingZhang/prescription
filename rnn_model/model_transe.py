@@ -97,10 +97,11 @@ class charLM(object):
             right_ranks += [rank[true_idx]]
         return right_ranks
 
-    def top_scored_rhs(self, in_lhs, in_lmask, in_emb_lhs, in_rel, n_top):
+    def top_scored_rhs(self, in_lhs, in_lmask, in_emb_lhs, in_rel, in_rhs, n_top):
         pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_emb_lhs, in_rel)
         res = []
         for i in range(pred_rhs_batch.shape[0]):
+            true_idx = in_rhs[i]
             distances = np.zeros(self.emb_right_all.shape[0])
             for j in range(self.emb_right_all.shape[0]):
                 distances[j] = np.linalg.norm(pred_rhs_batch[i, :] - self.emb_right_all[j, :], 2)
