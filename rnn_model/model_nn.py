@@ -96,6 +96,19 @@ class charLM(object):
             rank = np.argsort(np.argsort(distances))
             right_ranks += [rank[true_idx]]
         return right_ranks
+
+    def top_scored_entity(self, in_lhs, in_lmask, in_emb_lhs, in_rel, in_rhs, n_top):
+        pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_emb_lhs, in_rel)
+        res = []
+        for i in range(pred_rhs_batch.shape[0]):
+            true_idx = in_rhs[i]
+            distances = np.zeros(self.emb_right_all.shape[0])
+            for j in range(self.emb_right_all.shape[0]):
+                distances[j] = np.linalg.norm(pred_rhs_batch[i, :] - self.emb_right_all[j, :], 2)
+            rank = np.argsort(distances)
+            for k in range(n_top):
+                res += [rank[k]]
+        return res
         
     def update_learningrate(self):
         self.lr = max(1e-5,self.lr / 2)
