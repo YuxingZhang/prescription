@@ -172,4 +172,7 @@ if __name__=='__main__':
         for i in range(len(test_mean_rank)):
             if test_mean_rank[i] < 3.0:
                 top_scored_rhs = m.top_scored_rhs([lhs_s[i]], [lhs_smask[i]], [lhs_emb_s[i]], [rel_s[i]], 5) # the indices of top scored rhs
-                print "Good predict: lhs={}, rel={}, rhs={}, rank={}, top={}".format(lhs_sb[i], rel_sb[i], rhs_sb[i], test_mean_rank[i], top_scored_rhs)
+                tops = []
+                for j in top_scored_rhs:
+                    tops += [rhs_dict.keys()[j]]
+                print "Good predict: lhs={}, rel={}, rhs={}, rank={}, top={}".format(lhs_sb[i], rel_sb[i], rhs_sb[i], test_mean_rank[i], tops)
