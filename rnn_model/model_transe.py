@@ -33,11 +33,7 @@ class charLM(object):
         self.n_rhs = n_rhs
 
         # model
-        in_lhs, in_lmask, in_lhsn, in_lmaskn, emb_rnn_lhs, emb_rnn_lhsn, l_encoder = char2vec(self.params, n_char) 
-        # TODO maybe concatenate RNN embedding with look up table? Do it later. Use a lasagne layer to compress (linear)
-        in_emb_lhs, in_emb_lhsn, emb_emb_lhs, emb_emb_lhsn = embedding_lhs(self.params, n_lhs, emb_dim)
-        emb_lhs, emb_lhsn = linear_nn(self.params, emb_rnn_lhs, emb_rnn_lhsn, emb_emb_lhs, emb_emb_lhsn, emb_dim, emb_dim, emb_dim)
-        
+        in_lhs, in_lhsn, emb_lhs, emb_lhsn = embedding_lhs(self.params, n_lhs, emb_dim)
         in_rhs, in_rhsn, emb_rhs, emb_rhsn = embedding_rhs(self.params, n_rhs, emb_dim)
         in_rel, emb_rel = embedding_rel(self.params, n_rel, emb_dim)
         
@@ -52,7 +48,7 @@ class charLM(object):
         loss_ln = margincost(pos_loss, neg_loss_l, GAMMA)
         loss = loss_rn + loss_ln
         # do we need loss_ln? Yes, and how do we sample random lhs embedding? build a dict too
-        self.cost = T.mean(loss) + REGULARIZATION*lasagne.regularization.apply_penalty(lasagne.layers.get_all_params(l_encoder), LR)
+        self.cost = T.mean(loss)
         # can we only add regularization to the RNN parameters? yes, only pass RNN parameters
         cost_only = T.mean(loss)
 
@@ -65,28 +61,28 @@ class charLM(object):
         # try different lr, momentum
 
         # theano functions
-        self.inps = [in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn] # inputs for the function
+        self.inps = [in_lhs, in_lhsn, in_rel, in_rhs, in_rhsn] # inputs for the function
         self.cost_fn = theano.function(self.inps,cost_only)
-        self.encode_fn = theano.function([in_lhs, in_lmask, in_emb_lhs], emb_lhs) # compute RNN embeddings given word (drug name)
+        self.encode_fn = theano.function([in_lhs], emb_lhs) # compute RNN embeddings given word (drug name)
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
-        self.pred_right_fn = theano.function([in_lhs, in_lmask, in_emb_lhs, in_rel], pred_rhs) # compute lhs + rel as predicted rhs
+        self.pred_right_fn = theano.function([in_lhs, in_rel], pred_rhs) # compute lhs + rel as predicted rhs
         self.emb_right_fn = theano.function([in_rhs], emb_rhs) # compute only rhs embedding
 
-    def train(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn):
-        return self.train_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn)
+    def train(self, in_lhs, in_lhsn, in_rel, in_rhs, in_rhsn):
+        return self.train_fn(in_lhs, in_lhsn, in_rel, in_rhs, in_rhsn)
 
-    def validate(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn):
-        return self.cost_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_emb_lhs, in_emb_lhsn, in_rel, in_rhs, in_rhsn)
+    def validate(self, in_lhs, in_lhsn, in_rel, in_rhs, in_rhsn):
+        return self.cost_fn(in_lhs, in_lhsn, in_rel, in_rhs, in_rhsn)
 
     def compute_emb_right_all(self): # compute a (n_rhs * emb_dim) numpy matrix, each row is an embedding for a right hand side entity
         in_rhs_all = np.arange(self.n_rhs).astype('int32') # input pretend to compute the embedding for all right hand side entities
         self.emb_right_all = self.emb_right_fn(in_rhs_all)
 
-    def encode(self, in_lhs, in_lmask, in_emb_lhs):
-        return self.encode_fn(in_lhs, in_lmask, in_emb_lhs)
+    def encode(self, in_lhs):
+        return self.encode_fn(in_lhs)
 
-    def rank_right(self, in_lhs, in_lmask, in_emb_lhs, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs among all the rhs
-        pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_emb_lhs, in_rel)
+    def rank_right(self, in_lhs, in_rel, in_rhs): # return a len(in_lhs) size list, each element is the rank of the true rhs among all the rhs
+        pred_rhs_batch = self.pred_right_fn(in_lhs, in_rel)
         right_ranks = []
         for i in range(pred_rhs_batch.shape[0]):
             true_idx = in_rhs[i]
@@ -97,19 +93,6 @@ class charLM(object):
             right_ranks += [rank[true_idx]]
         return right_ranks
 
-    def top_scored_rhs(self, in_lhs, in_lmask, in_emb_lhs, in_rel, in_rhs, n_top):
-        pred_rhs_batch = self.pred_right_fn(in_lhs, in_lmask, in_emb_lhs, in_rel)
-        res = []
-        for i in range(pred_rhs_batch.shape[0]):
-            true_idx = in_rhs[i]
-            distances = np.zeros(self.emb_right_all.shape[0])
-            for j in range(self.emb_right_all.shape[0]):
-                distances[j] = np.linalg.norm(pred_rhs_batch[i, :] - self.emb_right_all[j, :], 2)
-            rank = np.argsort(distances)
-            for k in range(n_top):
-                res += [rank[k]]
-        return res
-        
     def update_learningrate(self):
         self.lr = max(1e-5,self.lr / 2)
         updates = lasagne.updates.nesterov_momentum(self.cost, self.params.values(), self.lr, momentum=self.mu)
@@ -130,33 +113,6 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
 
     # lookup table # TODO when using float 32, there will be an error in theano 
     # "An update must have the same type as the original shared variable", why is that
-    params['Wc'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_char,CHAR_DIM)).astype('float64'), name='Wc')
-
-    # f-GRU
-    params['W_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_f_r')
-    params['W_c2w_f_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_f_z')
-    params['W_c2w_f_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_f_h')
-    params['b_c2w_f_r'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_f_r')
-    params['b_c2w_f_z'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_f_z')
-    params['b_c2w_f_h'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_f_h')
-    params['U_c2w_f_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_f_r')
-    params['U_c2w_f_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_f_z')
-    params['U_c2w_f_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_f_h')
-
-    # b-GRU
-    params['W_c2w_b_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_b_r')
-    params['W_c2w_b_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_b_z')
-    params['W_c2w_b_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(CHAR_DIM,C2W_HDIM)).astype('float64'), name='W_c2w_b_h')
-    params['b_c2w_b_r'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_b_r')
-    params['b_c2w_b_z'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_b_z')
-    params['b_c2w_b_h'] = theano.shared(np.zeros((C2W_HDIM)).astype('float64'), name='b_c2w_b_h')
-    params['U_c2w_b_r'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_b_r')
-    params['U_c2w_b_z'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_b_z')
-    params['U_c2w_b_h'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(C2W_HDIM,C2W_HDIM)).astype('float64'), name='U_c2w_b_h')
-
-    # dense
-    params['W_c2w'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(2*C2W_HDIM,WDIM)).astype('float64'), name='W_c2w_df')
-    params['b_c2w'] = theano.shared(np.zeros((WDIM)).astype('float64'), name='b_c2w_df')
 
     # Initialize parameters for lhs entity embedding
     params['W_emb_lhs'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_lhs, emb_dim)).astype('float64'), name='W_emb_lhs')
@@ -168,60 +124,7 @@ def init_params(params, n_char, n_lhs, n_rel, n_rhs, emb_dim):
     params['W_emb_rel'] = theano.shared(np.random.normal(loc=0., scale=SCALE, size=(n_rel, emb_dim)).astype('float64'), name='W_emb_rel')
 
     # Initialize parameters for dense layer
-    params['W_linear'] = theano.shared(np.random.normal(loc=0., scale=0.001, size=(2 * emb_dim, emb_dim)).astype('float64'), name='W_emb_rel')
-    params['b_concat'] = theano.shared(np.zeros((emb_dim)).astype('float64'), name='b_concat')
     return params
-
-def char2vec(params,n_char,bias=True):
-    '''
-    Bi-GRU for encoding input
-    '''
-    # Variables for positive lhs
-    word = T.imatrix() # B x N # input
-    mask = T.fmatrix() # B x N # input
-
-    # Variables for negative lhs
-    wordn = T.imatrix() # B x N # input
-    maskn = T.fmatrix() # B x N # input
-
-    # Input layer over characters
-    l_in_source = lasagne.layers.InputLayer(shape=(N_BATCH,None), name='input')
-
-    # Mask layer for variable length sequences
-    l_mask = lasagne.layers.InputLayer(shape=(N_BATCH,None), name='mask')
-
-    # lookup
-    l_clookup_source = lasagne.layers.EmbeddingLayer(l_in_source, input_size=n_char, output_size=CHAR_DIM, W=params['Wc'])
-
-    # f-GRU
-    c2w_f_reset = lasagne.layers.Gate(W_in=params['W_c2w_f_r'], W_hid=params['U_c2w_f_r'], W_cell=None, b=params['b_c2w_f_r'], nonlinearity=NL1)
-    c2w_f_update = lasagne.layers.Gate(W_in=params['W_c2w_f_z'], W_hid=params['U_c2w_f_z'], W_cell=None, b=params['b_c2w_f_z'], nonlinearity=NL1)
-    c2w_f_hidden = lasagne.layers.Gate(W_in=params['W_c2w_f_h'], W_hid=params['U_c2w_f_h'], W_cell=None, b=params['b_c2w_f_h'], nonlinearity=NL2)
-
-    l_fgru_source = lasagne.layers.GRULayer(l_clookup_source, C2W_HDIM, resetgate=c2w_f_reset, updategate=c2w_f_update, hidden_update=c2w_f_hidden, hid_init=lasagne.init.Constant(0.), backwards=False, learn_init=True, gradient_steps=-1, grad_clipping=GRAD_CLIP, unroll_scan=False, precompute_input=True, mask_input=l_mask)
-
-    # b-GRU
-    c2w_b_reset = lasagne.layers.Gate(W_in=params['W_c2w_b_r'], W_hid=params['U_c2w_b_r'], W_cell=None, b=params['b_c2w_b_r'], nonlinearity=NL1)
-    c2w_b_update = lasagne.layers.Gate(W_in=params['W_c2w_b_z'], W_hid=params['U_c2w_b_z'], W_cell=None, b=params['b_c2w_b_z'], nonlinearity=NL1)
-    c2w_b_hidden = lasagne.layers.Gate(W_in=params['W_c2w_b_h'], W_hid=params['U_c2w_b_h'], W_cell=None, b=params['b_c2w_b_h'], nonlinearity=NL2)
-
-    l_bgru_source = lasagne.layers.GRULayer(l_clookup_source, C2W_HDIM, resetgate=c2w_b_reset, updategate=c2w_b_update, hidden_update=c2w_b_hidden, hid_init=lasagne.init.Constant(0.), backwards=True, learn_init=True, gradient_steps=-1, grad_clipping=GRAD_CLIP, unroll_scan=False, precompute_input=True, mask_input=l_mask)
-
-    # Slice final states
-    l_f_source = lasagne.layers.SliceLayer(l_fgru_source, -1, 1)
-    l_b_source = lasagne.layers.SliceLayer(l_bgru_source, 0, 1)
-
-    # Dense
-    l_concat = lasagne.layers.ConcatLayer((l_f_source,l_b_source),axis=1)
-    if bias:
-        l_c2w_source = lasagne.layers.DenseLayer(l_concat, WDIM, W=params['W_c2w'], b=params['b_c2w'], nonlinearity=NL3)
-    else:
-        l_c2w_source = lasagne.layers.DenseLayer(l_concat, WDIM, W=params['W_c2w'], b=None, nonlinearity=NL3)
-
-    emb_lhs = lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: word, l_mask: mask})
-    emb_lhsn = lasagne.layers.get_output(l_c2w_source, inputs={l_in_source: wordn, l_mask: maskn})
-    return word, mask, wordn, maskn, emb_lhs, emb_lhsn, l_c2w_source
-    #return word, mask, l_c2w_source # return input variables and output variables
 
 # by Yuxing Zhang
 def embedding_rhs(params, n_rhs, emb_dim):
@@ -279,27 +182,6 @@ def embedding_lhs(params, n_lhs, emb_dim):
     # extra input for unseen entities 0
 
     return emb_in_lhs, emb_in_lhsn, lasagne.layers.get_output(l_emb_lhs, emb_in_lhs), lasagne.layers.get_output(l_emb_lhs, emb_in_lhsn)
-
-# by Yuxing Zhang
-def linear_nn(params, emb_rnn_lhs, emb_rnn_lhsn, emb_emb_lhs, emb_emb_lhsn, emb_dim, rnn_dim, out_dim):
-    '''
-    Linear nn part for left hand side entity embedding and left hand side negative entity embedding
-    '''
-
-    # Input layer over entity
-    l_in_emb_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, emb_dim), name='lhs_emb_input') # removing input_var to reuse it for negative rhs
-    l_in_rnn_lhs = lasagne.layers.InputLayer(shape=(N_BATCH, emb_dim), name='lhs_rnn_input') # removing input_var to reuse it for negative rhs
-
-    # concatenate embedding with rnn output
-    l_concat = lasagne.layers.ConcatLayer((l_in_emb_lhs, l_in_rnn_lhs), axis=1)
-
-    # Embedding layer for rhs entity, and emb_dim should equal # the embedding dimension from RNN model.
-    l_emb_lhs = lasagne.layers.DenseLayer(l_concat, num_units=out_dim, W=params['W_linear'], b=params['b_concat'], nonlinearity=None)
-
-
-    emb_lhs = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhs, l_in_rnn_lhs: emb_rnn_lhs})
-    emb_lhsn = lasagne.layers.get_output(l_emb_lhs, inputs={l_in_emb_lhs: emb_emb_lhsn, l_in_rnn_lhs: emb_rnn_lhsn})
-    return emb_lhs, emb_lhsn
 
 def load_params(path):
     """

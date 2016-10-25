@@ -12,7 +12,7 @@ from collections import OrderedDict
 
 import batch
 from settings import N_BATCH, N_EPOCH, DISPF, SAVEF, VALF
-from model_nn import charLM
+from model_transe import charLM
 
 T1 = 0.01
 T2 = 0.001
@@ -91,8 +91,8 @@ if __name__=='__main__':
 	    for lhs_b, rel_b, rhs_b in train_iter: # one batch
 		n_samples += len(lhs_b)
 		uidx += 1
-		lhs_in, lhs_mask, lhsn_in, lhsn_mask, in_emb_lhs, in_emb_lhsn, rel_in, rhs_in, rhsn_in = \
-                        batch.prepare_data_nn(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
+		lhs_in, lhsn_in, rel_in, rhs_in, rhsn_in = \
+                        batch.prepare_data_tr(lhs_b, rel_b, rhs_b, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
                 ''' Check shapes
                 print lhs_in.shape 
                 print lhs_mask.shape 
@@ -104,7 +104,7 @@ if __name__=='__main__':
                 print rhs_in.shape 
                 print rhsn_in.shape
                 '''
-		curr_cost = m.train(lhs_in, lhs_mask, lhsn_in, lhsn_mask, in_emb_lhs, in_emb_lhsn, rel_in, rhs_in, rhsn_in)
+		curr_cost = m.train(lhs_in, lhsn_in, rel_in, rhs_in, rhsn_in)
                 train_cost += curr_cost * len(lhs_b) # why times length, because the training function returns the mean
 		ud = time.time() - ud_start
                 
@@ -132,9 +132,9 @@ if __name__=='__main__':
                     # compute right hand side embeddings for all entities using the new parameters
                     m.compute_emb_right_all()
                     for lhs_vb, rel_vb, rhs_vb in valid_iter: # one batch
-                        lhs_v, lhs_vmask, lhs_emb_v, rel_v, rhs_v = \
-                                batch.prepare_vs_nn(lhs_vb, rel_vb, rhs_vb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
-                        valid_mean_rank += m.rank_right(lhs_v, lhs_vmask, lhs_emb_v, rel_v, rhs_v)
+                        lhs_v, rel_v, rhs_v = \
+                                batch.prepare_vs_tr(lhs_vb, rel_vb, rhs_vb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
+                        valid_mean_rank += m.rank_right(lhs_v, rel_v, rhs_v)
                     valid_mean_rank = np.array(valid_mean_rank)
 
                     cur_mean_rank = np.mean(valid_mean_rank)
@@ -145,9 +145,9 @@ if __name__=='__main__':
 
                     test_mean_rank = []
                     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
-                        lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s = \
-                                batch.prepare_vs_nn(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
-                        test_mean_rank += m.rank_right(lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s)
+                        lhs_s, rel_s, rhs_s = \
+                                batch.prepare_vs_tr(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
+                        test_mean_rank += m.rank_right(lhs_s, rel_s, rhs_s)
                     test_mean_rank = np.array(test_mean_rank)
 
                     print("Epoch {} Update {} Training Cost {} Validation mean rank {} Validation hit@10 {}% Validation hit@1 {}%".format(epoch, 
@@ -164,11 +164,3 @@ if __name__=='__main__':
     except KeyboardInterrupt:
 	pass
     print("Total training time = {}".format(time.time()-start))
-    for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
-        lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s = \
-                batch.prepare_vs_nn(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char)
-        test_mean_rank = m.rank_right(lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s)
-        for i in range(len(test_mean_rank)):
-            if test_mean_rank[i] < 3.0:
-                top_scored_rhs = m.top_scored_rhs([lhs_sb[i]], [lhs_smask[i]], [lhs_emb_s[i]], [rel_s[i]], 5) # the indices of top scored rhs
-                print "Good predict: lhs={}, rel={}, rhs={}, rank={}, top={}".format(lhs_sb[i], rel_sb[i], rhs_sb[i], test_mean_rank[i], top_scored_rhs)
