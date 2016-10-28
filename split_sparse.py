@@ -17,6 +17,9 @@ def split(path):
     valid_set = []
     test_set = []
     for i in dat:
+        words = i.strip().split('\t')
+        if len(words) != 3:
+            continue
         r = np.random.rand()
         if r < train_pr:
             train_set += [i]
