@@ -6,7 +6,7 @@ LEARNING_RATE = 0.05
 
 MOMENTUM = 0.9
 
-N_EPOCH = 30
+N_EPOCH = 50
 
 DEBUG = False
 
@@ -24,6 +24,6 @@ SCALE = 0.1
 
 GRAD_CLIP = 5.
 
-VALF = 225
+VALF = 100
 
 GAMMA = 1.0
