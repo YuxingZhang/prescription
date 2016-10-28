@@ -1,5 +1,6 @@
 # split the unique prescription data set into training set, validation set and test set
-# train:valid:test = 90%:5%:5%
+# sparse: train:valid:test = 90%:5%:5%
+# sparse2: train:valid:test = 80%:10%:10%
 import sys
 import numpy as np
 
@@ -7,12 +8,12 @@ import numpy as np
 def split(path):
     f = open(path + 'full-triples-unique.txt', 'r')
     dat = f.readlines()
-    train_pr = 0.9
-    valid_pr = 0.05
+    train_pr = 0.8
+    valid_pr = 0.1
     f.close()
-    f_train = open(path + 'prescription-sparse-train.txt', 'w')
-    f_test = open(path + 'prescription-sparse-test.txt', 'w')
-    f_valid = open(path + 'prescription-sparse-valid.txt', 'w')
+    f_train = open(path + 'prescription-sparse2-train.txt', 'w')
+    f_test = open(path + 'prescription-sparse2-test.txt', 'w')
+    f_valid = open(path + 'prescription-sparse2-valid.txt', 'w')
     train_set = []
     valid_set = []
     test_set = []
