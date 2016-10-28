@@ -25,9 +25,9 @@ if __name__=='__main__':
     # load
     #lhs, rel, rhs = batch.load_labeled_entities(io.open(sys.argv[1],'r'))
     #lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open(sys.argv[2],'r'))
-    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-freq-train.txt"))
-    lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/prescription-freq-valid.txt"))
-    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-freq-test.txt"))
+    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse-train.txt"))
+    lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/prescription-sparse-valid.txt"))
+    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse-test.txt"))
 
     # left hand side dictionaries, both character and entity
     chardict, charcount = batch.build_char_dictionary(lhs)
