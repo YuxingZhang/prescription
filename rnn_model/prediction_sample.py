@@ -38,12 +38,13 @@ if __name__ == "__main__":
     # compute example predictions 
     m.compute_emb_right_all()
     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
-        lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s = \
+        lhs_s, rel_s, rhs_s = \
                 batch.prepare_vs_tr(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char) # TODO change model
-        test_mean_rank = m.rank_right(lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s)
+        test_mean_rank = m.rank_right(lhs_s, rel_s, rhs_s)
         print "==========="
         print test_mean_rank
         print "==========="
+        '''
         for i in range(len(test_mean_rank)):
             if test_mean_rank[i] < 10.0:
                 top_scored_rhs = m.top_scored_rhs([lhs_s[i]], [lhs_smask[i]], [lhs_emb_s[i]], [rel_s[i]], 12) # the indices of top scored rhs
@@ -51,3 +52,4 @@ if __name__ == "__main__":
                 for j in top_scored_rhs:
                     tops += [rhs_dict.keys()[j]]
                 print "Good predict: lhs={}, rel={}, rhs={}, rank={}, top={}".format(lhs_sb[i], rel_sb[i], rhs_sb[i], test_mean_rank[i], tops)
+        '''
