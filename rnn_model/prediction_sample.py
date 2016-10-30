@@ -17,7 +17,7 @@ from settings import N_BATCH, N_EPOCH, DISPF, SAVEF, VALF
 from model_transe import charLM                   # TODO change model
 from model_transe import load_params_shared       # TODO change model
 
-model = "_transe" # or "" or "_nn" where nn is hybrid   # TODO change model
+model = "_tr" # or "" or "_nn" where nn is hybrid   # TODO change model
 
 if __name__ == "__main__":
     lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse2-train.txt")) # sparse 2 is by different train,valid,test ratio
