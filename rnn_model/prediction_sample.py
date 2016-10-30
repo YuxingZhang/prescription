@@ -1,5 +1,17 @@
 # load the trained model and compute prediction examples given a test data set
 
+import numpy as np
+import shutil
+import theano
+import theano.tensor as T
+import sys
+import lasagne
+import time
+import cPickle as pkl
+import io
+
+from collections import OrderedDict
+
 import batch
 from settings import N_BATCH, N_EPOCH, DISPF, SAVEF, VALF
 from model_transe import charLM                   # TODO change model
