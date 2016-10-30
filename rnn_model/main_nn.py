@@ -26,7 +26,7 @@ if __name__=='__main__':
     #lhs, rel, rhs = batch.load_labeled_entities(io.open(sys.argv[1],'r'))
     #lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open(sys.argv[2],'r'))
     #lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-freq-test.txt"))
-    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse2-train.txt"))
+    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse2-train.txt")) # sparse 2 is by different train,valid,test ratio
     lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/prescription-sparse2-valid.txt"))
     lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-test.txt"))
 

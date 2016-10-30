@@ -266,6 +266,8 @@ def load_labeled_entities(f): # split each line into lhs, rel and rhs
     rhs = []
     for line in f:
         entities = line.rstrip().split('\t')
+        if len(entities) != 3:
+            continue
         lhs.append(entities[0])
         rel.append(entities[1])
         rhs.append(entities[2])
