@@ -166,6 +166,8 @@ if __name__=='__main__':
 	pass
     print("Total training time = {}".format(time.time()-start))
     quit()
+
+    # compute example predictions 
     m.compute_emb_right_all()
     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
         lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s = \
