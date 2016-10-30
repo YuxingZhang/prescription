@@ -39,7 +39,7 @@ if __name__ == "__main__":
     m.compute_emb_right_all()
     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
         lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s = \
-                batch.prepare_vs_transe(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char) # TODO change model
+                batch.prepare_vs_tr(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char) # TODO change model
         test_mean_rank = m.rank_right(lhs_s, lhs_smask, lhs_emb_s, rel_s, rhs_s)
         print "==========="
         print test_mean_rank
