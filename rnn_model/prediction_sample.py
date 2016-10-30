@@ -35,15 +35,17 @@ if __name__ == "__main__":
 
     m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
     m.param = load_params_shared("temp{}/best_model.npz".format(model))
+
+
     # compute example predictions 
     m.compute_emb_right_all()
+    mean_rank = []
     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
         lhs_s, rel_s, rhs_s = \
                 batch.prepare_vs_tr(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char) # TODO change model
         test_mean_rank = m.rank_right(lhs_s, rel_s, rhs_s)
-        print "==========="
-        print test_mean_rank
-        print "==========="
+        mean_rank += test_mean_rank
+
         '''
         for i in range(len(test_mean_rank)):
             if test_mean_rank[i] < 10.0:
@@ -53,3 +55,4 @@ if __name__ == "__main__":
                     tops += [rhs_dict.keys()[j]]
                 print "Good predict: lhs={}, rel={}, rhs={}, rank={}, top={}".format(lhs_sb[i], rel_sb[i], rhs_sb[i], test_mean_rank[i], tops)
         '''
+    print "Mean rank: {}, rank: {}".format(sum(mean_rank) / float(len(mean_rank)), mean_rank)
