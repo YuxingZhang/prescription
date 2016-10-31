@@ -1,10 +1,10 @@
 # load the trained model and compute prediction examples given a test data set
 
 import numpy as np
+import sys
 import shutil
 import theano
 import theano.tensor as T
-import sys
 import lasagne
 import time
 import cPickle as pkl
@@ -20,6 +20,7 @@ from model_transe import load_params_shared       # TODO change model
 model = "_tr" # or "" or "_nn" where nn is hybrid   # TODO change model
 
 if __name__ == "__main__":
+    max_freq = int(sys.argv[1])
     lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse2-train.txt")) # sparse 2 is by different train,valid,test ratio
     chardict, charcount = batch.build_char_dictionary(lhs)
     n_char = len(chardict.keys()) + 1
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     rhs_dict, rhs_count = batch.build_entity_dictionary(rhs)
     n_rhs = len(rhs_dict.keys())
 
-    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-rare-2-test.txt"))
+    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-rare-{}-test.txt".format(max_freq)))
     test_iter = batch.Batch(lhs_s, rel_s, rhs_s, batch_size=N_BATCH)
 
     m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
@@ -62,8 +63,8 @@ if __name__ == "__main__":
 
     # save visualization X and Y
     X_vis = X_vis[1:, :]
-    np.savetxt("temp{}/X_vis.txt".format(model), X_vis, delimiter=' ')
-    with open("temp{}/Y_vis.txt".format(model), 'w') as y_out:
+    np.savetxt("temp{}/X_vis_freq_{}.txt".format(model, max_freq), X_vis, delimiter=' ')
+    with open("temp{}/Y_vis_freq_{}.txt".format(model, max_freq), 'w') as y_out:
         y_out.writelines(Y_vis)
 
     print "Mean rank: {}, rank: {}".format(sum(mean_rank) / float(len(mean_rank)), mean_rank)
