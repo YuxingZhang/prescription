@@ -51,7 +51,8 @@ if __name__ == "__main__":
         print "======"
         print (m.pred_rel_fn(lhs_s, rhs_s)).shape
         print X_vis.shape
-        X_vis = np.concatenate(X_vis, m.pred_rel_fn(lhs_s, rhs_s))
+        #X_vis = np.concatenate(X_vis, m.pred_rel_fn(lhs_s, rhs_s))
+        X_vis = m.pred_rel_fn(lhs_s, rhs_s)
         Y_vis += [(str(rel_dict[ii]) + '\n') for ii in rel_s]
         
         '''
