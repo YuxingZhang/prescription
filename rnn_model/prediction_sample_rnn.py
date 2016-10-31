@@ -47,7 +47,7 @@ if __name__ == "__main__":
         test_mean_rank = m.rank_right(lhs_s, lhs_mask_s, rel_s, rhs_s)
         mean_rank += test_mean_rank
 
-        X_vis = np.concatenate((X_vis, m.pred_rel(lhs_s, rhs_s)), axis=0)
+        X_vis = np.concatenate((X_vis, m.pred_rel(lhs_s, lhs_mask_s, rhs_s)), axis=0) # TODO
         Y_vis += [(str(ii) + '\n') for ii in rel_s]
         
         '''
