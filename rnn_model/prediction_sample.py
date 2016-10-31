@@ -27,7 +27,6 @@ if __name__ == "__main__":
     n_lhs = len(lhs_dict.keys())
     rel_dict, rel_count = batch.build_entity_dictionary(rel)
     print rel_dict
-    quit()
     n_rel = len(rel_dict.keys())
     rhs_dict, rhs_count = batch.build_entity_dictionary(rhs)
     n_rhs = len(rhs_dict.keys())
