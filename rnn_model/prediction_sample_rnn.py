@@ -14,10 +14,10 @@ from collections import OrderedDict
 
 import batch
 from settings import N_BATCH, N_EPOCH, DISPF, SAVEF, VALF, WDIM
-from model_transe import charLM                   # TODO change model
-from model_transe import load_params_shared       # TODO change model
+from model import charLM                   # TODO change model
+from model import load_params_shared       # TODO change model
 
-model = "_tr" # or "" or "_nn" where nn is hybrid   # TODO change model
+model = "" # or "" or "_nn" where nn is hybrid   # TODO change model
 
 if __name__ == "__main__":
     lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse2-train.txt")) # sparse 2 is by different train,valid,test ratio
@@ -42,9 +42,9 @@ if __name__ == "__main__":
     X_vis = np.zeros((1, WDIM))
     Y_vis = []
     for lhs_sb, rel_sb, rhs_sb in test_iter: # one batch
-        lhs_s, rel_s, rhs_s = \
-                batch.prepare_vs_tr(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char) # TODO change model
-        test_mean_rank = m.rank_right(lhs_s, rel_s, rhs_s)
+        lhs_s, lhs_mask_s, rel_s, rhs_s = \
+                batch.prepare_vs(lhs_sb, rel_sb, rhs_sb, chardict, lhs_dict, rel_dict, rhs_dict, n_chars=n_char) # TODO change model
+        test_mean_rank = m.rank_right(lhs_s, lhs_mask_s, rel_s, rhs_s)
         mean_rank += test_mean_rank
 
         X_vis = np.concatenate((X_vis, m.pred_rel(lhs_s, rhs_s)), axis=0)
