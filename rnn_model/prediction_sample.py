@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # save visualization X and Y
     X_vis = X_vis[1:, :]
     np.savetxt("temp{}/X_vis.txt".format(model), X_vis, delimiter=' ')
-    with open("temp{}/Y_vis.txt".format(model)) as y_out:
+    with open("temp{}/Y_vis.txt".format(model), 'w') as y_out:
         y_out.writelines(Y_vis)
 
     print "Mean rank: {}, rank: {}".format(sum(mean_rank) / float(len(mean_rank)), mean_rank)
