@@ -41,6 +41,7 @@ class charLM(object):
         # define loss
         pred_rhs = emb_lhs + emb_rel # true lhs + rel
         pred_lhs = emb_lhsn + emb_rel # negative lhs + rel
+        pred_rel = emb_rhs - emb_lhs  # predicted relation, rhs - lhs, for visualization
         pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
         neg_loss_r = L2dist(pred_rhs, emb_rhsn) # negative triple distance with corrupted rhs
         neg_loss_l = L2dist(pred_lhs, emb_rhs) # negative triple distance with corrupted lhs
@@ -67,6 +68,10 @@ class charLM(object):
         self.train_fn = theano.function(self.inps,self.cost,updates=updates)
         self.pred_right_fn = theano.function([in_lhs, in_lmask, in_rel], pred_rhs) # compute lhs + rel as predicted rhs
         self.emb_right_fn = theano.function([in_rhs], emb_rhs) # compute only rhs embedding
+        self.pred_rel_fn = theano.function([in_lhs, in_lmask, in_rhs], pred_rel)
+
+    def pred_rel(self, in_lhs, in_lmask, in_rhs):
+        return self.pred_rel_fn(in_lhs, in_lmask, in_rhs)
 
     def train(self, in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn):
         return self.train_fn(in_lhs, in_lmask, in_lhsn, in_lmaskn, in_rel, in_rhs, in_rhsn)
