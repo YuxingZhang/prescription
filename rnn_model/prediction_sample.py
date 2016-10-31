@@ -48,6 +48,9 @@ if __name__ == "__main__":
         test_mean_rank = m.rank_right(lhs_s, rel_s, rhs_s)
         mean_rank += test_mean_rank
 
+        print "======"
+        print (m.pred_rel_fn(lhs_s, rhs_s)).shape
+        print X_vis.shape
         X_vis = np.concatenate(X_vis, m.pred_rel_fn(lhs_s, rhs_s))
         Y_vis += [(str(rel_dict[ii]) + '\n') for ii in rel_s]
         
