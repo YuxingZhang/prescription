@@ -67,4 +67,4 @@ if __name__ == "__main__":
     with open("temp{}/Y_vis_freq_{}.txt".format(model, max_freq), 'w') as y_out:
         y_out.writelines(Y_vis)
 
-    print "Mean rank: {}, rank: {}".format(sum(mean_rank) / float(len(mean_rank)), mean_rank)
+    print "Mean rank: {}".format(sum(mean_rank) / float(len(mean_rank)))
