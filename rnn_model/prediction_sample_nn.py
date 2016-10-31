@@ -30,7 +30,7 @@ if __name__ == "__main__":
     rhs_dict, rhs_count = batch.build_entity_dictionary(rhs)
     n_rhs = len(rhs_dict.keys())
 
-    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-rare-2-test.txt"))
+    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-rare-1-test.txt"))
     test_iter = batch.Batch(lhs_s, rel_s, rhs_s, batch_size=N_BATCH)
 
     m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
