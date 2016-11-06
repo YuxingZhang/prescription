@@ -37,7 +37,7 @@ if __name__ == "__main__":
     m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
     m.param = load_params_shared("temp{}/best_model.npz".format(model))
     print m.param
-    for kk in m.keys():
+    for kk in m.param.keys():
         print m.param[kk].shape
     quit()
 
