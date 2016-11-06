@@ -30,6 +30,8 @@ if __name__ == "__main__":
     n_rel = len(rel_dict.keys())
     rhs_dict, rhs_count = batch.build_entity_dictionary(rhs)
     n_rhs = len(rhs_dict.keys())
+    print rel_dict
+    quit()
 
     lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-rare-{}-test.txt".format(max_freq)))
     test_iter = batch.Batch(lhs_s, rel_s, rhs_s, batch_size=N_BATCH)
