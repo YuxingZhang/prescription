@@ -30,14 +30,17 @@ if __name__ == "__main__":
     n_rel = len(rel_dict.keys())
     rhs_dict, rhs_count = batch.build_entity_dictionary(rhs)
     n_rhs = len(rhs_dict.keys())
-    print rel_dict
-    quit()
 
     lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-rare-{}-test.txt".format(max_freq)))
     test_iter = batch.Batch(lhs_s, rel_s, rhs_s, batch_size=N_BATCH)
 
     m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
     m.param = load_params_shared("temp{}/best_model.npz".format(model))
+
+    print m.param
+    for kk in m.param.keys():
+        print m.param[kk].get_value().shape
+    quit()
 
     # compute example predictions 
     m.compute_emb_right_all()
