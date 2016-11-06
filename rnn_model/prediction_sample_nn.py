@@ -37,10 +37,14 @@ if __name__ == "__main__":
     m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
     m.param = load_params_shared("temp{}/best_model.npz".format(model))
 
-    print m.param
+    num_param = 0
     for kk in m.param.keys():
         print m.param[kk].get_value().shape
+        print m.param[kk].get_value().size
+        num_param += m.param[kk].get_value().size
+    print "total number of param: {}".format(num_param)
     quit()
+
 
     # compute example predictions 
     m.compute_emb_right_all()
