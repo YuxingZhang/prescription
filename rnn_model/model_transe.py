@@ -38,16 +38,20 @@ class charLM(object):
         in_rel, emb_rel = embedding_rel(self.params, n_rel, emb_dim)
         
         # N_BATCH for input size? or just None, because later we need to do validation and testing, can uses any size
+        # up to this point, we have emb_lhs, emb_lhsn, emb_rhs, emb_rhsn, emb_rel
         # define loss
         pred_rhs = emb_lhs + emb_rel # true lhs + rel
         pred_lhs = emb_lhsn + emb_rel # negative lhs + rel
         pred_rel = emb_rhs - emb_lhs  # predicted relation, rhs - lhs, for visualization
 
-        pos_loss = L2dist(pred_rhs, emb_rhs) # positive triple distance
+        # TODO remove the dist(lhs, rhs - rel) terms in the loss function
+        pos_loss_r = L2dist(pred_rhs, emb_rhs) # positive triple distance
+        pos_loss_l = L2dist(emb_lhs, emb_rhs - emb_rel) # TODO remove
         neg_loss_r = L2dist(pred_rhs, emb_rhsn) # negative triple distance with corrupted rhs
-        neg_loss_l = L2dist(pred_lhs, emb_rhs) # negative triple distance with corrupted lhs
-        loss_rn = margincost(pos_loss, neg_loss_r, GAMMA) # GAMMA is the margin, GAMMA = 1.0 in TransE
-        loss_ln = margincost(pos_loss, neg_loss_l, GAMMA)
+        #neg_loss_l = L2dist(pred_lhs, emb_rhs) # negative triple distance with corrupted lhs TODO uncomment
+        neg_loss_l = L2dist(emb_lhsn, emb_rhs - emb_rel) # negative triple distance with corrupted lhs
+        loss_rn = margincost(pos_loss_r, neg_loss_r, GAMMA) # GAMMA is the margin, GAMMA = 1.0 in TransE
+        loss_ln = margincost(pos_loss_l, neg_loss_l, GAMMA) # TODO replace pos_loss_l with pos_loss_r
         loss = loss_rn + loss_ln
         # do we need loss_ln? Yes, and how do we sample random lhs embedding? build a dict too
         self.cost = T.mean(loss)
