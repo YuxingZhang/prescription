@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
+import sys
 
 def sigmoid(x): # sigmoid activation function
     return 1.0 / (1.0 + np.exp(-x))
@@ -94,12 +95,6 @@ class DBM:
         valid_error += [self.cross_entropy(self.valid_x)]
         print "Train error = {}, validation error = {}".format(train_error[-1], valid_error[-1])
 
-        print "W_1 {}, {}".format(np.amax(self.W_1), np.amin(self.W_1))
-        print "W_2 {}, {}".format(np.amax(self.W_2), np.amin(self.W_2))
-        print "b_1 {}, {}".format(np.amax(self.b_1), np.amin(self.b_1))
-        print "b_2 {}, {}".format(np.amax(self.b_2), np.amin(self.b_2))
-        print "c {}, {}".format(np.amax(self.c), np.amin(self.c))
-        
         return train_error, valid_error
 
     def cross_entropy(self, x):               # TODO compute the average cross entropy error
@@ -113,6 +108,9 @@ class DBM:
         return error_sum / float(x.shape[0])
 
 if __name__ == "__main__":
+    cur_run = str(sys.argv[1]);
+    print cur_run
+
     np.set_printoptions(threshold=np.inf)
     train_set = np.loadtxt('digitstrain.txt', delimiter=',')
     valid_set = np.loadtxt('digitsvalid.txt', delimiter=',')
@@ -152,15 +150,21 @@ if __name__ == "__main__":
         xs, h_1, h_2, pr_x = rbm.sample(np.random.randint(2, size=n_vis), np.random.randint(2, size=n_hidden_1), np.random.randint(2, size=n_hidden_2), gibbs_step)
         x_samples[i] = xs
 
-    np.savetxt('x_samples.csv', x_samples, delimiter=',')
+    np.savetxt('x_samples_{}.csv'.format(cur_run), x_samples, delimiter=',')
     
+
+    np.savetxt('train_error_{}.csv'.format(cur_run), np.array(train_error), delimiter=',')
+    np.savetxt('valid_error_{}.csv'.format(cur_run), np.array(valid_error), delimiter=',')
+
+    # write error rate to file
+    np.savetxt('W_1_{}.csv'.format(cur_run), rbm.W_1, delimiter=',')
+
+    quit()
+
     # cross entropy
     plt.figure(0)
     plt.plot(np.arange(T), train_error)
     plt.plot(np.arange(T), valid_error)
     plt.legend(['train', 'valid'], loc='upper left')
-    plt.show()
-    plt.savefig('cross_entropy_2.png')
+    plt.savefig('cross_entropy_{}.png'.format(cur_run))
 
-    # write error rate to file
-    np.savetxt('W_1_2.csv', rbm.W_1, delimiter=',')
