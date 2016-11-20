@@ -125,13 +125,13 @@ if __name__ == "__main__":
 
     n = train_x.shape[0]
     n_vis = train_x.shape[1]
-    n_hidden_1 = 100
-    n_hidden_2 = 100
+    n_hidden_1 = 400
+    n_hidden_2 = 400
     lr = 0.01
     k = 1 # number of steps in contrastive divergence
     K = 100 # number of chains
     mf_round = 10
-    T = 600
+    T = 1000
 
     rbm = DBM(n_vis, n_hidden_1, n_hidden_2, train_x, valid_x, lr, k, K, mf_round)
     
