@@ -4,7 +4,7 @@ import sys
 import numpy as np
 
 # split the YAGOFact data into training set, validation set and testing set
-def split():
+def split_fn():
     left_dict = {}
     rel_dict = {}
     right_dict = {}
@@ -21,13 +21,16 @@ def split():
     valid_set = []
     test_set = []
     for i in dat:
-        rel, left, right = i.upper().strip().split('\t')
+        words = i.upper().strip().split('\t')
+        if len(words) != 3:
+            continue
+        left = words[1]
+        rel = words[0]
+        right = words[2]
         left_dict[left] = 1
         rel_dict[rel] = 1
         right_dict[right] = 1
         words = left + '\t' + rel + '\t' + right + '\n'
-        if len(words) != 3:
-            continue
         r = np.random.rand()
 
         # subsample the data
@@ -49,4 +52,4 @@ def split():
     f_valid.close()
     print 'Left entities: {}, relations: {}, right entities: {}'.format(len(left_dict), len(rel_dict), len(right_dict))
 if __name__ == "__main__":
-    split()
+    split_fn()
