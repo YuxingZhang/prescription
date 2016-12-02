@@ -21,7 +21,7 @@ def split_fn():
     valid_set = []
     test_set = []
     for i in dat:
-        words = i.upper().strip().split('\t')
+        words = i.upper().strip().split(' ')
         if len(words) != 3:
             continue
         left = words[1]
