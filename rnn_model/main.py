@@ -28,9 +28,9 @@ if __name__=='__main__':
     #lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/prescription-sparse2-train.txt"))
     #lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/prescription-sparse2-valid.txt"))
     #lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/prescription-sparse2-test.txt"))
-    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/yago-sparse-train.txt"))
-    lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/yago-sparse-valid.txt"))
-    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/yago-sparse-test.txt"))
+    lhs, rel, rhs = batch.load_labeled_entities(io.open("../data/yago-sparse-entity-train.txt"))
+    lhs_v, rel_v, rhs_v = batch.load_labeled_entities(io.open("../data/yago-sparse-entity-valid.txt"))
+    lhs_s, rel_s, rhs_s = batch.load_labeled_entities(io.open("../data/yago-sparse-entity-test.txt"))
 
     # left hand side dictionaries, both character and entity
     chardict, charcount = batch.build_char_dictionary(lhs)

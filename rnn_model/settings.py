@@ -6,7 +6,7 @@ LEARNING_RATE = 0.05
 
 MOMENTUM = 0.9
 
-N_EPOCH = 30
+N_EPOCH = 20
 
 DEBUG = False
 
@@ -18,12 +18,12 @@ CHAR_DIM = 8
 
 C2W_HDIM = 32
 
-WDIM = 25
+WDIM = 50
 
 SCALE = 0.1
 
 GRAD_CLIP = 5.
 
-VALF = 500
+VALF = 1000
 
 GAMMA = 1.0

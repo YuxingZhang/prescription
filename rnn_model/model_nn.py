@@ -11,6 +11,7 @@ NL1 = lasagne.nonlinearities.sigmoid
 NL2 = lasagne.nonlinearities.tanh
 NL3 = lasagne.nonlinearities.tanh
 LR = lasagne.regularization.l2
+WDIM = WDIM / 2
 
 # margin cost defined in TransE
 def margincost(pos_loss, neg_loss, margin):
