@@ -32,10 +32,11 @@ def split_fn():
         lhs_entity_dict[words[1]] = 1
 
     # randomly remove lhs entities
+    lhs_dict = {}
     for lhs_entity in lhs_entity_dict:
         r = np.random.rand()
-        if r > subsample_fraction:
-            del lhs_entity_dict[lhs_entity]
+        if r < subsample_fraction:
+            lhs_dict[lhs_entity] = 1
 
     for i in dat:
         words = i.upper().strip().split(' ')
@@ -45,7 +46,7 @@ def split_fn():
         rel = words[0]
         right = words[2]
 
-        if left not in lhs_entity_dict:
+        if left not in lhs_dict:
             continue
 
         left_dict[left] = 1
