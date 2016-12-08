@@ -1,7 +1,7 @@
 # split the YAGOFact data set into training set, validation set and test set
-# based on the entities (left hand side). Subsample 10% left hand side entities
+# based on the entities (left hand side). Subsample 5% left hand side entities
 # and keep all triples containing these entities as left hand side entities.
-# sparse: train:valid:test = 80%:10%:10%
+# sparse: train:valid:test = 90%:5%:5%
 import sys
 import numpy as np
 
@@ -13,9 +13,9 @@ def split_fn():
     lhs_entity_dict = {}
     f = open('/remote/curtis/wcohen/data/ontological-pathfinding/YAGOFacts.csv', 'r')
     dat = f.readlines()
-    subsample_fraction = 0.1
-    train_pr = 0.8
-    valid_pr = 0.1
+    subsample_fraction = 0.05
+    train_pr = 0.9
+    valid_pr = 0.05
     f.close()
     f_train = open('data/yago-sparse-entity-train.txt', 'w')
     f_test = open('data/yago-sparse-entity-test.txt', 'w')

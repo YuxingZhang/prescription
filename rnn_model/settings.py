@@ -24,6 +24,6 @@ SCALE = 0.1
 
 GRAD_CLIP = 5.
 
-VALF = 1000
+VALF = 2500
 
 GAMMA = 1.0
