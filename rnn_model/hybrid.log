@@ -1,0 +1,1347 @@
+Using gpu device 0: GeForce GTX TITAN X (CNMeM is disabled, cuDNN 5103)
+00001	#include <Python.h>
+00002	#include <iostream>
+00003	#include "theano_mod_helper.h"
+00004	#include <math.h>
+00005	#include <numpy/arrayobject.h>
+00006	#include <numpy/arrayscalars.h>
+00007	#include <vector>
+00008	#include <algorithm>
+00009	//////////////////////
+00010	////  Support Code
+00011	//////////////////////
+00012	
+00013	
+00014	    namespace {
+00015	    struct __struct_compiled_op_41c67846d6cb960a16087cb3f926b054 {
+00016	        PyObject* __ERROR;
+00017	
+00018	        PyObject* storage_V3;
+00019	PyObject* storage_V5;
+00020	PyObject* storage_V7;
+00021	PyObject* storage_V1;
+00022	        
+00023	
+00024	        __struct_compiled_op_41c67846d6cb960a16087cb3f926b054() {
+00025	            // This is only somewhat safe because we:
+00026	            //  1) Are not a virtual class
+00027	            //  2) Do not use any virtual classes in the members
+00028	            //  3) Deal with mostly POD and pointers
+00029	
+00030	            // If this changes, we would have to revise this, but for
+00031	            // now I am tired of chasing segfaults because
+00032	            // initialization code had an error and some pointer has
+00033	            // a junk value.
+00034	            memset(this, 0, sizeof(*this));
+00035	        }
+00036	        ~__struct_compiled_op_41c67846d6cb960a16087cb3f926b054(void) {
+00037	            cleanup();
+00038	        }
+00039	
+00040	        int init(PyObject* __ERROR, PyObject* storage_V3, PyObject* storage_V5, PyObject* storage_V7, PyObject* storage_V1) {
+00041	            Py_XINCREF(storage_V3);
+00042	Py_XINCREF(storage_V5);
+00043	Py_XINCREF(storage_V7);
+00044	Py_XINCREF(storage_V1);
+00045	            this->storage_V3 = storage_V3;
+00046	this->storage_V5 = storage_V5;
+00047	this->storage_V7 = storage_V7;
+00048	this->storage_V1 = storage_V1;
+00049	            
+00050	
+00051	
+00052	
+00053	
+00054	
+00055	            this->__ERROR = __ERROR;
+00056	            return 0;
+00057	        }
+00058	        void cleanup(void) {
+00059	            __label_1:
+00060	
+00061	double __DUMMY_1;
+00062	__label_3:
+00063	
+00064	double __DUMMY_3;
+00065	__label_5:
+00066	
+00067	double __DUMMY_5;
+00068	__label_7:
+00069	
+00070	double __DUMMY_7;
+00071	__label_10:
+00072	
+00073	double __DUMMY_10;
+00074	
+00075	            Py_XDECREF(this->storage_V3);
+00076	Py_XDECREF(this->storage_V5);
+00077	Py_XDECREF(this->storage_V7);
+00078	Py_XDECREF(this->storage_V1);
+00079	        }
+00080	        int run(void) {
+00081	            int __failure = 0;
+00082	            
+00083	    PyObject* py_V1;
+00084	    
+00085	        PyArrayObject* V1;
+00086	        
+00087	            typedef npy_float64 dtype_V1;
+00088	            
+00089	    PyObject* py_V3;
+00090	    
+00091	        PyArrayObject* V3;
+00092	        
+00093	            typedef npy_float64 dtype_V3;
+00094	            
+00095	    PyObject* py_V5;
+00096	    
+00097	        PyArrayObject* V5;
+00098	        
+00099	            typedef npy_float64 dtype_V5;
+00100	            
+00101	    PyObject* py_V7;
+00102	    
+00103	        PyArrayObject* V7;
+00104	        
+00105	            typedef npy_float64 dtype_V7;
+00106	            
+00107	{
+00108	
+00109	    py_V1 = PyList_GET_ITEM(storage_V1, 0);
+00110	    {Py_XINCREF(py_V1);}
+00111	    
+00112	        if (py_V1 == Py_None)
+00113	        {
+00114	            
+00115	        V1 = NULL;
+00116	        
+00117	        }
+00118	        else
+00119	        {
+00120	            
+00121	            V1 = NULL;
+00122	            if (py_V1 == Py_None) {
+00123	                // We can either fail here or set V1 to NULL and rely on Ops
+00124	                // using tensors to handle the NULL case, but if they fail to do so
+00125	                // they'll end up with nasty segfaults, so this is public service.
+00126	                PyErr_SetString(PyExc_ValueError, "expected an ndarray, not None");
+00127	                {
+00128	        __failure = 2;
+00129	        if (!PyErr_Occurred()) {
+00130	            PyErr_SetString(PyExc_RuntimeError,
+00131	                "Unexpected error in an Op's C code. "
+00132	                "No Python exception was set.");
+00133	            }
+00134	        goto __label_2;}
+00135	            }
+00136	            if (!PyArray_Check(py_V1)) {
+00137	                PyErr_SetString(PyExc_ValueError, "expected an ndarray");
+00138	                {
+00139	        __failure = 2;
+00140	        if (!PyErr_Occurred()) {
+00141	            PyErr_SetString(PyExc_RuntimeError,
+00142	                "Unexpected error in an Op's C code. "
+00143	                "No Python exception was set.");
+00144	            }
+00145	        goto __label_2;}
+00146	            }
+00147	            // We expect NPY_FLOAT64
+00148	            if (!PyArray_ISALIGNED((PyArrayObject*) py_V1)) {
+00149	                PyArrayObject * tmp = (PyArrayObject*) py_V1;
+00150	                PyErr_Format(PyExc_NotImplementedError,
+00151	                             "expected an aligned array of type %ld "
+00152	                             "(NPY_FLOAT64), got non-aligned array of type %ld"
+00153	                             " with %ld dimensions, with 3 last dims "
+00154	                             "%ld, %ld, %ld"
+00155	                             " and 3 last strides %ld %ld, %ld.",
+00156	                             (long int) NPY_FLOAT64,
+00157	                             (long int) PyArray_TYPE((PyArrayObject*) py_V1),
+00158	                             (long int) PyArray_NDIM(tmp),
+00159	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00160	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00161	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00162	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00163	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00164	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-1] : -1,
+00165	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00166	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00167	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00168	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00169	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00170	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-1] : -1
+00171	            );
+00172	                {
+00173	        __failure = 2;
+00174	        if (!PyErr_Occurred()) {
+00175	            PyErr_SetString(PyExc_RuntimeError,
+00176	                "Unexpected error in an Op's C code. "
+00177	                "No Python exception was set.");
+00178	            }
+00179	        goto __label_2;}
+00180	            }
+00181	            // This is a TypeError to be consistent with DEBUG_MODE
+00182	            // Note: DEBUG_MODE also tells the name of the container
+00183	            if (PyArray_TYPE((PyArrayObject*) py_V1) != NPY_FLOAT64) {
+00184	                PyErr_Format(PyExc_TypeError,
+00185	                             "expected type_num %d (NPY_FLOAT64) got %d",
+00186	                             NPY_FLOAT64, PyArray_TYPE((PyArrayObject*) py_V1));
+00187	                {
+00188	        __failure = 2;
+00189	        if (!PyErr_Occurred()) {
+00190	            PyErr_SetString(PyExc_RuntimeError,
+00191	                "Unexpected error in an Op's C code. "
+00192	                "No Python exception was set.");
+00193	            }
+00194	        goto __label_2;}
+00195	            }
+00196	            
+00197	        V1 = (PyArrayObject*)(py_V1);
+00198	        Py_XINCREF(V1);
+00199	        
+00200	        }
+00201	        
+00202	{
+00203	
+00204	    py_V3 = PyList_GET_ITEM(storage_V3, 0);
+00205	    {Py_XINCREF(py_V3);}
+00206	    
+00207	            V3 = NULL;
+00208	            if (py_V3 == Py_None) {
+00209	                // We can either fail here or set V3 to NULL and rely on Ops
+00210	                // using tensors to handle the NULL case, but if they fail to do so
+00211	                // they'll end up with nasty segfaults, so this is public service.
+00212	                PyErr_SetString(PyExc_ValueError, "expected an ndarray, not None");
+00213	                {
+00214	        __failure = 4;
+00215	        if (!PyErr_Occurred()) {
+00216	            PyErr_SetString(PyExc_RuntimeError,
+00217	                "Unexpected error in an Op's C code. "
+00218	                "No Python exception was set.");
+00219	            }
+00220	        goto __label_4;}
+00221	            }
+00222	            if (!PyArray_Check(py_V3)) {
+00223	                PyErr_SetString(PyExc_ValueError, "expected an ndarray");
+00224	                {
+00225	        __failure = 4;
+00226	        if (!PyErr_Occurred()) {
+00227	            PyErr_SetString(PyExc_RuntimeError,
+00228	                "Unexpected error in an Op's C code. "
+00229	                "No Python exception was set.");
+00230	            }
+00231	        goto __label_4;}
+00232	            }
+00233	            // We expect NPY_FLOAT64
+00234	            if (!PyArray_ISALIGNED((PyArrayObject*) py_V3)) {
+00235	                PyArrayObject * tmp = (PyArrayObject*) py_V3;
+00236	                PyErr_Format(PyExc_NotImplementedError,
+00237	                             "expected an aligned array of type %ld "
+00238	                             "(NPY_FLOAT64), got non-aligned array of type %ld"
+00239	                             " with %ld dimensions, with 3 last dims "
+00240	                             "%ld, %ld, %ld"
+00241	                             " and 3 last strides %ld %ld, %ld.",
+00242	                             (long int) NPY_FLOAT64,
+00243	                             (long int) PyArray_TYPE((PyArrayObject*) py_V3),
+00244	                             (long int) PyArray_NDIM(tmp),
+00245	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00246	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00247	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00248	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00249	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00250	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-1] : -1,
+00251	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00252	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00253	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00254	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00255	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00256	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-1] : -1
+00257	            );
+00258	                {
+00259	        __failure = 4;
+00260	        if (!PyErr_Occurred()) {
+00261	            PyErr_SetString(PyExc_RuntimeError,
+00262	                "Unexpected error in an Op's C code. "
+00263	                "No Python exception was set.");
+00264	            }
+00265	        goto __label_4;}
+00266	            }
+00267	            // This is a TypeError to be consistent with DEBUG_MODE
+00268	            // Note: DEBUG_MODE also tells the name of the container
+00269	            if (PyArray_TYPE((PyArrayObject*) py_V3) != NPY_FLOAT64) {
+00270	                PyErr_Format(PyExc_TypeError,
+00271	                             "expected type_num %d (NPY_FLOAT64) got %d",
+00272	                             NPY_FLOAT64, PyArray_TYPE((PyArrayObject*) py_V3));
+00273	                {
+00274	        __failure = 4;
+00275	        if (!PyErr_Occurred()) {
+00276	            PyErr_SetString(PyExc_RuntimeError,
+00277	                "Unexpected error in an Op's C code. "
+00278	                "No Python exception was set.");
+00279	            }
+00280	        goto __label_4;}
+00281	            }
+00282	            
+00283	        V3 = (PyArrayObject*)(py_V3);
+00284	        Py_XINCREF(V3);
+00285	        
+00286	{
+00287	
+00288	    py_V5 = PyList_GET_ITEM(storage_V5, 0);
+00289	    {Py_XINCREF(py_V5);}
+00290	    
+00291	            V5 = NULL;
+00292	            if (py_V5 == Py_None) {
+00293	                // We can either fail here or set V5 to NULL and rely on Ops
+00294	                // using tensors to handle the NULL case, but if they fail to do so
+00295	                // they'll end up with nasty segfaults, so this is public service.
+00296	                PyErr_SetString(PyExc_ValueError, "expected an ndarray, not None");
+00297	                {
+00298	        __failure = 6;
+00299	        if (!PyErr_Occurred()) {
+00300	            PyErr_SetString(PyExc_RuntimeError,
+00301	                "Unexpected error in an Op's C code. "
+00302	                "No Python exception was set.");
+00303	            }
+00304	        goto __label_6;}
+00305	            }
+00306	            if (!PyArray_Check(py_V5)) {
+00307	                PyErr_SetString(PyExc_ValueError, "expected an ndarray");
+00308	                {
+00309	        __failure = 6;
+00310	        if (!PyErr_Occurred()) {
+00311	            PyErr_SetString(PyExc_RuntimeError,
+00312	                "Unexpected error in an Op's C code. "
+00313	                "No Python exception was set.");
+00314	            }
+00315	        goto __label_6;}
+00316	            }
+00317	            // We expect NPY_FLOAT64
+00318	            if (!PyArray_ISALIGNED((PyArrayObject*) py_V5)) {
+00319	                PyArrayObject * tmp = (PyArrayObject*) py_V5;
+00320	                PyErr_Format(PyExc_NotImplementedError,
+00321	                             "expected an aligned array of type %ld "
+00322	                             "(NPY_FLOAT64), got non-aligned array of type %ld"
+00323	                             " with %ld dimensions, with 3 last dims "
+00324	                             "%ld, %ld, %ld"
+00325	                             " and 3 last strides %ld %ld, %ld.",
+00326	                             (long int) NPY_FLOAT64,
+00327	                             (long int) PyArray_TYPE((PyArrayObject*) py_V5),
+00328	                             (long int) PyArray_NDIM(tmp),
+00329	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00330	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00331	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00332	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00333	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00334	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-1] : -1,
+00335	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00336	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00337	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00338	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00339	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00340	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-1] : -1
+00341	            );
+00342	                {
+00343	        __failure = 6;
+00344	        if (!PyErr_Occurred()) {
+00345	            PyErr_SetString(PyExc_RuntimeError,
+00346	                "Unexpected error in an Op's C code. "
+00347	                "No Python exception was set.");
+00348	            }
+00349	        goto __label_6;}
+00350	            }
+00351	            // This is a TypeError to be consistent with DEBUG_MODE
+00352	            // Note: DEBUG_MODE also tells the name of the container
+00353	            if (PyArray_TYPE((PyArrayObject*) py_V5) != NPY_FLOAT64) {
+00354	                PyErr_Format(PyExc_TypeError,
+00355	                             "expected type_num %d (NPY_FLOAT64) got %d",
+00356	                             NPY_FLOAT64, PyArray_TYPE((PyArrayObject*) py_V5));
+00357	                {
+00358	        __failure = 6;
+00359	        if (!PyErr_Occurred()) {
+00360	            PyErr_SetString(PyExc_RuntimeError,
+00361	                "Unexpected error in an Op's C code. "
+00362	                "No Python exception was set.");
+00363	            }
+00364	        goto __label_6;}
+00365	            }
+00366	            
+00367	        V5 = (PyArrayObject*)(py_V5);
+00368	        Py_XINCREF(V5);
+00369	        
+00370	{
+00371	
+00372	    py_V7 = PyList_GET_ITEM(storage_V7, 0);
+00373	    {Py_XINCREF(py_V7);}
+00374	    
+00375	            V7 = NULL;
+00376	            if (py_V7 == Py_None) {
+00377	                // We can either fail here or set V7 to NULL and rely on Ops
+00378	                // using tensors to handle the NULL case, but if they fail to do so
+00379	                // they'll end up with nasty segfaults, so this is public service.
+00380	                PyErr_SetString(PyExc_ValueError, "expected an ndarray, not None");
+00381	                {
+00382	        __failure = 8;
+00383	        if (!PyErr_Occurred()) {
+00384	            PyErr_SetString(PyExc_RuntimeError,
+00385	                "Unexpected error in an Op's C code. "
+00386	                "No Python exception was set.");
+00387	            }
+00388	        goto __label_8;}
+00389	            }
+00390	            if (!PyArray_Check(py_V7)) {
+00391	                PyErr_SetString(PyExc_ValueError, "expected an ndarray");
+00392	                {
+00393	        __failure = 8;
+00394	        if (!PyErr_Occurred()) {
+00395	            PyErr_SetString(PyExc_RuntimeError,
+00396	                "Unexpected error in an Op's C code. "
+00397	                "No Python exception was set.");
+00398	            }
+00399	        goto __label_8;}
+00400	            }
+00401	            // We expect NPY_FLOAT64
+00402	            if (!PyArray_ISALIGNED((PyArrayObject*) py_V7)) {
+00403	                PyArrayObject * tmp = (PyArrayObject*) py_V7;
+00404	                PyErr_Format(PyExc_NotImplementedError,
+00405	                             "expected an aligned array of type %ld "
+00406	                             "(NPY_FLOAT64), got non-aligned array of type %ld"
+00407	                             " with %ld dimensions, with 3 last dims "
+00408	                             "%ld, %ld, %ld"
+00409	                             " and 3 last strides %ld %ld, %ld.",
+00410	                             (long int) NPY_FLOAT64,
+00411	                             (long int) PyArray_TYPE((PyArrayObject*) py_V7),
+00412	                             (long int) PyArray_NDIM(tmp),
+00413	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00414	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00415	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00416	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00417	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00418	            PyArray_DIMS(tmp)[PyArray_NDIM(tmp)-1] : -1,
+00419	                             (long int) PyArray_NDIM(tmp) >= 3 ?
+00420	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-3] : -1,
+00421	                             (long int) PyArray_NDIM(tmp) >= 2 ?
+00422	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-2] : -1,
+00423	                             (long int) PyArray_NDIM(tmp) >= 1 ?
+00424	            PyArray_STRIDES(tmp)[PyArray_NDIM(tmp)-1] : -1
+00425	            );
+00426	                {
+00427	        __failure = 8;
+00428	        if (!PyErr_Occurred()) {
+00429	            PyErr_SetString(PyExc_RuntimeError,
+00430	                "Unexpected error in an Op's C code. "
+00431	                "No Python exception was set.");
+00432	            }
+00433	        goto __label_8;}
+00434	            }
+00435	            // This is a TypeError to be consistent with DEBUG_MODE
+00436	            // Note: DEBUG_MODE also tells the name of the container
+00437	            if (PyArray_TYPE((PyArrayObject*) py_V7) != NPY_FLOAT64) {
+00438	                PyErr_Format(PyExc_TypeError,
+00439	                             "expected type_num %d (NPY_FLOAT64) got %d",
+00440	                             NPY_FLOAT64, PyArray_TYPE((PyArrayObject*) py_V7));
+00441	                {
+00442	        __failure = 8;
+00443	        if (!PyErr_Occurred()) {
+00444	            PyErr_SetString(PyExc_RuntimeError,
+00445	                "Unexpected error in an Op's C code. "
+00446	                "No Python exception was set.");
+00447	            }
+00448	        goto __label_8;}
+00449	            }
+00450	            
+00451	        V7 = (PyArrayObject*)(py_V7);
+00452	        Py_XINCREF(V7);
+00453	        
+00454	{
+00455	// Op class Elemwise
+00456	
+00457	        npy_float64* V3_iter;
+00458	        
+00459	                npy_intp V3_n0;
+00460	                ssize_t V3_stride0;
+00461	                int V3_jump0_0;
+00462	                
+00463	                npy_intp V3_n1;
+00464	                ssize_t V3_stride1;
+00465	                int V3_jump1_1;
+00466	                
+00467	        npy_float64* V5_iter;
+00468	        
+00469	                int V5_jumpx_0;
+00470	                
+00471	                int V5_jumpx_1;
+00472	                
+00473	        npy_float64* V7_iter;
+00474	        
+00475	                npy_intp V7_n0;
+00476	                ssize_t V7_stride0;
+00477	                int V7_jump0_0;
+00478	                
+00479	                npy_intp V7_n1;
+00480	                ssize_t V7_stride1;
+00481	                int V7_jump1_1;
+00482	                
+00483	
+00484	            if (PyArray_NDIM(V3) < 2) {
+00485	                PyErr_SetString(PyExc_ValueError, "Not enough dimensions on input.");
+00486	                {
+00487	        __failure = 9;
+00488	        if (!PyErr_Occurred()) {
+00489	            PyErr_SetString(PyExc_RuntimeError,
+00490	                "Unexpected error in an Op's C code. "
+00491	                "No Python exception was set.");
+00492	            }
+00493	        goto __label_9;}
+00494	            }
+00495	            
+00496	                V3_n1 = PyArray_DIMS(V3)[1];
+00497	                V3_stride1 = PyArray_STRIDES(V3)[1] / sizeof(npy_float64);
+00498	                V3_jump1_1 = (V3_stride1) - (0);
+00499	                //printf("V3_jump1_1 is:");
+00500	                //std::cout << V3_jump1_1 << std::endl;
+00501	                
+00502	                V3_n0 = PyArray_DIMS(V3)[0];
+00503	                V3_stride0 = PyArray_STRIDES(V3)[0] / sizeof(npy_float64);
+00504	                V3_jump0_0 = (V3_stride0) - (V3_n1*V3_stride1);
+00505	                //printf("V3_jump0_0 is:");
+00506	                //std::cout << V3_jump0_0 << std::endl;
+00507	                
+00508	                V5_jumpx_1 = -(0);
+00509	                //printf("V5_jumpx_1 is:");
+00510	                //std::cout << V5_jumpx_1 << std::endl;
+00511	                
+00512	                V5_jumpx_0 = -(0);
+00513	                //printf("V5_jumpx_0 is:");
+00514	                //std::cout << V5_jumpx_0 << std::endl;
+00515	                
+00516	            if (PyArray_NDIM(V7) < 2) {
+00517	                PyErr_SetString(PyExc_ValueError, "Not enough dimensions on input.");
+00518	                {
+00519	        __failure = 9;
+00520	        if (!PyErr_Occurred()) {
+00521	            PyErr_SetString(PyExc_RuntimeError,
+00522	                "Unexpected error in an Op's C code. "
+00523	                "No Python exception was set.");
+00524	            }
+00525	        goto __label_9;}
+00526	            }
+00527	            
+00528	                V7_n1 = PyArray_DIMS(V7)[1];
+00529	                V7_stride1 = PyArray_STRIDES(V7)[1] / sizeof(npy_float64);
+00530	                V7_jump1_1 = (V7_stride1) - (0);
+00531	                //printf("V7_jump1_1 is:");
+00532	                //std::cout << V7_jump1_1 << std::endl;
+00533	                
+00534	                V7_n0 = PyArray_DIMS(V7)[0];
+00535	                V7_stride0 = PyArray_STRIDES(V7)[0] / sizeof(npy_float64);
+00536	                V7_jump0_0 = (V7_stride0) - (V7_n1*V7_stride1);
+00537	                //printf("V7_jump0_0 is:");
+00538	                //std::cout << V7_jump0_0 << std::endl;
+00539	                
+00540	            if (V3_n0 != V7_n0)
+00541	            {
+00542	                PyErr_Format(PyExc_ValueError, "Input dimension mis-match. (input[%i].shape[%i] = %i, input[%i].shape[%i] = %i)",
+00543	                   0,
+00544	                   0,
+00545	                   V3_n0,
+00546	                   2,
+00547	                   0,
+00548	                   V7_n0
+00549	                );
+00550	                {
+00551	        __failure = 9;
+00552	        if (!PyErr_Occurred()) {
+00553	            PyErr_SetString(PyExc_RuntimeError,
+00554	                "Unexpected error in an Op's C code. "
+00555	                "No Python exception was set.");
+00556	            }
+00557	        goto __label_9;}
+00558	            }
+00559	            
+00560	            if (V3_n1 != V7_n1)
+00561	            {
+00562	                PyErr_Format(PyExc_ValueError, "Input dimension mis-match. (input[%i].shape[%i] = %i, input[%i].shape[%i] = %i)",
+00563	                   0,
+00564	                   1,
+00565	                   V3_n1,
+00566	                   2,
+00567	                   1,
+00568	                   V7_n1
+00569	                );
+00570	                {
+00571	        __failure = 9;
+00572	        if (!PyErr_Occurred()) {
+00573	            PyErr_SetString(PyExc_RuntimeError,
+00574	                "Unexpected error in an Op's C code. "
+00575	                "No Python exception was set.");
+00576	            }
+00577	        goto __label_9;}
+00578	            }
+00579	            
+00580	
+00581	            if (V1) {
+00582	                Py_XDECREF(V1);
+00583	            }
+00584	            V1 = V3;
+00585	            Py_XINCREF(V1);
+00586	            
+00587	
+00588	            if((PyArray_ISCONTIGUOUS(V3) && PyArray_ISCONTIGUOUS(V7) && PyArray_ISCONTIGUOUS(V1)) || (PyArray_ISFORTRAN(V3) && PyArray_ISFORTRAN(V7) && PyArray_ISFORTRAN(V1))){
+00589	                
+00590	                    // All output have the same size
+00591	                    npy_intp n = PyArray_SIZE(V1);
+00592	                    
+00593	            dtype_V3 * V3_ptr = (dtype_V3*) PyArray_DATA(V3);
+00594	                            
+00595	            dtype_V5& V5_i = ((dtype_V5*) PyArray_DATA(V5))[0];
+00596	                            
+00597	            dtype_V7 * V7_ptr = (dtype_V7*) PyArray_DATA(V7);
+00598	                            
+00599	            dtype_V1 * V1_ptr = (dtype_V1*) PyArray_DATA(V1);
+00600	                            
+00601	                    for(int i=0; i<n; i++){
+00602	                        
+00603	            dtype_V3& V3_i = V3_ptr[i];
+00604	                            
+00605	            dtype_V7& V7_i = V7_ptr[i];
+00606	                            
+00607	            dtype_V1& V1_i = V1_ptr[i];
+00608	                            
+00609	                        {
+00610	npy_float64 V9_tmp1;
+00611	V9_tmp1 = V7_i * V7_i;
+00612	npy_float64 V9_tmp2;
+00613	V9_tmp2 = V5_i - V9_tmp1;
+00614	V1_i = V3_i * V9_tmp2;
+00615	}
+00616	;
+00617	                    }
+00618	                    
+00619	            }else{
+00620	                {
+00621	
+00622	    std::vector< std::pair<int, int> > V3_loops(2);
+00623	    std::vector< std::pair<int, int> >::iterator V3_loops_it = V3_loops.begin();
+00624	    
+00625	            V3_loops_it->first = abs(PyArray_STRIDES(V3)[0]);
+00626	            
+00627	        V3_loops_it->second = 0;
+00628	        ++V3_loops_it;
+00629	        
+00630	            V3_loops_it->first = abs(PyArray_STRIDES(V3)[1]);
+00631	            
+00632	        V3_loops_it->second = 1;
+00633	        ++V3_loops_it;
+00634	        
+00635	    // rbegin and rend are reversed iterators, so this sorts in decreasing order
+00636	    std::sort(V3_loops.rbegin(), V3_loops.rend());
+00637	    
+00638	
+00639	    int init_totals[2] = {V3_n0, V3_n1};
+00640	    
+00641	    V3_loops_it = V3_loops.begin();
+00642	    
+00643	        int TOTAL_0 = init_totals[V3_loops_it->second];
+00644	        ++V3_loops_it;
+00645	        
+00646	        int TOTAL_1 = init_totals[V3_loops_it->second];
+00647	        ++V3_loops_it;
+00648	        
+00649	
+00650	    int init_strides[3][2] = {
+00651	        V3_stride0, V3_stride1, 
+00652	0, 0, 
+00653	V7_stride0, V7_stride1
+00654	    };
+00655	    std::vector< std::pair<int, int> >::reverse_iterator V3_loops_rit;
+00656	    
+00657	        V3_loops_rit = V3_loops.rbegin();
+00658	            int V3_stride_l1 = init_strides[0][V3_loops_rit->second];
+00659	            ++V3_loops_rit;
+00660	            
+00661	            int V3_stride_l0 = init_strides[0][V3_loops_rit->second];
+00662	            ++V3_loops_rit;
+00663	            
+00664	        V3_loops_rit = V3_loops.rbegin();
+00665	            int V5_stride_l1 = init_strides[1][V3_loops_rit->second];
+00666	            ++V3_loops_rit;
+00667	            
+00668	            int V5_stride_l0 = init_strides[1][V3_loops_rit->second];
+00669	            ++V3_loops_rit;
+00670	            
+00671	        V3_loops_rit = V3_loops.rbegin();
+00672	            int V7_stride_l1 = init_strides[2][V3_loops_rit->second];
+00673	            ++V3_loops_rit;
+00674	            
+00675	            int V7_stride_l0 = init_strides[2][V3_loops_rit->second];
+00676	            ++V3_loops_rit;
+00677	            
+00678	V3_iter = (npy_float64*)(PyArray_DATA(V3));
+00679	V5_iter = (npy_float64*)(PyArray_DATA(V5));
+00680	V7_iter = (npy_float64*)(PyArray_DATA(V7));
+00681	
+00682	
+00683	        for(int ITER_0 = 0; ITER_0<TOTAL_0; ITER_0++)
+00684	        { // begin loop 0
+00685	            
+00686	            
+00687	        for(int ITER_1 = 0; ITER_1<TOTAL_1; ITER_1++)
+00688	        { // begin loop 1
+00689	            npy_float64 &V3_i = * ( V3_iter+V3_stride_l1*ITER_1+V3_stride_l0*ITER_0);
+00690	npy_float64 &V5_i = * ( V5_iter+V5_stride_l1*ITER_1+V5_stride_l0*ITER_0);
+00691	npy_float64 &V7_i = * ( V7_iter+V7_stride_l1*ITER_1+V7_stride_l0*ITER_0);
+00692	
+00693	            
+00694	        {
+00695	            #define V1_i V3_i
+00696	            {
+00697	npy_float64 V9_tmp1;
+00698	V9_tmp1 = V7_i * V7_i;
+00699	npy_float64 V9_tmp2;
+00700	V9_tmp2 = V5_i - V9_tmp1;
+00701	V1_i = V3_i * V9_tmp2;
+00702	}
+00703	
+00704	            #undef V1_i
+00705	        }
+00706	        
+00707	        } // end loop 1
+00708	        
+00709	        } // end loop 0
+00710	        
+00711	}
+00712	
+00713	            }
+00714	            __label_9:
+00715	
+00716	double __DUMMY_9;
+00717	
+00718	}
+00719	__label_8:
+00720	
+00721	        if (V7) {
+00722	            Py_XDECREF(V7);
+00723	        }
+00724	        
+00725	    {Py_XDECREF(py_V7);}
+00726	    
+00727	double __DUMMY_8;
+00728	
+00729	}
+00730	__label_6:
+00731	
+00732	        if (V5) {
+00733	            Py_XDECREF(V5);
+00734	        }
+00735	        
+00736	    {Py_XDECREF(py_V5);}
+00737	    
+00738	double __DUMMY_6;
+00739	
+00740	}
+00741	__label_4:
+00742	
+00743	        if (V3) {
+00744	            Py_XDECREF(V3);
+00745	        }
+00746	        
+00747	    {Py_XDECREF(py_V3);}
+00748	    
+00749	double __DUMMY_4;
+00750	
+00751	}
+00752	__label_2:
+00753	
+00754	    if (!__failure) {
+00755	      
+00756	        {Py_XDECREF(py_V1);}
+00757	        if (!V1) {
+00758	            Py_INCREF(Py_None);
+00759	            py_V1 = Py_None;
+00760	        }
+00761	        else if ((void*)py_V1 != (void*)V1) {
+00762	            py_V1 = (PyObject*)V1;
+00763	        }
+00764	
+00765	        {Py_XINCREF(py_V1);}
+00766	
+00767	        if (V1 && !PyArray_ISALIGNED((PyArrayObject*) py_V1)) {
+00768	            PyErr_Format(PyExc_NotImplementedError,
+00769	                         "c_sync: expected an aligned array, got non-aligned array of type %ld"
+00770	                         " with %ld dimensions, with 3 last dims "
+00771	                         "%ld, %ld, %ld"
+00772	                         " and 3 last strides %ld %ld, %ld.",
+00773	                         (long int) PyArray_TYPE((PyArrayObject*) py_V1),
+00774	                         (long int) PyArray_NDIM(V1),
+00775	                         (long int) PyArray_NDIM(V1) >= 3 ?
+00776	        PyArray_DIMS(V1)[PyArray_NDIM(V1)-3] : -1,
+00777	                         (long int) PyArray_NDIM(V1) >= 2 ?
+00778	        PyArray_DIMS(V1)[PyArray_NDIM(V1)-2] : -1,
+00779	                         (long int) PyArray_NDIM(V1) >= 1 ?
+00780	        PyArray_DIMS(V1)[PyArray_NDIM(V1)-1] : -1,
+00781	                         (long int) PyArray_NDIM(V1) >= 3 ?
+00782	        PyArray_STRIDES(V1)[PyArray_NDIM(V1)-3] : -1,
+00783	                         (long int) PyArray_NDIM(V1) >= 2 ?
+00784	        PyArray_STRIDES(V1)[PyArray_NDIM(V1)-2] : -1,
+00785	                         (long int) PyArray_NDIM(V1) >= 1 ?
+00786	        PyArray_STRIDES(V1)[PyArray_NDIM(V1)-1] : -1
+00787	        );
+00788	            {
+00789	        __failure = 2;
+00790	        if (!PyErr_Occurred()) {
+00791	            PyErr_SetString(PyExc_RuntimeError,
+00792	                "Unexpected error in an Op's C code. "
+00793	                "No Python exception was set.");
+00794	            }
+00795	        goto __label_2;}
+00796	        }
+00797	        
+00798	      PyObject* old = PyList_GET_ITEM(storage_V1, 0);
+00799	      {Py_XINCREF(py_V1);}
+00800	      PyList_SET_ITEM(storage_V1, 0, py_V1);
+00801	      {Py_XDECREF(old);}
+00802	    }
+00803	    
+00804	        if (V1) {
+00805	            Py_XDECREF(V1);
+00806	        }
+00807	        
+00808	    {Py_XDECREF(py_V1);}
+00809	    
+00810	double __DUMMY_2;
+00811	
+00812	}
+00813	
+00814	            
+00815	        if (__failure) {
+00816	            // When there is a failure, this code puts the exception
+00817	            // in __ERROR.
+00818	            PyObject* err_type = NULL;
+00819	            PyObject* err_msg = NULL;
+00820	            PyObject* err_traceback = NULL;
+00821	            PyErr_Fetch(&err_type, &err_msg, &err_traceback);
+00822	            if (!err_type) {err_type = Py_None;Py_INCREF(Py_None);}
+00823	            if (!err_msg) {err_msg = Py_None; Py_INCREF(Py_None);}
+00824	            if (!err_traceback) {err_traceback = Py_None; Py_INCREF(Py_None);}
+00825	            PyObject* old_err_type = PyList_GET_ITEM(__ERROR, 0);
+00826	            PyObject* old_err_msg = PyList_GET_ITEM(__ERROR, 1);
+00827	            PyObject* old_err_traceback = PyList_GET_ITEM(__ERROR, 2);
+00828	            PyList_SET_ITEM(__ERROR, 0, err_type);
+00829	            PyList_SET_ITEM(__ERROR, 1, err_msg);
+00830	            PyList_SET_ITEM(__ERROR, 2, err_traceback);
+00831	            {Py_XDECREF(old_err_type);}
+00832	            {Py_XDECREF(old_err_msg);}
+00833	            {Py_XDECREF(old_err_traceback);}
+00834	        }
+00835	        // The failure code is returned to index what code block failed.
+00836	        return __failure;
+00837	        
+00838	        }
+00839	    };
+00840	    }
+00841	    
+00842	
+00843	        static int __struct_compiled_op_41c67846d6cb960a16087cb3f926b054_executor(__struct_compiled_op_41c67846d6cb960a16087cb3f926b054* self) {
+00844	            return self->run();
+00845	        }
+00846	
+00847	        static void __struct_compiled_op_41c67846d6cb960a16087cb3f926b054_destructor(void* executor, void* self) {
+00848	            delete ((__struct_compiled_op_41c67846d6cb960a16087cb3f926b054*)self);
+00849	        }
+00850	        
+00851	//////////////////////
+00852	////  Functions
+00853	//////////////////////
+00854	static PyObject * instantiate(PyObject * self, PyObject *argtuple) {
+00855	  assert(PyTuple_Check(argtuple));
+00856	  if (5 != PyTuple_Size(argtuple)){ 
+00857	     PyErr_Format(PyExc_TypeError, "Wrong number of arguments, expected 5, got %i", (int)PyTuple_Size(argtuple));
+00858	     return NULL;
+00859	  }
+00860	  __struct_compiled_op_41c67846d6cb960a16087cb3f926b054* struct_ptr = new __struct_compiled_op_41c67846d6cb960a16087cb3f926b054();
+00861	  if (struct_ptr->init( PyTuple_GET_ITEM(argtuple, 0),PyTuple_GET_ITEM(argtuple, 1),PyTuple_GET_ITEM(argtuple, 2),PyTuple_GET_ITEM(argtuple, 3),PyTuple_GET_ITEM(argtuple, 4) ) != 0) {
+00862	    delete struct_ptr;
+00863	    return NULL;
+00864	  }
+00865	  PyObject* thunk = PyCObject_FromVoidPtrAndDesc((void*)(&__struct_compiled_op_41c67846d6cb960a16087cb3f926b054_executor), struct_ptr, __struct_compiled_op_41c67846d6cb960a16087cb3f926b054_destructor);
+00866	  return thunk; }
+00867	
+00868	//////////////////////
+00869	////  Module init
+00870	//////////////////////
+00871	static PyMethodDef MyMethods[] = {
+00872		{"instantiate", instantiate, METH_VARARGS, "undocumented"} ,
+00873		{NULL, NULL, 0, NULL}
+00874	};
+00875	PyMODINIT_FUNC init41c67846d6cb960a16087cb3f926b054(void){
+00876	   import_array();
+00877	   (void) Py_InitModule("41c67846d6cb960a16087cb3f926b054", MyMethods);
+00878	}
+00879	
+Problem occurred during compilation with the command line below:
+/usr/bin/g++ -shared -g -O3 -fno-math-errno -Wno-unused-label -Wno-unused-variable -Wno-write-strings -march=core-avx2 -mcx16 -msahf -mmovbe -maes -mpclmul -mpopcnt -mabm -mno-lwp -mfma -mno-fma4 -mno-xop -mbmi -mbmi2 -mno-tbm -mavx -mavx2 -msse4.2 -msse4.1 -mlzcnt -mno-rtm -mno-hle -mrdrnd -mf16c -mfsgsbase -mno-rdseed -mno-prfchw -mno-adx -mfxsr -mxsave -mxsaveopt --param l1-cache-size=32 --param l1-cache-line-size=64 --param l2-cache-size=20480 -mtune=generic -DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION -m64 -fPIC -I/usr/local/lib/python2.7/dist-packages/numpy/core/include -I/usr/include/python2.7 -I/usr/local/lib/python2.7/dist-packages/theano/gof -fvisibility=hidden -o /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/41c67846d6cb960a16087cb3f926b054.so /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp -L/usr/lib -lpython2.7
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/delete.me'
+Preparing data...
+Building model...
+===============================
+===============================
+/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp: In member function ‘int {anonymous}::__struct_compiled_op_41c67846d6cb960a16087cb3f926b054::run()’:
+/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:549:17: warning: format ‘%i’ expects argument of type ‘int’, but argument 5 has type ‘npy_intp {aka long int}’ [-Wformat=]
+                 );
+                 ^
+/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:549:17: warning: format ‘%i’ expects argument of type ‘int’, but argument 8 has type ‘npy_intp {aka long int}’ [-Wformat=]
+/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:569:17: warning: format ‘%i’ expects argument of type ‘int’, but argument 5 has type ‘npy_intp {aka long int}’ [-Wformat=]
+                 );
+                 ^
+/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:569:17: warning: format ‘%i’ expects argument of type ‘int’, but argument 8 has type ‘npy_intp {aka long int}’ [-Wformat=]
+/usr/bin/ld: cannot open output file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/41c67846d6cb960a16087cb3f926b054.so: Permission denied
+collect2: error: ld returned 1 exit status
+
+Traceback (most recent call last):
+  File "main_nn.py", line 62, in <module>
+    m = charLM(n_char, n_lhs + 1, n_rel, n_rhs) # emb_dim = WDIM by default
+  File "/remote/curtis/yuxingz/prescription/rnn_model/model_nn.py", line 73, in __init__
+    self.train_fn = theano.function(self.inps,self.cost,updates=updates)
+  File "/usr/local/lib/python2.7/dist-packages/theano/compile/function.py", line 322, in function
+    output_keys=output_keys)
+  File "/usr/local/lib/python2.7/dist-packages/theano/compile/pfunc.py", line 480, in pfunc
+    output_keys=output_keys)
+  File "/usr/local/lib/python2.7/dist-packages/theano/compile/function_module.py", line 1789, in orig_function
+    defaults)
+  File "/usr/local/lib/python2.7/dist-packages/theano/compile/function_module.py", line 1653, in create
+    input_storage=input_storage_lists, storage_map=storage_map)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/link.py", line 699, in make_thunk
+    storage_map=storage_map)[:3]
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/vm.py", line 1051, in make_all
+    no_recycling))
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/op.py", line 975, in make_thunk
+    no_recycling)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/op.py", line 875, in make_c_thunk
+    output_storage=node_output_storage)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/cc.py", line 1190, in make_thunk
+    keep_lock=keep_lock)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/cc.py", line 1131, in __compile__
+    keep_lock=keep_lock)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/cc.py", line 1586, in cthunk_factory
+    key=key, lnk=self, keep_lock=keep_lock)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/cmodule.py", line 1145, in module_from_key
+    module = lnk.compile_cmodule(location)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/cc.py", line 1492, in compile_cmodule
+    preargs=preargs)
+  File "/usr/local/lib/python2.7/dist-packages/theano/gof/cmodule.py", line 2299, in compile_str
+    (status, compile_stderr.replace('\n', '. ')))
+Exception: ('The following error happened while compiling the node', Elemwise{Composite{(i0 * (i1 - sqr(i2)))}}[(0, 0)](Split{2}.1, TensorConstant{(1, 1) of 1.0}, Elemwise{Composite{tanh((i0 + i1))}}.0), '\n', 'Compilation failed (return status=1): /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp: In member function \xe2\x80\x98int {anonymous}::__struct_compiled_op_41c67846d6cb960a16087cb3f926b054::run()\xe2\x80\x99:. /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:549:17: warning: format \xe2\x80\x98%i\xe2\x80\x99 expects argument of type \xe2\x80\x98int\xe2\x80\x99, but argument 5 has type \xe2\x80\x98npy_intp {aka long int}\xe2\x80\x99 [-Wformat=].                  );.                  ^. /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:549:17: warning: format \xe2\x80\x98%i\xe2\x80\x99 expects argument of type \xe2\x80\x98int\xe2\x80\x99, but argument 8 has type \xe2\x80\x98npy_intp {aka long int}\xe2\x80\x99 [-Wformat=]. /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:569:17: warning: format \xe2\x80\x98%i\xe2\x80\x99 expects argument of type \xe2\x80\x98int\xe2\x80\x99, but argument 5 has type \xe2\x80\x98npy_intp {aka long int}\xe2\x80\x99 [-Wformat=].                  );.                  ^. /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/mod.cpp:569:17: warning: format \xe2\x80\x98%i\xe2\x80\x99 expects argument of type \xe2\x80\x98int\xe2\x80\x99, but argument 8 has type \xe2\x80\x98npy_intp {aka long int}\xe2\x80\x99 [-Wformat=]. /usr/bin/ld: cannot open output file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDrvu6o/41c67846d6cb960a16087cb3f926b054.so: Permission denied. collect2: error: ld returned 1 exit status. ', '[Elemwise{Composite{(i0 * (i1 - sqr(i2)))}}[(0, 0)](<TensorType(float64, matrix)>, TensorConstant{(1, 1) of 1.0}, <TensorType(float64, matrix)>)]')
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptDuIH5/0ba1ed4e3908403083e3aef037d0a8b5.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptDuIH5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1kayPJ/fe6391cbd35700743ccde3f61bdc505c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1kayPJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1qwcWp/f4bd33b5907272802305dcff1ff738ad.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1qwcWp/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi8HBQE/8e12e4212a37d7a4d8021c5ed4df1e3b.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi8HBQE/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpCEa4KH/85196365e23c816c8201158fa2d37829.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpCEa4KH/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpaYsy9o/1015198730bf2904059ecc42a12bf79d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpaYsy9o/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpkcLQU4/ad986a1e97f7b6de7c91e0cfc1e0f2c6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpkcLQU4/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpASJ3px/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpcgdAwL/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXn4wVf/ffd5e05796481c4a3d368e067dee5561.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXn4wVf/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpyiW8d1/3442132e74e76f61361fb1c73112eef4.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSVINEs/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXyzNmp/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3wOL6K/8a3adf0bd8783fe229ed755c29753822.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3wOL6K/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpE_BIsl/9b3df7f8ab1a770d440b8e67026d82cd.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpE_BIsl/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5fK1CZ/92104147c6b6a175279918d5303aaa8b.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5fK1CZ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpAht_j6/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpr0CsyF/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnNUY7p/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDTrQxD/d05232ea76b803be189e87b7f078a2b3.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDTrQxD/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKhDvmM/8883ce8c3801d24df4aa6e35c6fc9a00.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKhDvmM/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqIXQTD/11b7d82efa29efb004d75c037f3b18d6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqIXQTD/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpQhp_vZ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTHcPhV/8db4e9bcf00e8f1b100365910a4cf701.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTHcPhV/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpH137Fn/627a49c5ca4402e4bb8b5bc414a2bd34.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpH137Fn/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpEOBzJJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNXF01G/340369f1d2b203759fb01e48522bc91d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNXF01G/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_0x4BF/20a90bbbdef2a1ab09ee49d92ee2d6f8.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_0x4BF/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKM9d61/6174b19f8005a60d6a2faaae7ff1c9a7.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKM9d61/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpF7Ddqm/e0dfd5c941c6a1ca15774d5be4c6cc13.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpF7Ddqm/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNKFB5B/5acaca1a87cae24d88a65da2a3219bd2.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNKFB5B/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpg1l1Xu/68822a40cb674a836a602b0ecf4b6d65.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpg1l1Xu/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNDqYc8/9f84dcc4d5672f975c6f81aa51978242.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNDqYc8/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpxWN6pz/2909b951b5a9a00cc1a6de99cb46225f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpxWN6pz/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2NpQs7/23ce9c7bd8d2e5f5b609c7a060ab9ea1.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2NpQs7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp7uyGI7/42b09d77d5ad48d50de996f6ceed2f9d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp7uyGI7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpC24W6q/a79d8546ac5330c69adf21f854b3139a.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpC24W6q/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLdsxQ_/6b9e9140f09bd834b6fcd8cd36e1cde6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLdsxQ_/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp16BeUL/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPNzkDj/40f68a55930adfd620dbdfee475d209c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPNzkDj/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpIUcynY/f544fb5bf7ed58dce5fae682916530a3.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpIUcynY/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpf2Mwdr/a137da9704fa4a15b79c4366f40dfb40.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpf2Mwdr/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpI_78HL/7cbc4fc18d06a150634c1f3b8d86144d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpI_78HL/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2I_jzD/1849617d7f624cddbdacc93c241b8772.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2I_jzD/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmppC3Mb4/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpvyJ0pS/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpCFcRYO/01a5718bd93af6489c7e21f087676b5f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpCFcRYO/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNiBHHp/709da9405c8a626c3cc58fd2d740fb43.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNiBHHp/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2TrwdM/684f887ab98928a2396246e8d5ddc0f0.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2TrwdM/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXj9VsF/27d92bc2769f395f867e2d01c504b09b.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXj9VsF/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3kLfA9/1191c0d8b411122e24c3134b0b02ec2d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3kLfA9/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3HwBI5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpZk5i0N/4eb320e4aad093cccce7ca75804124c6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpZk5i0N/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpELMDuH/756559e83a765da0f91a6874a3b75a2d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpELMDuH/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3saNyh/5fa7ef17a4fca110703ff46c275242e2.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3saNyh/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnil_Xz/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLRQUOx/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_pGWtg/991ec13579ecbe09c17e960c822a9f7d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_pGWtg/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpfjkMAq/da6ac6908198a9d83223e8a2be6b76b9.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpfjkMAq/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpevPbmV/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpEd2I7Z/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi3g94V/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqUn8db/c538d3201281b7d0672575dfdf3ae906.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqUn8db/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpxrfLe2/a9269f8d9d3bcb6554b645b74713b951.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpxrfLe2/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpJfLoCR/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLjUcoK/8a71b467c08c546147e2c3ea70f5f8ee.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLjUcoK/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp6YB7Fl/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpfUirux/eecd9cd5549bbd90aaa0bb9d3bc949a1.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpfUirux/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptGtIs_/a5c28a5e225ce419de093e5ba7c4289c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptGtIs_/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpePEGgH/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpAsoXBh/d6e108fb5b1807852a915a206567a34e.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpAsoXBh/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1KPPWm/c98823f2709a7a72a1aa339f60b844a1.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1KPPWm/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmps5FVGw/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpV8pVN2/8868011016c31cc1edd63eaf32d7f6aa.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpV8pVN2/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1ef8Bk/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXCTDLR/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5ZAFCo/7ef877d9e46b7960f8177582e61a152e.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5ZAFCo/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplPqsM9/4bcb17fcc4ae4f99601e46d03dbaa528.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplPqsM9/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFO7zZg/add805a6a63f1a2b662212fd1fabbc8f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFO7zZg/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXklLRy/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSDKqoj/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpegx72F/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5VP9UL/cb9ef8dcc13ad03dec7496fcd471604f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5VP9UL/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSdNZQ0/050b620cfaeeb205cbbd871d45c950d1.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSdNZQ0/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpvI10YO/97e64adde59d9856d68b30a664e9ffbd.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpvI10YO/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp1_61X/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpI25IDw/02ce57652ece559a3dceb163a34bc9fb.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpI25IDw/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptdqyiC/03af442968eeb8f227c2a9c0ff746e2e.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptdqyiC/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptrFpjc/11afee52e2c9d3beca58f57d666fcaaf.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptrFpjc/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXeTobi/70d402bc702df6d06d24e9fe90761094.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXeTobi/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpHg5NZ5/acad94f024c456a7457a74a4f2c26910.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpHg5NZ5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKgsqRa/3852dc54326b5255db38af4ff915f1de.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKgsqRa/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSKNfwW/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpsPyMp5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpyxD9oD/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLzlE5n/86ac7d737ce3ef81dc9c2659fa4ca69d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLzlE5n/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpL7GkPm/7563bc58ea4a247fe7a920fbda5fe9d8.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpL7GkPm/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmps_E_ZU/271ba88caa30dcce8b22e6a531c9f4a3.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmps_E_ZU/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplSL4Ia/171b47cec17b58a07a29342198fc096f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplSL4Ia/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpAvt5Ia/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmprb8Ejl/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp0uZj3f/4de37abbcd68e5575112135cfcb97f23.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp0uZj3f/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpQzz9Rf/a3679699a5af100d0da51126f90e3504.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpQzz9Rf/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpY4PPSZ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmprMeeUE/e72d6a792936dc7bf0503fe51d03899b.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmprMeeUE/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpyHoHkz/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzzWbvq/232df9337186efc56d14730b26af1210.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzzWbvq/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFunqjM/c72d484428a91bf3f7197c9fa05aa0f7.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFunqjM/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp7JymgJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpEBJQjj/8e2a45cb703598824e02052bef09c640.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpEBJQjj/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjVi690/94aaeae5119dfd3722a2721c3fce5069.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjVi690/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpIpzdnQ/3ac1a679827cde9f9de1cff3b88c182a.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpIpzdnQ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpGGLVTJ/80bc097f5198f003ebfee00e9fdc4bb4.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpGGLVTJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKwCFaE/ab095cc454dbd2170184011f294df0dd.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKwCFaE/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpcwUNZc/6d52d6cf3377e42a22cd1a30904f58aa.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpcwUNZc/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpkUILmn/c5c451c3845e7e78d0ff7b062d8d519d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpkUILmn/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFlHiIT/bbd3c241abecbf22dcd5e225956970ba.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFlHiIT/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpybtAYE/e272626fce8242df38e99a5ea7f34d67.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpybtAYE/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpdDSRAN/5d2fe5298a177e43f0a168c5122da441.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpdDSRAN/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpOVkbmA/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpYHeafh/e7e3e61634fbe719e49fd9d98477669e.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpYHeafh/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpK56YsA/921f850dd427f6237f3bd856320bc386.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpK56YsA/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpsE9Ktu/a12fff651421a7a97b7089f9d793328a.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpsE9Ktu/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpUecC7b/23598489f47c9035062ca2d813895105.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpUecC7b/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp01pEt/71796e7b8a79d5233e4e230df51821f6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp01pEt/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpme4XCU/559fde5f11cd57373a6d3db9575ff278.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpme4XCU/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpwhoed5/c867b393a1e28c9b653a122f722f395c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpwhoed5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTA3rd2/635d4e280bf914c1e58f6e1b8e8331cc.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTA3rd2/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpwrGEYv/2e04bc83f7887d7f5477da7095ef60ea.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpwrGEYv/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmt1DAD/4f46d6eb2b64b51d1ba80a4fe4c7faf5.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmt1DAD/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnAdrmf/124f3d01f0308cabb1bb5ef60af2c4e0.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnAdrmf/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpkTpggE/819bb9c21d2b02ae947b4682c6127625.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpkTpggE/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpE2IQSJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSJvvIo/5558d5d588540c868bea4e3d250b251f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpSJvvIo/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpc3L5b7/f87172b3784a6c6435be9691a649a921.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpc3L5b7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpgmQR4x/18221681d9294fdd251f2616de83129e.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpgmQR4x/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpcL87yx/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKvGVeJ/974b121325bf4f3751a1da0339ed53a1.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKvGVeJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpByMSLo/3ed5b3d478068d09c640f62d6c0f3d42.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpByMSLo/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpevt6kI/deebbd8bcf4d099fe44ec2781e106c45.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpevt6kI/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPyV3Mw/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpUxUTGf/dc5c6daa40cc969f75d8a4cb354bd7d9.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpUxUTGf/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpHJJFQg/a2620097ba6b0128af11741161e3f981.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpHJJFQg/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLDHWPE/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjxFhWk/f1de5245a274fc645cfe106f7b8e469d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjxFhWk/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTnh7Y8/66de24bd1242a8d5b070364573c9a3c7.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTnh7Y8/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmF92TI/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpfYbR9g/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpm72avI/4ebd203a5bf38a3e1a866e020e5b875d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpm72avI/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpg790bs/246b5a0325fbb7fd46e6319667ce65f6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpg790bs/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5OEEQB/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpMm8af3/885c8b8dd0b08e16fd85b35aaeffd835.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpMm8af3/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpQAP_So/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFjOHdX/23bd09edf362672f31013a9d03547767.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFjOHdX/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2G0pXP/90484cf9a94d6f3592d3da1c42f1d01a.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2G0pXP/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp8uYv19/014a78c3f824ee66ce433d222ef9b680.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp8uYv19/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpAb6LZ6/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpirIrAZ/78a480c69f26da430efc74078d4e7b30.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpirIrAZ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDmKn4Q/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi1UEry/e45ca5cc7181d630fa08c6363108db50.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi1UEry/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjgwRho/fa29a381b84c375a5ce32939c41efc74.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjgwRho/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzQQqe7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLONMPn/a1862f594b251d240a91b630fc1988bf.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLONMPn/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmprsdwRH/c127a8a4396db50438c7142c2a1dee97.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmprsdwRH/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpG30mar/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpx0nptt/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnyuWHi/12807c05051466d2146465c34d8828f2.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnyuWHi/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpsv9F5Y/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpQJcDwr/d471d1e51e47808df5d2c92d1817046c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpQJcDwr/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpIcabey/fb643bfff622ec382efe5ed69d34760b.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpIcabey/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNIKFCk/bf1af563be33a945fa49244e0418e25d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNIKFCk/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPbaIdi/e9eb314fe9c5c38d92e6dcb26a60b149.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPbaIdi/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKFgSw9/f41eb8195f41baedee5fc91a45c62e22.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKFgSw9/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpw5cNwh/ffebc71bd0de1f66331618d352e81b31.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpw5cNwh/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLu1NiI/1f08b8e24ebc71512128db6673c780b9.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLu1NiI/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKLcfTN/e28440f376b8266ba63fda9306c98c57.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpKLcfTN/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpT7xiWA/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3I1Q_Y/e608033a59c16af70f1c4513490bec3c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp3I1Q_Y/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpZXKXSY/1202762e9547ff21a5b1ca3d412a93f6.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpZXKXSY/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzPwOlD/a43c564eba0a16460a718a05555825db.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzPwOlD/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpuD58qR/8aaef6622fe71a91be8345d0732ce7ca.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpuD58qR/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpA9Xm5o/6f8ca5daf15a195e342461aa35f9e212.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpA9Xm5o/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_lqICP/96604d59983790382c967ff11d8a8179.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_lqICP/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpxrvVSU/9107842e3844f24cf9dc65cfd4a7cadf.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpxrvVSU/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_E5KWh/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpq8cPBJ/e432143152428bf3679c1916348d3b10.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpq8cPBJ/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpUi0KLv/af8288e23d4f9216c7a523f6c00e6cf5.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpUi0KLv/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5ZEb3D/c73804da9749e10b1178a8cd723dbfe4.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp5ZEb3D/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpBANPWr/cffe19b23c054d3252aecb4f3ed2ab3f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpBANPWr/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzDBSY5/04c2d0d145c27fef62c42accf802bf27.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzDBSY5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp6sb2qp/8ace80bb346bcf6a358a8d756b13e249.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp6sb2qp/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpO5KjP4/0c2203a2969bab58feeee3b2e412ea7a.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpO5KjP4/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpf7NYnU/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNnPiNf/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPVIFXK/8c9c5d468d616b10d18fcd97d17321b3.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPVIFXK/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptPEiNv/d794461d8649d656d8a368a82107fbc7.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptPEiNv/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmparGML7/923a9fa749a9cde5a747c4613023e7db.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmparGML7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpgHCw5M/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpJFaqPs/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_OqPhA/73954d6955d18d20dc453544e7e32c44.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp_OqPhA/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp999Npg/6f9e72791e98eec752346ea9284b2156.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp999Npg/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpueeHJf/63acd56d6b8ad7770df48d32614ad5c4.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpueeHJf/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpj5_mx8/4e9c9e8fed474397e2fdf117a5cdc3d8.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpj5_mx8/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpvqOZHR/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjKmylL/d7c537dddfab2df56230ddec3479ef10.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpjKmylL/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpspIEUi/d6e0f4482731e8a32967a6a9fc4f2471.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpspIEUi/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpgYiLdX/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpyv6lQg/8f7c3767e091cb298f8abf2ba0993b7f.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpyv6lQg/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpid0qc1/9d5200592705e392f5bacad930098054.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpid0qc1/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptEEYOs/59275b57c5d14779fd61ab0875c5a62d.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmptEEYOs/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXPMcEU/8a2bd5604d78118121d2386bc4984d48.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpXPMcEU/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpV4Wg8n/886a27848733a52b97628492a9b67540.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpV4Wg8n/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpTxFPC3/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqPpJCo/4894639462a290346189bb38dab7bb7e.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqPpJCo/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqwzbda/fe14b8ddfa653de57e85af406e677709.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpqwzbda/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp8Qg4tp/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpeiK4oG/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFsChJm/060332a94b2afb513a4f3494c701df22.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpFsChJm/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpdS4sYx/0e4eaa7a15da35a6130c1f2882a7b702.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpdS4sYx/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmu5pW7/49111da8fa791cf78b9afd9efa63931a.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmu5pW7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpYuwuNx/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplguP_4/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmQELin/ee2a41285d75ed0b6b3d91eac70e4a3c.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpmQELin/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2tPEcm/4c11cc1395d10f3a7cf3231a848f89fa.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2tPEcm/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpJRohH5/057eb420da4df67f63d3422fa012cd62.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpJRohH5/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp85IMp/2a28e0864bbf4da16ee48aeb8f41ad77.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp85IMp/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp49KrR/f2bc481c8681b3ea09e04079d2daf41b.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpp49KrR/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi_6zvs/17bb793a5efeb5f5891e50a2e8daccad.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpi_6zvs/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpHlST44/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpZPdERy/86ff55e07249da1f143aee58231c31cb.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpZPdERy/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpd690dR/f7ca9a45a70a38477c38239644db2324.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpd690dR/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpO7VNOx/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpB1krOy/6bd2d331bc4fc2a81fa0f8536cbd6942.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpB1krOy/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1xvvoB/907e7ff178aef0187cf6b501e29c3323.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp1xvvoB/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpYvUg42/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpPFYnDv/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): A module that was loaded by this ModuleCache can no longer be read from file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp18bEC7/8b003761d6dddc6d55dfb991f5864767.so... this could lead to problems.
+WARNING (theano.gof.cmodule): Removing key file /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp18bEC7/key.pkl because the corresponding module is gone from the file system.
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplSL4Ia for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmplSL4Ia/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNiBHHp for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpNiBHHp/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLDHWPE for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpLDHWPE/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpr0CsyF for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpr0CsyF/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2G0pXP for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmp2G0pXP/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzQQqe7 for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpzQQqe7/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpYvUg42 for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpYvUg42/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnNUY7p for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpnNUY7p/delete.me'
+WARNING (theano.gof.cmodule): Failed to remove or mark cache directory /afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDmKn4Q for removal [Errno 13] Permission denied: '/afs/cs.cmu.edu/user/yuxingz/.theano/compiledir_Linux-3.19--generic-x86_64-with-Ubuntu-14.04-trusty-x86_64-2.7.6-64/tmpDmKn4Q/delete.me'
